@@ -1,0 +1,55 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Parameters": {
+        "authWolfgangAnalyticsUserPoolId": {
+            "Type": "String",
+            "Default": "authWolfgangAnalyticsUserPoolId"
+        },
+        
+        "authWolfgangAnalyticsAppClientID": {
+            "Type": "String",
+            "Default": "authWolfgangAnalyticsAppClientID"
+        },
+        "authWolfgangAnalyticsAppClientIDWeb": {
+            "Type": "String",
+            "Default": "authWolfgangAnalyticsAppClientIDWeb"
+        },
+        "AuthRoleArn": {
+            "Type": "String"
+        },
+        "UnauthRoleArn": {
+            "Type": "String"
+        },
+        "env": {
+            "Type": "String"
+        }
+    },
+    "Conditions": {
+        "ShouldNotCreateEnvResources": {
+            "Fn::Equals": [
+                {
+                    "Ref": "env"
+                },
+                "NONE"
+            ]
+        }
+    },
+    "Resources": {
+    
+        "WolfgangersGroup": {
+          "Type" : "AWS::Cognito::UserPoolGroup",
+          "Properties" : {
+              "GroupName" : "Wolfgangers",
+              "Precedence" : 1,
+              
+              "UserPoolId" : {
+                "Ref": "authWolfgangAnalyticsUserPoolId"
+              } 
+            }
+        },
+        
+    
+    
+    },
+    
+}

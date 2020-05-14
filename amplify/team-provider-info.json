@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-wolfganganalytics-dev-112601-authRole",
+            "UnauthRoleArn": "arn:aws:iam::754754238441:role/amplify-wolfganganalytics-dev-112601-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::754754238441:role/amplify-wolfganganalytics-dev-112601-authRole",
+            "Region": "eu-west-1",
+            "DeploymentBucketName": "amplify-wolfganganalytics-dev-112601-deployment",
+            "UnauthRoleName": "amplify-wolfganganalytics-dev-112601-unauthRole",
+            "StackName": "amplify-wolfganganalytics-dev-112601",
+            "StackId": "arn:aws:cloudformation:eu-west-1:754754238441:stack/amplify-wolfganganalytics-dev-112601/24d7c630-9504-11ea-b01b-0a2e85db59c6",
+            "AmplifyAppId": "d1jhvf46qgpol4"
+        },
+        "categories": {
+            "auth": {
+                "WolfgangAnalytics": {}
+            }
+        }
+    }
+}
