@@ -1,13 +1,15 @@
 import React from 'react';
-import { Box, Heading } from '@chakra-ui/core';
+import { Box, Heading, Grid } from '@chakra-ui/core';
 
 import AccountSelctor from 'components/AccountSelector';
 
 const ForecastPage: React.FC = () => {
   return (
     <Box>
-      <Heading>Forecasting Tool</Heading>
-      <AccountSelctor />
+      <Heading marginBottom={12}>Forecasting Tool</Heading>
+      <Grid templateColumns="1fr 1fr">
+        <AccountSelctor />
+      </Grid>
     </Box>
   );
 };

@@ -1,16 +1,61 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import axios from 'axios';
 
-export const useViews = () => {
-  //const [data, setData] = useState([]);
+import { loadState, saveState } from 'utils/storage';
+
+export interface IProperty {
+  id: string
+  accountId: string
+  name: string
+  views: IView[]
+}
+
+export interface IView {
+  id: string
+  accountId: string
+  name: string
+  webPropertyId: string
+  websiteUrl: string
+}
+
+export const useViews = (account: string) => {
+  const [data, setData] = useState<IProperty[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string>();
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios('https://1si784c8o0.execute-api.eu-west-1.amazonaws.com/dev/views', {
-        method: 'POST'
-      });
-      console.log(res);
+      setIsLoading(true);
+      setData([]);
+
+      try {
+        const res = await axios.post('https://1si784c8o0.execute-api.eu-west-1.amazonaws.com/prod/views', {
+          account
+        });
+
+        setIsLoading(false);
+        setData(res.data);
+        saveState(account, res.data);
+      } catch (e) {
+        setIsLoading(false);
+        setError(e);
+      }
     };
-    fetchData();
-  }, []);
+    
+    const views = loadState(account);
+
+    if (views) {
+      setData(views);
+    } else {
+      fetchData();
+    }
+  }, [account]);
+
+  return useMemo(() => {
+    return {
+      isLoading,
+      error,
+      data
+    };
+  }, [isLoading, data, error]);
 };
