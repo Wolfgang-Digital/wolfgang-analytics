@@ -70,7 +70,7 @@ const Navigation: React.FC = ({ children }) => {
     <Grid templateColumns="200px 1fr" templateRows="40px 1fr" templateAreas='"header header" "sidebar main"'>
       <Header />
       <Sidebar />
-      <Box gridArea="main" maxHeight="calc(100vh - 40px)" overflowY="auto" padding={6}>
+      <Box gridArea="main" maxHeight="calc(100vh - 40px)" overflowY="auto" paddingY={6} paddingX={8}>
         {children}
       </Box>
     </Grid>

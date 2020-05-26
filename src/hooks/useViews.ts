@@ -8,6 +8,7 @@ export interface IProperty {
   accountId: string
   name: string
   views: IView[]
+  websiteUrl: string
 }
 
 export interface IView {
@@ -18,36 +19,40 @@ export interface IView {
   websiteUrl: string
 }
 
-export const useViews = (account: string) => {
+export const useViews = (account?: string) => {
   const [data, setData] = useState<IProperty[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>();
 
   useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      setData([]);
+    if (account) {
+      const fetchData = async () => {
+        setIsLoading(true);
+        setData([]);
 
-      try {
-        const res = await axios.post('https://1si784c8o0.execute-api.eu-west-1.amazonaws.com/prod/views', {
-          account
-        });
+        try {
+          const res = await axios.get('https://1si784c8o0.execute-api.eu-west-1.amazonaws.com/prod/views', {
+            params: {
+              account
+            }
+          });
 
-        setIsLoading(false);
-        setData(res.data);
-        saveState(account, res.data);
-      } catch (e) {
-        setIsLoading(false);
-        setError(e);
+          setIsLoading(false);
+          setData(res.data);
+          saveState(account, res.data);
+        } catch (e) {
+          setIsLoading(false);
+          setError(e);
+        }
+      };
+
+      const views = loadState(account);
+
+      if (views) {
+        setData(views);
+      } else {
+        fetchData();
       }
-    };
-    
-    const views = loadState(account);
-
-    if (views) {
-      setData(views);
-    } else {
-      fetchData();
     }
   }, [account]);
 

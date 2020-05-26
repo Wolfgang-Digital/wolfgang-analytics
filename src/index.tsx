@@ -9,10 +9,13 @@ import App from './App';
 
 Amplify.configure(awsExports);
 
+// Remove strict mode until react-select legacy context API error fixed
+
 ReactDOM.render(
-  <React.StrictMode>
+  //<React.StrictMode>
     <App />
-  </React.StrictMode>,
+  //</React.StrictMode>
+  ,
   document.getElementById('root')
 );
 

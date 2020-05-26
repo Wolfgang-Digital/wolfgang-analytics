@@ -35,7 +35,7 @@ const App: React.FC = () => {
             <Router>
               <Navigation>
                 <Switch>
-                  <Suspense fallback={<BusyIndicator isBusy color="#38B2AC" />}>
+                  <Suspense fallback={<BusyIndicator isBusy color="#6b46c1" />}>
                     <Routes routes={routes} />
                   </Suspense>
                 </Switch>

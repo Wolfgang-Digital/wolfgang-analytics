@@ -5,26 +5,32 @@ import Select from 'react-select';
 import { useViews } from 'hooks/useViews';
 import BusyIndicator from './BusyIndicator';
 
+interface Props {
+  account?: IOption;
+  property?: IOption;
+  view?: IOption;
+  marginBottom?: number;
+  setAccount: (option?: IOption) => void;
+  setProperty: (option?: IOption) => void;
+  setView: (option?: IOption) => void;
+}
+
 interface IOption {
   label: string;
   value: string;
 }
 
-const accounts = ['analytics@wolfgangdigital.com'].sort().map(value => ({
+const accounts = ['analytics@wolfgangdigital.com', 'ga@wolfgangdigital.com', 'ga.wolfgang@wolfgangdigital.com'].sort().map(value => ({
   label: value,
   value
 }));
 
-const AccountSelector: React.FC = () => {
-  const [account, setAccount] = useState<IOption>(accounts[0]);
-  const [property, setProperty] = useState<IOption>();
-  const [view, setView] = useState<IOption>();
-
-  const { data, isLoading, error } = useViews(account.value);
+const AccountSelector: React.FC<Props> = ({ account, property, view, marginBottom, setAccount, setProperty, setView }) => {
+  const { data, isLoading } = useViews(account?.value);
 
   const propertyOptions = useMemo(() => {
     return data.map(p => ({
-      label: p.name,
+      label: `${p.name} (${p.websiteUrl})`,
       value: p.id
     }));
   }, [data]);
@@ -44,9 +50,9 @@ const AccountSelector: React.FC = () => {
   }, [data, property]);
 
   return (
-    <Box borderRadius={4} padding={4} background="white">
-      <BusyIndicator isBusy={isLoading} color="#38B2AC" />
-      <Stack spacing={4}>
+    <Box marginBottom={marginBottom}>
+      <BusyIndicator isBusy={isLoading} color="#6b46c1" />
+      <Stack spacing={3}>
         <Box>
           <FormControl>
             <FormLabel>Account</FormLabel>
@@ -56,7 +62,7 @@ const AccountSelector: React.FC = () => {
               options={accounts}
               isLoading={isLoading}
               onChange={selected => {
-                if ((selected as IOption).value !== account.value) {
+                if ((selected as IOption).value !== account?.value) {
                   setProperty(undefined);
                   setView(undefined);
                 }
