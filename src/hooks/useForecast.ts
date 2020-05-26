@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
 interface Params {
@@ -36,16 +36,14 @@ export const useForecast = () => {
       setData(JSON.parse(res.data));
     } catch (e) {
       setIsLoading(false);
-      setError(e);
+      setError(e.response.data.error);
     }
   };
 
-  return useMemo(() => {
-    return {
-      fetchData,
-      isLoading,
-      error,
-      data
-    };
-  }, [isLoading, data, error]);
+  return {
+    fetchData,
+    isLoading,
+    error,
+    data
+  };
 };

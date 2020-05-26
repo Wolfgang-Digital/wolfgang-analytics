@@ -1,22 +1,21 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { format } from 'date-fns';
 import { ResponsiveContainer, XAxis, YAxis, Line, ComposedChart, Tooltip, Brush, Area, CartesianGrid, Legend } from 'recharts';
-import { Box, Spinner, Text, Flex } from '@chakra-ui/core';
+import { Box, Spinner, Text, Flex, Icon } from '@chakra-ui/core';
 
 import { IForecast } from 'hooks/useForecast';
 
 interface Props {
   data?: IForecast[];
   isLoading?: boolean;
+  error?: string;
 }
 
-const ForecastChart: React.FC<Props> = ({ data, isLoading }) => {
-  const [dateFormat, setDateFormat] = useState('dd MMM yyyy');
-
-  const formatDate = (date: string | number) => format(new Date(date), dateFormat);
+const ForecastChart: React.FC<Props> = ({ data, isLoading, error }) => {
+  const formatDate = (date: string | number) => format(new Date(date), 'dd MMM yyyy');
 
   const chartData = useMemo(() => {
-    if (!data) return undefined;
+    if (!data) return [];
 
     return data.map(({ ds, y, yhat, yhat_lower, yhat_upper }) => ({
       date: ds,
@@ -28,7 +27,7 @@ const ForecastChart: React.FC<Props> = ({ data, isLoading }) => {
 
   return (
     <Box
-      background={!!data ? 'white' : 'inherit'}
+      background={!!data && !error && !isLoading ? 'white' : 'inherit'}
       padding="16px 16px 8px 0"
       gridArea="chart"
       height="100%"
@@ -37,7 +36,12 @@ const ForecastChart: React.FC<Props> = ({ data, isLoading }) => {
       justifyContent="center"
       alignItems="center"
     >
-      {isLoading ? (
+      {!!error ? (
+        <Flex align="center">
+          <Icon name="warning-2" color="red.500" marginRight={3} />
+          <Text color="red.500">{error}</Text>
+        </Flex>
+      ) : isLoading ? (
         <Flex align="center">
           <Spinner size="lg" color="teal.500" thickness="6px" emptyColor="gray.200" label="Loading..." />
           <Text color="gray.500" marginLeft={6}>
@@ -67,7 +71,10 @@ const ForecastChart: React.FC<Props> = ({ data, isLoading }) => {
           </ComposedChart>
         </ResponsiveContainer>
       ) : (
-        <Text color="gray.500">Select an account and click Generate Forecast</Text>
+        <Flex align="center">
+          <Icon name="info" marginRight={3} color="teal.500" />
+          <Text color="gray.500">Select an account and click Generate Forecast</Text>
+        </Flex>
       )}
     </Box>
   );

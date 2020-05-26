@@ -5,8 +5,10 @@ import { useRouteMatch, Link as RouterLink } from 'react-router-dom';
 
 const Header: React.FC = () => {
   return (
-    <Flex alignItems="center" gridArea="header" background="#006867" padding="0 1rem 0 0.25rem">
-      <Image src="/static/wg_logo_white.png" alt="Wolfgang Digital" height="100%" justifySelf="flex-start" />
+    <Flex alignItems="center" gridArea="header" background="#006867" padding="0 1rem 0 0.5rem">
+      <RouterLink to="/">
+        <Image src="/static/wg_logo_white.png" alt="Wolfgang Digital" height="40px" justifySelf="flex-start" />
+      </RouterLink>
       <Grid maxWidth={300} marginLeft="auto">
         <Button variant="link" color="white" size="sm" onClick={() => Auth.signOut()}>
           Sign Out
@@ -60,7 +62,6 @@ const Sidebar: React.FC = () => {
         Tools
       </Heading>
       <SidebarLink to="/forecast">Forecast</SidebarLink>
-      <SidebarLink to="/something">Something</SidebarLink>
     </Grid>
   );
 };

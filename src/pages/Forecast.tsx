@@ -35,7 +35,7 @@ const ForecastPage: React.FC = () => {
 
   const [numDays, setNumDays] = useState<number>();
 
-  const { fetchData, data, isLoading } = useForecast();
+  const { fetchData, data, isLoading, error } = useForecast();
 
   const generateForecast = async () => {
     const params = {
@@ -89,11 +89,18 @@ const ForecastPage: React.FC = () => {
             <NumberInput value={numDays} onChange={value => setNumDays(parseInt(value as string))} />
           </FormControl>
         </Flex>
-        <Button marginLeft="auto" marginTop={3} variantColor="purple" isDisabled={!start || !end || !metric || !numDays} onClick={generateForecast}>
+        <Button
+          marginLeft="auto"
+          marginTop={3}
+          variantColor="purple"
+          isDisabled={!start || !end || !metric || !numDays}
+          onClick={generateForecast}
+          fontWeight={400}
+        >
           Generate Forecast
         </Button>
       </Box>
-      <Chart isLoading={isLoading} data={data} />
+      <Chart isLoading={isLoading} data={data} error={error} />
     </Grid>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Box, Stack, FormControl, FormLabel } from '@chakra-ui/core';
 import Select from 'react-select';
 
