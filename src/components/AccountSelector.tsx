@@ -20,10 +20,19 @@ interface IOption {
   value: string;
 }
 
-const accounts = ['analytics@wolfgangdigital.com', 'ga@wolfgangdigital.com', 'ga.wolfgang@wolfgangdigital.com'].sort().map(value => ({
-  label: value,
-  value
-}));
+const accounts = [
+  'analytics@wolfgangdigital.com',
+  'ga@wolfgangdigital.com',
+  'ga.wolfgang@wolfgangdigital.com',
+  'g_analytics@wolfgangdigital.com',
+  'ga5@wolfgangdigital.com',
+  'ga6@wolfgangdigital.com'
+]
+  .sort()
+  .map(value => ({
+    label: value,
+    value
+  }));
 
 const AccountSelector: React.FC<Props> = ({ account, property, view, marginBottom, setAccount, setProperty, setView }) => {
   const { data, isLoading } = useViews(account?.value);

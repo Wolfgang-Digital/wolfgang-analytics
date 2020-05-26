@@ -15,7 +15,16 @@ interface IOption {
 
 const metricOptions = [
   { label: 'Sessions', value: 'sessions' },
-  { label: 'Transactions', value: 'transactions' }
+  { label: 'Transactions', value: 'transactions' },
+  { label: 'Goal Completions', value: 'goalCompletionsAll' },
+  { label: 'Goal Conversion Rate', value: 'goalConversionRateAll' },
+  { label: 'CPC', value: 'CPC' },
+  { label: 'Transaction Revenue', value: 'transactionRevenue' },
+  { label: 'Impressions', value: 'impressions' },
+  { label: 'Clicks', value: 'adClicks' },
+  { label: 'Cost', value: 'adCost' },
+  { label: 'CTR', value: 'CTR' },
+  { label: 'ROAS', value: 'ROAS' }
 ];
 
 const ForecastPage: React.FC = () => {
