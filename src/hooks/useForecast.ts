@@ -26,6 +26,7 @@ export const useForecast = () => {
   const fetchData = async (params: Params) => {
     setIsLoading(true);
     setData([]);
+    setError(undefined);
 
     try {
       const res = await axios.get('https://1si784c8o0.execute-api.eu-west-1.amazonaws.com/prod/forecast', {

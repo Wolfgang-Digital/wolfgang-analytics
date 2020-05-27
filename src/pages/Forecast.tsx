@@ -68,10 +68,18 @@ const ForecastPage: React.FC = () => {
       minHeight="100%"
     >
       <Heading gridArea="title">Forecasting Tool</Heading>
-      <Box gridArea="input" background="white">
+      <Box gridArea="input" background="white" boxShadow="rgba(0, 0, 0, 0.15) 1px 1px 4px 0px">
         <DatePicker handleChange={handleDateChange} startDate={start} endDate={end} />
       </Box>
-      <Box borderRadius={4} padding={4} background="white" gridArea="account" display="flex" flexDirection="column">
+      <Box
+        borderRadius={4}
+        padding={4}
+        background="white"
+        gridArea="account"
+        display="flex"
+        flexDirection="column"
+        boxShadow="rgba(0, 0, 0, 0.15) 1px 1px 4px 0px"
+      >
         <AccountSelector
           marginBottom={2}
           account={account}
@@ -102,7 +110,7 @@ const ForecastPage: React.FC = () => {
           marginLeft="auto"
           marginTop={3}
           variantColor="purple"
-          isDisabled={!start || !end || !metric || !numDays}
+          isDisabled={!start || !end || !metric || !numDays || !account || !view}
           onClick={generateForecast}
           fontWeight={400}
         >

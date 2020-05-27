@@ -27,7 +27,7 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <PseudoBox paddingTop={!!user ? 0 : [50, 100]} transition="all 200ms ease-in-out">
+    <PseudoBox paddingTop={!!user ? 0 : [0, 100]} transition="all 200ms ease-in-out">
       <Authenticator>
         <ThemeProvider>
           <CSSReset />

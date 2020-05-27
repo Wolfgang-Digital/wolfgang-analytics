@@ -20,21 +20,22 @@ const ForecastChart: React.FC<Props> = ({ data, isLoading, error }) => {
     return data.map(({ ds, y, yhat, yhat_lower, yhat_upper }) => ({
       date: ds,
       observed: y,
-      predicted: Math.round(yhat),
-      bounds: [Math.round(yhat_lower), Math.round(yhat_upper)]
+      predicted: yhat,
+      bounds: [yhat_lower, yhat_upper]
     }));
   }, [data]);
 
   return (
     <Box
       background={!!data && !error && !isLoading ? 'white' : 'inherit'}
-      padding="16px 16px 8px 0"
+      padding="24px 32px 8px 8px"
       gridArea="chart"
       height="100%"
       minHeight="320px"
       display="flex"
       justifyContent="center"
       alignItems="center"
+      boxShadow={!!data && !isLoading && !error ? 'rgba(0, 0, 0, 0.15) 1px 1px 4px 0px' : 0}
     >
       {!!error ? (
         <Flex align="center">
@@ -50,7 +51,7 @@ const ForecastChart: React.FC<Props> = ({ data, isLoading, error }) => {
         </Flex>
       ) : !!data ? (
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={chartData}>
+          <ComposedChart data={chartData} margin={{ top: 10, bottom: 10, left: 10, right: 10 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
               dataKey="date"
