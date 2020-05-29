@@ -37,7 +37,7 @@ export const useForecast = () => {
       setData(JSON.parse(res.data));
     } catch (e) {
       setIsLoading(false);
-      setError(e.response.data.error);
+      setError(e.response?.data?.error || 'Requested forecast took too long to complete');
     }
   };
 

@@ -49,7 +49,7 @@ const ForecastChart: React.FC<Props> = ({ data, isLoading, error }) => {
             Generating forecast. This can take a while...
           </Text>
         </Flex>
-      ) : !!data ? (
+      ) : Array.isArray(data) && data.length > 0 ? (
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={chartData} margin={{ top: 10, bottom: 10, left: 10, right: 10 }}>
             <CartesianGrid strokeDasharray="3 3" />
