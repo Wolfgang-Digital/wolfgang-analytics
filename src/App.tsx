@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { ThemeProvider, CSSReset, Box, PseudoBox } from '@chakra-ui/core';
 import { Auth, Hub } from 'aws-amplify';
-import { BrowserRouter as Router, Switch, useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import routes from './routes';
 import Authenticator from './components/Authenticator';
@@ -10,8 +10,6 @@ import { Routes } from './components/Routes';
 import BusyIndicator from './components/BusyIndicator';
 
 const App: React.FC = () => {
-  const { push } = useHistory();
-
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -21,7 +19,6 @@ const App: React.FC = () => {
         setUser(user);
       } catch {
         setUser(null);
-        push('/');
       }
     };
     Hub.listen('auth', updateUser);
