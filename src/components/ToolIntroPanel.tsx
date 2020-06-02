@@ -33,13 +33,13 @@ const ToolIntroPanel: React.FC<Props> = ({ title, image, description, link, lear
         <Flex marginTop={4}>
           {learnMoreLink && (
             <ExternalLink href={learnMoreLink} isExternal>
-              <Button variant="outline" rightIcon="external-link" size="sm" marginRight={2}>
+              <Button variant="outline" _hover={{ color: colour, background: 'white' }} rightIcon="external-link" size="sm" marginRight={2}>
                 Learn More
               </Button>
             </ExternalLink>
           )}
           <Link to={link}>
-            <Button variant="outline" rightIcon="link" size="sm">
+            <Button variant="outline" _hover={{ color: colour, background: 'white' }} rightIcon="link" size="sm">
               Go to Tool
             </Button>
           </Link>

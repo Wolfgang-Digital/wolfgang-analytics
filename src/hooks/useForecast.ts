@@ -17,6 +17,7 @@ export interface IForecast {
   yhat: number
   yhat_lower: number
   yhat_upper: number
+  agg: string
 }
 
 export const useForecast = () => {
