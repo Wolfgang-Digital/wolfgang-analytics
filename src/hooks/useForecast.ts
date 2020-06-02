@@ -2,12 +2,13 @@ import { useState } from 'react';
 import axios from 'axios';
 
 interface Params {
-  gaAccount: string,
-  viewId: string,
-  metric: string,
-  startDate: string,
-  endDate: string,
+  gaAccount: string
+  viewId: string
+  metric: string
+  startDate: string
+  endDate: string
   numDays: number
+  channel?: string
 }
 
 export interface IForecast {

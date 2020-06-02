@@ -27,10 +27,17 @@ const metricOptions = [
   { label: 'ROAS', value: 'ROAS' }
 ];
 
+const channelOptions = [
+  { label: 'Organic', value: 'organic' },
+  { label: 'CPC', value: 'cpc' },
+  { label: 'Social', value: 'social' }
+];
+
 const ForecastPage: React.FC = () => {
   const [account, setAccount] = useState<IOption>();
   const [property, setProperty] = useState<IOption>();
   const [view, setView] = useState<IOption>();
+  const [channel, setChannel] = useState<IOption>();
 
   const [start, setStartDate] = useState(new Date());
   const [end, setEndDate] = useState(new Date());
@@ -53,7 +60,8 @@ const ForecastPage: React.FC = () => {
       metric: metric?.value || '',
       startDate: format(start, 'yyyy-MM-dd'),
       endDate: format(end, 'yyyy-MM-dd'),
-      numDays: numDays || 0
+      numDays: numDays || 0,
+      channel: channel?.value || undefined
     };
 
     await fetchData(params);
@@ -91,6 +99,18 @@ const ForecastPage: React.FC = () => {
         />
         <Flex>
           <FormControl width="100%">
+            <FormLabel>Channel</FormLabel>
+            <Select
+              value={channel}
+              options={channelOptions}
+              placeholder="Select channel..."
+              onChange={selected => {
+                setChannel(selected as IOption);
+              }}
+              isClearable
+            />
+          </FormControl>
+          <FormControl width="100%" mx={4}>
             <FormLabel>Metric</FormLabel>
             <Select
               value={metric}
@@ -101,7 +121,7 @@ const ForecastPage: React.FC = () => {
               }}
             />
           </FormControl>
-          <FormControl marginLeft={4}>
+          <FormControl width="100%">
             <FormLabel>Number of Days</FormLabel>
             <NumberInput value={numDays} onChange={value => setNumDays(parseInt(value as string))} />
           </FormControl>
