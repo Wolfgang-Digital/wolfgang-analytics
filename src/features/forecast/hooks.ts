@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
+
+import { awsGet } from 'utils/api';
 
 interface Params {
   gaAccount: string
@@ -9,9 +10,10 @@ interface Params {
   endDate: string
   numDays: number
   channel?: string
+  sourceMedium?: string
 }
 
-export interface IForecast {
+export interface Forecast {
   ds: number
   y: number
   yhat: number
@@ -21,7 +23,7 @@ export interface IForecast {
 }
 
 export const useForecast = () => {
-  const [data, setData] = useState<IForecast[]>();
+  const [data, setData] = useState<Forecast[]>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string>();
 
@@ -31,15 +33,19 @@ export const useForecast = () => {
     setError(undefined);
 
     try {
-      const res = await axios.get('https://1si784c8o0.execute-api.eu-west-1.amazonaws.com/prod/forecast', {
-        params
-      });
-
+      const res = await awsGet('/forecast', params);
+      
       setIsLoading(false);
-      setData(JSON.parse(res.data));
+      
+      if (res.success) {
+        setData(JSON.parse(res.data as string) as Forecast[]);
+      } else {
+        if (error?.includes('Network Error')) setError('Network timeout. Try narrowing the sample range or decreasing the number of days');
+        else setError(res.error);
+      }
     } catch (e) {
       setIsLoading(false);
-      setError(e.response?.data?.error || 'Requested forecast took too long to complete');
+      setError(e.toString());
     }
   };
 

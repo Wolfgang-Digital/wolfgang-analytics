@@ -3,12 +3,12 @@ import { format } from 'date-fns';
 import { ResponsiveContainer, XAxis, YAxis, Line, ComposedChart, Tooltip, Brush, Area, CartesianGrid, Legend } from 'recharts';
 import { Box, Spinner, Text, Flex, Icon, ButtonGroup, Button, Grid } from '@chakra-ui/core';
 
-import { IForecast } from 'hooks/useForecast';
+import { Forecast } from './hooks';
 import { groupByMonth } from 'utils/dateUtils';
 import { formatNumberString } from 'utils/format';
 
 interface Props {
-  data?: IForecast[];
+  data?: Forecast[];
   isLoading?: boolean;
   error?: string;
 }

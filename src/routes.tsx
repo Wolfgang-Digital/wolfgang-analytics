@@ -12,7 +12,12 @@ const routes: RouteWithSubrouteProps[] = [
   {
     path: '/forecast',
     key: 'FORECAST',
-    component: lazy(() => import('./pages/Forecast'))
+    component: lazy(() => import('./features/forecast/ForecastPage'))
+  },
+  {
+    path: '/views',
+    key: 'VIEWS',
+    component: lazy(() => import('./features/account-select/AccountSelect'))
   }
 ];
 
