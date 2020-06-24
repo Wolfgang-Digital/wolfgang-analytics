@@ -16,6 +16,7 @@ const ForecastPage: React.FC = () => {
   const { selectedAccount, selectedView } = useSelector(getSelection);
 
   const [numDays, setNumDays] = useState(90);
+  const [goalNumber, setGoalNumber] = useState(1);
 
   const analytics = useAnalyticsParams();
   const forecast = useForecast();
@@ -25,10 +26,17 @@ const ForecastPage: React.FC = () => {
   };
 
   const generateForecast = async () => {
+    const metric =
+      analytics.metric?.value === 'goalCompletions'
+        ? `goal${goalNumber}Completions`
+        : analytics.metric?.value === 'goalConversionRate'
+        ? `goal${goalNumber}ConversionRate`
+        : analytics.metric?.value;
+
     const params: any = {
       gaAccount: selectedAccount?.value.split('@')[0] || '',
       viewId: selectedView?.value || '',
-      metric: analytics.metric?.value || '',
+      metric,
       startDate: format(analytics.startDate, 'yyyy-MM-dd'),
       endDate: format(analytics.endDate, 'yyyy-MM-dd'),
       numDays: numDays || 0,
@@ -55,17 +63,25 @@ const ForecastPage: React.FC = () => {
         </Card>
         <Card gridArea="input" fontSize="14px" display="flex" flexDir="column">
           <AccountSelect />
-          <FormControl isRequired mt={2}>
-            <FormLabel>Metric</FormLabel>
-            <Select
-              placeholder="Select metric..."
-              value={analytics.metric}
-              options={metricOptions}
-              onChange={selected => {
-                analytics.setMetric(selected);
-              }}
-            />
-          </FormControl>
+          <Flex align="center" justify="space-between" mt={2}>
+            <FormControl isRequired width="100%">
+              <FormLabel>Metric</FormLabel>
+              <Select
+                placeholder="Select metric..."
+                value={analytics.metric}
+                options={metricOptions}
+                onChange={selected => {
+                  analytics.setMetric(selected);
+                }}
+              />
+            </FormControl>
+            {(analytics.metric?.value === 'goalCompletions' || analytics.metric?.value === 'goalConversionRate') && (
+              <FormControl isRequired ml={4}>
+                <FormLabel>Goal Number</FormLabel>
+                <NumberInput min={1} value={goalNumber} onChange={value => setGoalNumber(parseInt(value as string))} />
+              </FormControl>
+            )}
+          </Flex>
           <Flex mt={2} justify="space-between">
             <FormControl w="100%" mr={4}>
               <FormLabel>Channel Grouping</FormLabel>

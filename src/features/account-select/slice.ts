@@ -1,7 +1,7 @@
 import { createSlice, createSelector, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { sortBy } from 'lodash';
 
-import { Property, APIPayloadAction, SelectOption } from 'types';
+import { APIPayloadAction, SelectOption } from 'types';
 import { RootState } from 'store';
 import { awsGet } from 'utils/api';
 
@@ -18,6 +18,20 @@ export const accountOptions = [
     label: value,
     value
   }));;
+
+  export interface Property {
+    id: string
+    accountId: string
+    name: string
+    views: View[]
+    accountEmail: string
+    accountName: string
+  }
+  
+  export interface View {
+    id: string
+    name: string
+  }
 
 export interface AccountSelectState {
   selectedAccount: SelectOption | null

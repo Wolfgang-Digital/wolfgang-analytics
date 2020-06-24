@@ -6,15 +6,18 @@ import { SelectOption } from 'types';
 export const metricOptions = sortBy([
   { label: 'Sessions', value: 'sessions' },
   { label: 'Transactions', value: 'transactions' },
-  { label: 'Goal Completions', value: 'goalCompletionsAll' },
-  { label: 'Goal Conversion Rate', value: 'goalConversionRateAll' },
+  { label: 'Goal Completions (All)', value: 'goalCompletionsAll' },
+  { label: 'Goal Conversion Rate (All)', value: 'goalConversionRateAll' },
+  { label: 'Goal Completions', value: 'goalCompletions' },
+  { label: 'Goal Conversion Rate', value: 'goalConversionRate' },
   { label: 'CPC', value: 'CPC' },
   { label: 'Transaction Revenue', value: 'transactionRevenue' },
   { label: 'Impressions', value: 'impressions' },
   { label: 'Clicks', value: 'adClicks' },
   { label: 'Cost', value: 'adCost' },
   { label: 'CTR', value: 'CTR' },
-  { label: 'ROAS', value: 'ROAS' }
+  { label: 'ROAS', value: 'ROAS' },
+  { label: 'Ecommerce Conversion Rate', value: 'transactionsPerSession' }
 ], 'label');
 
 export const channelOptions = sortBy([

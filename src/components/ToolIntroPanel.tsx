@@ -30,19 +30,19 @@ const ToolIntroPanel: React.FC<Props> = ({ title, image, description, link, lear
         <Text marginTop={2} gridColumn="span 2">
           {description}
         </Text>
-        <Flex marginTop={4}>
-          {learnMoreLink && (
-            <ExternalLink href={learnMoreLink} isExternal>
-              <Button variant="outline" _hover={{ color: colour, background: 'white' }} rightIcon="external-link" size="sm" marginRight={2}>
-                Learn More
-              </Button>
-            </ExternalLink>
-          )}
-          <Link to={link}>
+        <Flex marginTop={4} gridColumn="1 / span 2">
+          <Link to={link} style={{ marginLeft: 'auto' }}>
             <Button variant="outline" _hover={{ color: colour, background: 'white' }} rightIcon="link" size="sm">
               Go to Tool
             </Button>
           </Link>
+          {learnMoreLink && (
+            <ExternalLink href={learnMoreLink} isExternal>
+              <Button variant="outline" _hover={{ color: colour, background: 'white' }} rightIcon="external-link" size="sm" ml={2}>
+                Learn More
+              </Button>
+            </ExternalLink>
+          )}
         </Flex>
       </>
     </Grid>
