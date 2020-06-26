@@ -7,16 +7,24 @@ import { FormLabelProps } from '@chakra-ui/core/dist/FormLabel';
 import { SelectOption } from 'types';
 
 interface Props {
-  name: string
-  label: string
-  placeholder?: string
-  options: SelectOption[]
-  isRequired?: boolean
-  labelProps?: FormLabelProps
-  isMulti?: boolean
+  name: string;
+  label: string;
+  placeholder?: string;
+  options: SelectOption[];
+  isRequired?: boolean;
+  labelProps?: FormLabelProps;
+  isMulti?: boolean;
 }
 
-const ReactSelectField: React.FC<Props> = ({ name, label, placeholder, options, isRequired, labelProps, isMulti }) => {
+const ReactSelectField: React.FC<Props> = ({
+  name,
+  label,
+  placeholder,
+  options,
+  isRequired,
+  labelProps,
+  isMulti
+}) => {
   const { control } = useFormContext();
 
   return (
@@ -25,13 +33,7 @@ const ReactSelectField: React.FC<Props> = ({ name, label, placeholder, options, 
       <Controller
         name={name}
         control={control}
-        as={
-          <Select
-            placeholder={placeholder}
-            options={options}
-            isMulti={isMulti}
-          />
-        }
+        as={<Select placeholder={placeholder} options={options} isMulti={isMulti} />}
         onChange={([selected]) => {
           return selected;
         }}

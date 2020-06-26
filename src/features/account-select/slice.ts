@@ -19,19 +19,19 @@ export const accountOptions = [
     value
   }));;
 
-  export interface Property {
-    id: string
-    accountId: string
-    name: string
-    views: View[]
-    accountEmail: string
-    accountName: string
-  }
-  
-  export interface View {
-    id: string
-    name: string
-  }
+export interface Property {
+  id: string
+  accountId: string
+  name: string
+  views: View[]
+  accountEmail: string
+  accountName: string
+}
+
+export interface View {
+  id: string
+  name: string
+}
 
 export interface AccountSelectState {
   selectedAccount: SelectOption | null

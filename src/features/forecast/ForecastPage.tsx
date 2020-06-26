@@ -4,7 +4,12 @@ import Select from 'react-select';
 import { format } from 'date-fns';
 import { useSelector } from 'react-redux';
 
-import { useAnalyticsParams, AnalyticsParamsCTX, metricOptions, channelOptions } from 'hooks/useAnalyticsParams';
+import {
+  useAnalyticsParams,
+  AnalyticsParamsCTX,
+  metricOptions,
+  channelOptions
+} from 'hooks/useAnalyticsParams';
 import AccountSelect from 'features/account-select/AccountSelect';
 import { getSelection } from 'features/account-select/slice';
 import Card from 'components/Card';
@@ -49,16 +54,37 @@ const ForecastPage: React.FC = () => {
   };
 
   const submitButtonEnabled =
-    selectedAccount && selectedView && analytics.metric && analytics.startDate && analytics.endDate && numDays && !forecast.isLoading;
+    selectedAccount &&
+    selectedView &&
+    analytics.metric &&
+    analytics.startDate &&
+    analytics.endDate &&
+    numDays &&
+    !forecast.isLoading;
 
   return (
     <AnalyticsParamsCTX.Provider value={analytics}>
-      <Grid templateColumns="auto 1fr" templateRows="auto 1fr" templateAreas="'date input''chart chart'" gap={6} minHeight="100%">
+      <Grid
+        templateColumns="auto 1fr"
+        templateRows="auto 1fr"
+        templateAreas="'date input''chart chart'"
+        gap={6}
+        minHeight="100%"
+      >
         <Card gridArea="date">
-          <DatePicker handleChange={handleDateChange} startDate={analytics.startDate} endDate={analytics.endDate} />
+          <DatePicker
+            handleChange={handleDateChange}
+            startDate={analytics.startDate}
+            endDate={analytics.endDate}
+          />
           <FormControl isRequired>
             <FormLabel fontSize="14px">Number of days to forecast</FormLabel>
-            <NumberInput size="sm" zIndex={0} value={numDays} onChange={value => setNumDays(parseInt(value as string))} />
+            <NumberInput
+              size="sm"
+              zIndex={0}
+              value={numDays}
+              onChange={value => setNumDays(parseInt(value as string))}
+            />
           </FormControl>
         </Card>
         <Card gridArea="input" fontSize="14px" display="flex" flexDir="column">
@@ -75,10 +101,15 @@ const ForecastPage: React.FC = () => {
                 }}
               />
             </FormControl>
-            {(analytics.metric?.value === 'goalCompletions' || analytics.metric?.value === 'goalConversionRate') && (
+            {(analytics.metric?.value === 'goalCompletions' ||
+              analytics.metric?.value === 'goalConversionRate') && (
               <FormControl isRequired ml={4}>
                 <FormLabel>Goal Number</FormLabel>
-                <NumberInput min={1} value={goalNumber} onChange={value => setGoalNumber(parseInt(value as string))} />
+                <NumberInput
+                  min={1}
+                  value={goalNumber}
+                  onChange={value => setGoalNumber(parseInt(value as string))}
+                />
               </FormControl>
             )}
           </Flex>
@@ -104,7 +135,14 @@ const ForecastPage: React.FC = () => {
               />
             </FormControl>
           </Flex>
-          <Button size="sm" w="100%" variantColor="teal" mt="auto" onClick={generateForecast} isDisabled={!submitButtonEnabled}>
+          <Button
+            size="sm"
+            w="100%"
+            variantColor="teal"
+            mt="auto"
+            onClick={generateForecast}
+            isDisabled={!submitButtonEnabled}
+          >
             Generate Forecast
           </Button>
         </Card>

@@ -1,6 +1,17 @@
-import React, { useMemo } from 'react';
-import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Heading, Text, useToast } from '@chakra-ui/core';
-import { Link, useParams } from 'react-router-dom';
+import React, { useMemo, useEffect } from 'react';
+import {
+  Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Heading,
+  Text,
+  useToast,
+  Flex,
+  IconButton,
+  Tooltip
+} from '@chakra-ui/core';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-hook-form-generator';
 import { v4 } from 'uuid';
@@ -9,16 +20,18 @@ import { formStyles } from 'utils/formStyles';
 import Card from 'components/Card';
 import { Entity } from '../types';
 import { getSelectedId } from '../clients/slice';
-import { getMainEntityOnPage, createMainEntity, updateMainEntity } from './slice';
+import { getMainEntityOnPage, createMainEntity, updateMainEntity, deleteMainEntity } from './slice';
 import { generateSchema } from './schema';
 
 const BreadcrumbRouterLink = BreadcrumbLink as any;
 
 interface Props {
   type: string;
+  onDelete?: () => void
 }
 
-const MainEntityForm: React.FC<Props> = ({ type }) => {
+const MainEntityForm: React.FC<Props> = ({ type, onDelete }) => {
+  const history = useHistory();
   const toast = useToast();
   const dispatch = useDispatch();
   const { pageId } = useParams();
@@ -29,6 +42,14 @@ const MainEntityForm: React.FC<Props> = ({ type }) => {
   const schema = useMemo(() => {
     return generateSchema(type);
   }, [type]);
+
+  let timeout: NodeJS.Timeout | undefined = undefined;
+
+  useEffect(() => {
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [timeout]);
 
   const handleSubmit = (values: Entity) => {
     if (entity) {
@@ -43,6 +64,23 @@ const MainEntityForm: React.FC<Props> = ({ type }) => {
       dispatch(createMainEntity({ ...values, uuid, type, pageId, clientId }));
       toast({
         description: 'Main entity created',
+        status: 'success',
+        position: 'bottom-left'
+      });
+
+      // Allow state to update before redirecting or the user will immediately be redirected to client list
+      timeout = setTimeout(() => {
+        history.push(`/structured-data/pages/${pageId}/schema`);
+      }, 5);
+    }
+  };
+
+  const handleDelete = () => {
+    if (entity) {
+      dispatch(deleteMainEntity(entity.uuid));
+      onDelete?.();
+      toast({
+        description: 'Main entity deleted',
         status: 'success',
         position: 'bottom-left'
       });
@@ -61,17 +99,41 @@ const MainEntityForm: React.FC<Props> = ({ type }) => {
           <BreadcrumbLink href="#">MAIN ENTITY</BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbItem>
-          <BreadcrumbRouterLink isDisabled={!entity} as={Link} to={`/structured-data/pages/${pageId}/schema`}>
+          <BreadcrumbRouterLink
+            isDisabled={!entity}
+            as={Link}
+            to={`/structured-data/pages/${pageId}/schema`}
+          >
             SCHEMA
           </BreadcrumbRouterLink>
         </BreadcrumbItem>
       </Breadcrumb>
-      <Heading size="lg" mb={6}>
-        {entity ? 'Update main entity' : 'Create a new main entity'}
-        <Text as="span" fontWeight={300}>
-          {` - ${type}`}
-        </Text>
-      </Heading>
+      <Flex align="center" justify="space-between">
+        <Heading size="lg" mb={6}>
+          {entity ? 'Update main entity' : 'Create a new main entity'}
+          <Text as="span" fontWeight={300}>
+            {` - ${type}`}
+          </Text>
+        </Heading>
+        {entity && (
+          <Tooltip
+            label="Delete main entity"
+            aria-label="Delete main entity"
+            placement="top"
+            showDelay={250}
+            hasArrow
+          >
+            <IconButton
+              onClick={handleDelete}
+              isDisabled={!entity}
+              icon="delete"
+              aria-label="Delete main entity"
+              variantColor="red"
+              size="sm"
+            />
+          </Tooltip>
+        )}
+      </Flex>
       <Card>
         <Form
           schema={schema}

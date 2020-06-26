@@ -54,7 +54,7 @@ const PageForm: React.FC = () => {
   };
 
   return (
-    <Box maxWidth="1080px" width="100%" margin="auto">
+    <Box maxWidth="1080px" width="100%" margin="auto" mb={4}>
       {isExistingPage && (
         <Breadcrumb separator="-" mb={6} color="gray.500" textAlign="center">
           <BreadcrumbItem isCurrentPage color="purple.600">

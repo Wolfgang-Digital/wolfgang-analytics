@@ -43,7 +43,7 @@ const AccountSelect: React.FC<BoxProps> = ({ ...props }) => {
 
   return (
     <Box fontSize="14px" {...props}>
-      <BusyIndicator isBusy={isLoading} color="#6b46c1" />
+      <BusyIndicator isBusy={isLoading} color="#4FD1C5" />
       <Stack spacing={2}>
         <FormControl isRequired>
           <FormLabel>Account</FormLabel>

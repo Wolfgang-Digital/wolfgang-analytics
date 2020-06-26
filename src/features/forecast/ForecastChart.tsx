@@ -1,10 +1,21 @@
 import React, { useMemo, useState } from 'react';
 import { format } from 'date-fns';
-import { ResponsiveContainer, XAxis, YAxis, Line, ComposedChart, Tooltip, Brush, Area, CartesianGrid, Legend } from 'recharts';
+import {
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+  Line,
+  ComposedChart,
+  Tooltip,
+  Brush,
+  Area,
+  CartesianGrid,
+  Legend
+} from 'recharts';
 import { Box, Spinner, Text, Flex, Icon, ButtonGroup, Button, Grid } from '@chakra-ui/core';
 
 import { Forecast } from './hooks';
-import { groupByMonth } from 'utils/dateUtils';
+import { groupByMonth } from './utils';
 import { formatNumberString } from 'utils/format';
 
 interface Props {
@@ -16,7 +27,8 @@ interface Props {
 const ForecastChart: React.FC<Props> = ({ data, isLoading, error }) => {
   const [viewAs, setViewAs] = useState('month');
 
-  const formatDate = (date: string | number) => format(new Date(date), viewAs === 'month' ? 'MMM yy' : 'dd MMM yy');
+  const formatDate = (date: string | number) =>
+    format(new Date(date), viewAs === 'month' ? 'MMM yy' : 'dd MMM yy');
 
   const formatValue = (value: any | any[]) => {
     if (Array.isArray(value) && value.length > 1) {
@@ -44,7 +56,7 @@ const ForecastChart: React.FC<Props> = ({ data, isLoading, error }) => {
       padding={4}
       gridArea="chart"
       height="100%"
-      minHeight="320px"
+      minHeight="350px"
       display="flex"
       justifyContent="center"
       alignItems="center"
@@ -57,7 +69,13 @@ const ForecastChart: React.FC<Props> = ({ data, isLoading, error }) => {
         </Flex>
       ) : isLoading ? (
         <Flex align="center">
-          <Spinner size="lg" color="teal.500" thickness="6px" emptyColor="gray.200" label="Loading..." />
+          <Spinner
+            size="lg"
+            color="teal.500"
+            thickness="6px"
+            emptyColor="gray.200"
+            label="Loading..."
+          />
           <Text color="gray.500" marginLeft={6}>
             Generating forecast. This can take a while...
           </Text>
@@ -69,10 +87,16 @@ const ForecastChart: React.FC<Props> = ({ data, isLoading, error }) => {
               View As
             </Text>
             <ButtonGroup size="xs" mx={4}>
-              <Button variantColor={viewAs === 'day' ? 'teal' : undefined} onClick={() => setViewAs('day')}>
+              <Button
+                variantColor={viewAs === 'day' ? 'teal' : undefined}
+                onClick={() => setViewAs('day')}
+              >
                 Daily
               </Button>
-              <Button variantColor={viewAs === 'month' ? 'teal' : undefined} onClick={() => setViewAs('month')}>
+              <Button
+                variantColor={viewAs === 'month' ? 'teal' : undefined}
+                onClick={() => setViewAs('month')}
+              >
                 Monthly
               </Button>
             </ButtonGroup>
@@ -80,14 +104,36 @@ const ForecastChart: React.FC<Props> = ({ data, isLoading, error }) => {
           <ResponsiveContainer width="100%" height="100%" maxHeight="500px">
             <ComposedChart data={chartData} margin={{ top: 10, bottom: 10, left: 10, right: 10 }}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" domain={['dataMin', 'dataMax']} scale="time" type="number" tickFormatter={formatDate} minTickGap={100} />
+              <XAxis
+                dataKey="date"
+                domain={['dataMin', 'dataMax']}
+                scale="time"
+                type="number"
+                tickFormatter={formatDate}
+                minTickGap={100}
+              />
               <Brush dataKey="date" tickFormatter={formatDate} height={20} />
               <YAxis tickFormatter={formatNumberString} />
               <Legend />
               <Tooltip labelFormatter={formatDate} formatter={value => formatValue(value)} />
               <Line name="Observed" type="monotone" dataKey="observed" dot={false} />
-              <Line name="Predicted" type="monotone" dataKey="predicted" dot={false} stroke="#f44336" strokeDasharray="3 3" />
-              <Area name="Bounds" type="monotone" dataKey="bounds" fillOpacity={0.1} strokeOpacity={0.5} fill="#ffa726" stroke="#ffa726" />
+              <Line
+                name="Predicted"
+                type="monotone"
+                dataKey="predicted"
+                dot={false}
+                stroke="#f44336"
+                strokeDasharray="3 3"
+              />
+              <Area
+                name="Bounds"
+                type="monotone"
+                dataKey="bounds"
+                fillOpacity={0.1}
+                strokeOpacity={0.5}
+                fill="#ffa726"
+                stroke="#ffa726"
+              />
             </ComposedChart>
           </ResponsiveContainer>
         </Grid>

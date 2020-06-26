@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 
 :root {
   --amplify-primary-color: #319795;
@@ -7,18 +7,18 @@
   --amplify-secondary-color: #6b46c1;
   --amplify-secondary-tint: #6b46c1;
   --amplify-secondary-shade: #361b90;
-  --amplify-font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
-    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --amplify-font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 body {
   margin: 0;
-  font-family: 'Nunito Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-    'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
-  background: #F7FAFC;
+  background: #f7fafc;
 }
 
 #root {
@@ -56,6 +56,7 @@ body {
 
 pre {
   font-size: 0.85rem !important;
+  background: inherit !important;
 }
 
 @keyframes fadeIn {
@@ -69,9 +70,9 @@ pre {
 
 @keyframes slideUp {
   from {
-    transform: translateY(0) 
+    transform: translateY(0);
   }
   to {
-    transform: translateY(-4px)
+    transform: translateY(-4px);
   }
 }

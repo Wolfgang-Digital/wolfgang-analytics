@@ -54,7 +54,11 @@ const PageList: React.FC = () => {
             <Flex key={uuid} padding={2} background="white" borderRadius={2}>
               <Box>
                 <Text fontWeight={500}>{name}</Text>
-                <Text fontSize="14px" lineHeight={1} color={mainEntityType ? 'gray.700' : 'orange.500'}>
+                <Text
+                  fontSize="14px"
+                  lineHeight={1}
+                  color={mainEntityType ? 'gray.700' : 'orange.500'}
+                >
                   {mainEntityType || 'Main entity not set'}
                 </Text>
                 <Link href={url} isExternal color="#718096" fontSize="14px">
@@ -62,17 +66,49 @@ const PageList: React.FC = () => {
                 </Link>
               </Box>
               <Stack isInline margin="auto 4px auto auto">
-                <Tooltip label="Edit web page" aria-label="View client" placement="top" hasArrow>
-                  <IconButton icon="edit" size="xs" aria-label="Edit client" mr={2} onClick={() => handleEdit(uuid)} variantColor="blue" />
+                <Tooltip label="View schema" aria-label="View schema" placement="top" hasArrow>
+                  <IconButton
+                    icon="arrow-up-down"
+                    transform="rotate(90deg)"
+                    size="xs"
+                    aria-label="View schema"
+                    mr={2}
+                    onClick={() => handleLinkClick(`/structured-data/pages/${uuid}/schema`)}
+                    variantColor="purple"
+                  />
                 </Tooltip>
-                <Tooltip label="Delete web page" aria-label="View client" placement="top" hasArrow>
-                  <IconButton icon="delete" size="xs" aria-label="Delete client" onClick={() => handleDelete(uuid)} variantColor="red" />
+                <Tooltip label="Edit web page" aria-label="Edit web page" placement="top" hasArrow>
+                  <IconButton
+                    icon="edit"
+                    size="xs"
+                    aria-label="Edit web page"
+                    mr={2}
+                    onClick={() => handleEdit(uuid)}
+                    variantColor="blue"
+                  />
+                </Tooltip>
+                <Tooltip
+                  label="Delete web page"
+                  aria-label="Edit web page"
+                  placement="top"
+                  hasArrow
+                >
+                  <IconButton
+                    icon="delete"
+                    size="xs"
+                    aria-label="Delete web page"
+                    onClick={() => handleDelete(uuid)}
+                    variantColor="red"
+                  />
                 </Tooltip>
               </Stack>
             </Flex>
           ))
         ) : (
-          <Message message={`You do not have any pages for ${client?.name || 'this client'} yet. Click create page to get started`} />
+          <Message
+            message={`You do not have any pages for ${client?.name ||
+              'this client'} yet. Click create page to get started`}
+          />
         )}
       </Stack>
     </Box>

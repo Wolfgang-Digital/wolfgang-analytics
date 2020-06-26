@@ -20,7 +20,14 @@ const ClientPreview: React.FC = () => {
             <Text>{client.type}</Text>
             <Text>{client.url}</Text>
           </Box>
-          <Image src={client.logo} size="64px" marginY="auto" objectFit="contain" rounded="full" border="1px solid #CBD5E0" />
+          <Image
+            src={client.logo}
+            size="64px"
+            marginY="auto"
+            objectFit="contain"
+            rounded="full"
+            border="1px solid #CBD5E0"
+          />
         </Grid>
       </Card>
       <PageList />

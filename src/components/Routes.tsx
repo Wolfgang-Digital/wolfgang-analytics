@@ -8,13 +8,18 @@ export interface RouteWithSubrouteProps extends Pick<RouteProps, 'path' | 'exact
   routes?: Omit<RouteWithSubrouteProps, 'routes'>[];
 }
 
-export const RouteWithSubroutes: React.FC<RouteWithSubrouteProps> = ({ path, exact, routes, component: Component }) => {
+export const RouteWithSubroutes: React.FC<RouteWithSubrouteProps> = ({
+  path,
+  exact,
+  routes,
+  component: Component
+}) => {
   return (
     <Route
       path={path}
       exact={exact}
       render={props => (
-        <PseudoBox animation="fadeIn 300ms ease-in-out">
+        <PseudoBox animation="fadeIn 300ms ease-in-out" height="100%">
           <Component {...props} routes={routes} />
         </PseudoBox>
       )}

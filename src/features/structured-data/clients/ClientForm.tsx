@@ -67,7 +67,13 @@ const ClientForm: React.FC<Props> = ({ type }) => {
           )}
         </Heading>
         {isExistingClient && (
-          <Image src={defaultValues.logo} size="50px" rounded="full" objectFit="contain" border="1px solid #CBD5E0" />
+          <Image
+            src={defaultValues.logo}
+            size="50px"
+            rounded="full"
+            objectFit="contain"
+            border="1px solid #CBD5E0"
+          />
         )}
       </Flex>
       <Card>

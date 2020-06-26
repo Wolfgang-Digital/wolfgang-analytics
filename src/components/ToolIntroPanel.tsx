@@ -1,6 +1,7 @@
 import React from 'react';
-import { Grid, Image, Heading, Text, Button, Link as ExternalLink, Flex } from '@chakra-ui/core';
-import { Link } from 'react-router-dom';
+import { Box, Heading, Text, Button, Link, Flex, PseudoBox } from '@chakra-ui/core';
+
+import { useLinkHandler } from 'hooks/useLinkHandler';
 
 interface Props {
   title: string;
@@ -9,43 +10,79 @@ interface Props {
   link: string;
   learnMoreLink?: string;
   colour: string;
+  bgPos: string
 }
 
-const ToolIntroPanel: React.FC<Props> = ({ title, image, description, link, learnMoreLink, colour }) => {
+const ToolIntroPanel: React.FC<Props> = ({
+  title,
+  image,
+  description,
+  link,
+  learnMoreLink,
+  colour,
+  bgPos
+}) => {
+  const handleLinkClick = useLinkHandler();
+
   return (
-    <Grid
-      templateColumns="3fr 1fr"
-      templateRows="auto 1fr"
-      backgroundColor={colour}
-      color="white"
-      padding={4}
-      borderRadius={4}
-      boxShadow="rgba(0, 0, 0, 0.2) 1px 2px 2px 0px"
+    <Box
+      backgroundImage={`url('/static/${image}')`}
+      height="320px"
+      width="100%"
+      backgroundSize="80%"
+      backgroundRepeat="no-repeat"
+      backgroundPosition={bgPos}
+      boxShadow="1px 2px 4px rgba(0, 0, 0, 0.2)"
+      borderRadius={8}
     >
-      <Heading as="h2" size="lg" marginTop="auto">
-        {title}
-      </Heading>
-      <Image src={image} size="42px" marginLeft="auto" objectFit="cover" alt={title} />
-      <>
-        <Text marginTop={2} gridColumn="span 2">
-          {description}
-        </Text>
-        <Flex marginTop={4} gridColumn="1 / span 2">
-          <Link to={link} style={{ marginLeft: 'auto' }}>
-            <Button variant="outline" _hover={{ color: colour, background: 'white' }} rightIcon="link" size="sm">
-              Go to Tool
+      <PseudoBox
+        height="100%"
+        display="flex"
+        flexDirection="column"
+        _before={{
+          // @ts-ignore
+          content: `""`,
+          backgroundColor: `${colour}.500`,
+          height: '100%',
+          opacity: 0.5,
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8
+        }}
+      >
+        <Box
+          backgroundColor={`${colour}.500`}
+          mt="auto"
+          borderBottomLeftRadius={8}
+          borderBottomRightRadius={8}
+          minHeight="50%"
+          px={6}
+          pt={4}
+          pb={6}
+          color="white"
+          display="flex"
+          flexDirection="column"
+        >
+          <Heading as="h3" fontSize="16px" letterSpacing={0.5} mb={2}>
+            {title}
+          </Heading>
+          <Text fontSize="14px">{description}</Text>
+          <Flex mt="auto" alignItems="center">
+            <Link href={learnMoreLink} isExternal fontWeight={500} color="white" fontSize="14px" mr={4}>
+              Learn More
+            </Link>
+            <Button
+              variant="link"
+              color="white"
+              fontSize="14px"
+              fontWeight={500}
+              onClick={() => handleLinkClick(link)}
+            >
+              Use the Tool
             </Button>
-          </Link>
-          {learnMoreLink && (
-            <ExternalLink href={learnMoreLink} isExternal>
-              <Button variant="outline" _hover={{ color: colour, background: 'white' }} rightIcon="external-link" size="sm" ml={2}>
-                Learn More
-              </Button>
-            </ExternalLink>
-          )}
-        </Flex>
-      </>
-    </Grid>
+          </Flex>
+        </Box>
+      </PseudoBox>
+    </Box>
   );
 };
 

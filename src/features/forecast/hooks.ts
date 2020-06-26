@@ -34,13 +34,13 @@ export const useForecast = () => {
 
     try {
       const res = await awsGet('/forecast', params);
-      
+
       setIsLoading(false);
-      
+
       if (res.success) {
         setData(JSON.parse(res.data as string) as Forecast[]);
       } else {
-        if (error?.includes('Network Error')) setError('Network timeout. Try narrowing the sample range or decreasing the number of days');
+        if (res.error.includes('Network Error')) setError('Network timeout. Try narrowing the sample range or decreasing the number of days');
         else setError(res.error);
       }
     } catch (e) {

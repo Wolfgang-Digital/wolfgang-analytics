@@ -1,5 +1,18 @@
-import React, { useEffect } from 'react';
-import { Stack, Text, Box, Flex, Image, Link, IconButton, Tooltip, Heading, useColorMode, useToast, PseudoBox } from '@chakra-ui/core';
+import React from 'react';
+import {
+  Stack,
+  Text,
+  Box,
+  Flex,
+  Image,
+  Link,
+  IconButton,
+  Tooltip,
+  Heading,
+  useColorMode,
+  useToast,
+  PseudoBox
+} from '@chakra-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { useLinkHandler } from 'hooks/useLinkHandler';
@@ -21,16 +34,6 @@ const ClientList: React.FC = () => {
   const selectedId = useSelector(getSelectedId);
 
   const handleLinkClick = useLinkHandler();
-
-  useEffect(() => {
-    toast({
-      title: 'This page is under construction',
-      description: 'Live version at https://tools.wolfgangdigital.com/schema',
-      status: 'warning',
-      duration: null,
-      isClosable: true
-    });
-  }, [toast]);
 
   const handleDelete = (uuid: string) => (e: React.MouseEvent<any, MouseEvent>) => {
     e.stopPropagation();
@@ -89,7 +92,15 @@ const ClientList: React.FC = () => {
                   borderColor: uuid === selectedId ? '#805AD5' : '#B794F4'
                 }}
               >
-                <Image src={logoUrl} size="42px" objectFit="contain" rounded="full" border="1px solid #CBD5E0" marginRight={4} my="auto" />
+                <Image
+                  src={logoUrl}
+                  size="42px"
+                  objectFit="contain"
+                  rounded="full"
+                  border="1px solid #CBD5E0"
+                  marginRight={4}
+                  my="auto"
+                />
                 <Box>
                   <Text>{name}</Text>
                   <Link href={websiteUrl} isExternal color="#718096" fontSize="14px">
@@ -108,7 +119,13 @@ const ClientList: React.FC = () => {
                     />
                   </Tooltip>
                   <Tooltip label="Delete client" aria-label="View client" placement="top" hasArrow>
-                    <IconButton icon="delete" size="xs" aria-label="Delete client" onClick={handleDelete(uuid)} variantColor="red" />
+                    <IconButton
+                      icon="delete"
+                      size="xs"
+                      aria-label="Delete client"
+                      onClick={handleDelete(uuid)}
+                      variantColor="red"
+                    />
                   </Tooltip>
                 </Stack>
               </PseudoBox>

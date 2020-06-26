@@ -33,8 +33,13 @@ export const getSchema = (type: string) => {
     case 'Local Business':
       return {
         ...base,
-        openingHoursSpecification,
+        telephone: {
+          type: 'text',
+          label: 'Phone Number',
+          htmlInputType: 'tel'
+        },
         address: postalAddress,
+        openingHoursSpecification,
         geoCoordinates
       };
 

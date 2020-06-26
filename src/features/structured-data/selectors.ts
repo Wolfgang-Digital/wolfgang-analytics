@@ -23,7 +23,7 @@ export const getVisiblePageSnippets = createSelector(
       });
 
     return sortBy(clientPages, 'name');
-  } 
+  }
 );
 
 export const getSelectedSchema = (pageId: string) => createSelector(

@@ -24,7 +24,7 @@ export interface WebPage {
 export interface LocalBusiness extends Organisation {
   readonly type: 'LocalBusiness'
   openingHoursSpecification?: OpeningHoursSpecification[]
-  geoCoordinates?: GeoCoordninates
+  geoCoordinates: GeoCoordninates
   address?: PostalAddress
 }
 

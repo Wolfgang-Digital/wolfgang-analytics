@@ -25,7 +25,7 @@ const faq: Schema = {
 
 export const generateSchema = (type: string): Schema => {
   switch (type) {
-    case 'FAQ':
+    case 'FAQ Page':
       return faq;
 
     default:

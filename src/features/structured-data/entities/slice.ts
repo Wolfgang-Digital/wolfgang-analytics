@@ -26,9 +26,14 @@ const slice = createSlice({
 
     updateMainEntity: (state, { payload }: PayloadAction<Entity>) => {
       if (state.mainEntities[payload.uuid]) {
+        const { uuid, pageId, type, clientId } = state.mainEntities[payload.uuid];
+
         state.mainEntities[payload.uuid] = {
-          ...state.mainEntities[payload.uuid],
-          ...payload
+          ...payload,
+          uuid,
+          pageId,
+          type,
+          clientId
         };
       }
     },

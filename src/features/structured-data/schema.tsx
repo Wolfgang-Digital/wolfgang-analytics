@@ -3,7 +3,6 @@ import { Field } from 'react-hook-form-generator';
 import { Icon } from '@chakra-ui/core';
 
 import ReactSelectField from 'components/ReactSelectField';
-import HiddenField from 'components/HiddenField';
 
 export const openingHoursSpecification: Field = {
   type: 'array',
@@ -98,13 +97,6 @@ export const postalAddress: Field = {
     postalCode: {
       type: 'text',
       label: 'Postal Code'
-    },
-    '@type': {
-      type: 'custom',
-      component: HiddenField as any,
-      props: {
-        value: 'Postal Address'
-      }
     }
   }
 };
