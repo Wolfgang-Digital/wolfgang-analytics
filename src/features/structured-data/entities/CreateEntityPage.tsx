@@ -17,15 +17,19 @@ import Card from 'components/Card';
 import MainEntityForm from './MainEntityForm';
 import { getMainEntityOnPage } from './slice';
 
-const entityTypes = ['FAQ Page'].sort().map(type => ({ label: type, value: type }));
+const entityTypes = ['FAQ Page', 'Service', 'Tourist Attraction'].sort().map(type => ({ label: type, value: type }));
 
 const CreateEntityPage: React.FC = () => {
   const { pageId } = useParams();
 
   const mainEntity = useSelector(getMainEntityOnPage(pageId));
 
+  const initialType = !!mainEntity
+    ? entityTypes.find(type => type.value === mainEntity.type) || entityTypes[0]
+    : entityTypes[0];
+
   const [tab, setTab] = useState(!!mainEntity ? 1 : 0);
-  const [type, setType] = useState(entityTypes[0]);
+  const [type, setType] = useState(initialType);
 
   return (
     <Tabs index={tab}>

@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import {
   Box,
   Breadcrumb,
@@ -11,7 +11,7 @@ import {
   IconButton,
   Tooltip
 } from '@chakra-ui/core';
-import { Link, useParams, useHistory } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Form } from 'react-hook-form-generator';
 import { v4 } from 'uuid';
@@ -31,7 +31,6 @@ interface Props {
 }
 
 const MainEntityForm: React.FC<Props> = ({ type, onDelete }) => {
-  const history = useHistory();
   const toast = useToast();
   const dispatch = useDispatch();
   const { pageId } = useParams();
@@ -42,14 +41,6 @@ const MainEntityForm: React.FC<Props> = ({ type, onDelete }) => {
   const schema = useMemo(() => {
     return generateSchema(type);
   }, [type]);
-
-  let timeout: NodeJS.Timeout | undefined = undefined;
-
-  useEffect(() => {
-    return () => {
-      if (timeout) clearTimeout(timeout);
-    };
-  }, [timeout]);
 
   const handleSubmit = (values: Entity) => {
     if (entity) {
@@ -67,11 +58,6 @@ const MainEntityForm: React.FC<Props> = ({ type, onDelete }) => {
         status: 'success',
         position: 'bottom-left'
       });
-
-      // Allow state to update before redirecting or the user will immediately be redirected to client list
-      timeout = setTimeout(() => {
-        history.push(`/structured-data/pages/${pageId}/schema`);
-      }, 5);
     }
   };
 

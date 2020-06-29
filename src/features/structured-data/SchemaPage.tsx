@@ -9,11 +9,11 @@ import {
   Flex,
   Button,
   useClipboard,
-  useToast
+  useToast,
+  Code
 } from '@chakra-ui/core';
 import { Link, Redirect } from 'react-router-dom';
 
-import Card from 'components/Card';
 import { useSchema } from './hooks';
 import TypeBadges from './TypeBadges';
 
@@ -34,7 +34,7 @@ const SchemaPage: React.FC = () => {
   };
 
   if (!schema.isValid) {
-    return <Redirect to="/structured-data" />;
+    //return <Redirect to="/structured-data" />;
   }
 
   return (
@@ -95,11 +95,11 @@ const SchemaPage: React.FC = () => {
           </Button>
         </form>
       </Flex>
-      <Card px={1} py={2} mt={2}>
+      <Code p={2} width="100%">
         <SyntaxHighlighter language="json" style={docco}>
           {schema.graphString}
         </SyntaxHighlighter>
-      </Card>
+      </Code>
     </Box>
   );
 };

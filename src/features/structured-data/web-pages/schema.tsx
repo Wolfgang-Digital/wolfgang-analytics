@@ -1,4 +1,8 @@
+import React from 'react';
+import { Icon } from '@chakra-ui/core';
 import { Schema } from 'react-hook-form-generator';
+
+import { sameAs } from '../schema';
 
 export const webPage: Schema = {
   name: {
@@ -10,36 +14,24 @@ export const webPage: Schema = {
     type: 'text',
     label: 'Web Page URL',
     isRequired: true,
-    htmlInputType: 'url'
+    htmlInputType: 'url',
+    leftInputAddon: {
+      children: <Icon name="link" color="gray.500" />,
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0
+    },
+    styles: {
+      input: {
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0
+      }
+    }
   },
   description: {
     type: 'textArea',
     label: 'Description'
   },
-  sameAs: {
-    type: 'array',
-    label: 'Same As',
-    isCollapsable: true,
-    styles: {
-      arrayContainer: {
-        spacing: 2
-      },
-      toolbar: {
-        marginBottom: 2
-      }
-    },
-    itemField: {
-      type: 'text',
-      placeholder: 'URL',
-      isRequired: true,
-      styles: {
-        input: {
-          mt: 1,
-          size: 'sm'
-        }
-      }
-    }
-  },
+  sameAs,
   about: {
     type: 'array',
     label: 'About',
@@ -85,11 +77,20 @@ export const webPage: Schema = {
           type: 'text',
           placeholder: 'URL',
           isRequired: true,
+          leftInputAddon: {
+            children: <Icon name="link" color="gray.500" />,
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0
+          },
           styles: {
-            input: {
-              mt: 1,
+            inputGroup: {
               size: 'sm',
-              isFullWidth: true
+              mt: 1
+            },
+            input: {
+              isFullWidth: true,
+              borderTopLeftRadius: 0,
+              borderBottomLeftRadius: 0
             }
           }
         }

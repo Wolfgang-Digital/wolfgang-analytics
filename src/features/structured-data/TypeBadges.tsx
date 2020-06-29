@@ -6,10 +6,13 @@ interface Props {
 }
 
 const colours: Record<string, string> = {
+  organization: 'purple',
   localbusiness: 'purple',
+  hotel: 'purple',
   website: 'blue',
   webpage: 'blue',
-  faqpage: 'orange'
+  faqpage: 'orange',
+  service: 'orange'
 };
 
 const TypeBadges: React.FC<Props> = ({ graph }) => {

@@ -1,5 +1,5 @@
 // Functions to format state into Google's structued data shape
-import { omit, pickBy } from 'lodash';
+import { omit, pickBy, identity } from 'lodash';
 
 import { OpeningHoursSpecification, Organisation, LocalBusiness, FAQ, Entity } from './types';
 
@@ -30,7 +30,7 @@ export const transformClient = (client: Organisation) => {
     image: client.logo,
     ...pickBy(omit(client, ['uuid', 'type']), val => {
       return typeof val === 'object'
-        ? Object.keys(val).length > 0
+        ? Object.keys(pickBy(val, identity)).length > 0
         : true;
     })
   };
@@ -40,6 +40,12 @@ export const transformClient = (client: Organisation) => {
       return result;
 
     case 'Local Business':
+      return {
+        ...result,
+        openingHoursSpecification: transformOpeningHours((client as LocalBusiness).openingHoursSpecification)
+      };
+
+    case 'Hotel':
       return {
         ...result,
         openingHoursSpecification: transformOpeningHours((client as LocalBusiness).openingHoursSpecification)
@@ -68,6 +74,9 @@ export const transformEntity = (entity: Entity, pageUrl: string) => {
         ...result,
         mainEntity: transformFaq((entity as FAQ).mainEntity)
       };
+
+    case 'Service':
+      return result;
 
     default:
       throw new Error(`Unrecognised entity type: ${entity.type}`);

@@ -43,14 +43,18 @@ export const openingHoursSpecification: Field = {
         label: 'Opening Time',
         isRequired: true,
         leftInputAddon: {
-          children: <Icon name="time" />
+          children: <Icon name="time" color="gray.500" />,
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0
         },
         styles: {
           label: {
             fontSize: '0.85rem'
           },
           input: {
-            isFullWidth: true
+            isFullWidth: true,
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0
           }
         }
       },
@@ -59,7 +63,9 @@ export const openingHoursSpecification: Field = {
         label: 'Closing Time',
         isRequired: true,
         leftInputAddon: {
-          children: <Icon name="time" />
+          children: <Icon name="time" color="gray.500" />,
+          borderTopRightRadius: 0,
+          borderBottomRightRadius: 0
         },
         styles: {
           control: {
@@ -69,7 +75,9 @@ export const openingHoursSpecification: Field = {
             fontSize: '0.85rem'
           },
           input: {
-            isFullWidth: true
+            isFullWidth: true,
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0
           }
         }
       }
@@ -113,6 +121,40 @@ export const geoCoordinates: Field = {
     longitude: {
       type: 'number',
       label: 'Longitude'
+    }
+  }
+};
+
+export const sameAs: Field = {
+  type: 'array',
+  label: 'Same As',
+  isCollapsable: true,
+  styles: {
+    arrayContainer: {
+      spacing: 2
+    },
+    toolbar: {
+      marginBottom: 2
+    }
+  },
+  itemField: {
+    type: 'text',
+    placeholder: 'URL',
+    isRequired: true,
+    leftInputAddon: {
+      children: <Icon name="link" color="gray.500" />,
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0
+    },
+    styles: {
+      inputGroup: {
+        size: 'sm',
+        mt: 1
+      },
+      input: {
+        borderTopLeftRadius: 0,
+        borderBottomLeftRadius: 0
+      }
     }
   }
 };
