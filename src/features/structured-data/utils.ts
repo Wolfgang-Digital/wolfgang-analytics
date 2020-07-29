@@ -78,6 +78,9 @@ export const transformEntity = (entity: Entity, pageUrl: string) => {
     case 'Service':
       return result;
 
+    case 'How To':
+      return result;
+
     default:
       throw new Error(`Unrecognised entity type: ${entity.type}`);
   }

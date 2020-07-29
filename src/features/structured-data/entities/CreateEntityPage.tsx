@@ -17,7 +17,9 @@ import Card from 'components/Card';
 import MainEntityForm from './MainEntityForm';
 import { getMainEntityOnPage } from './slice';
 
-const entityTypes = ['FAQ Page', 'Service', 'Tourist Attraction'].sort().map(type => ({ label: type, value: type }));
+const entityTypes = ['FAQ Page', 'Service', 'Tourist Attraction', 'How To']
+  .sort()
+  .map(type => ({ label: type, value: type }));
 
 const CreateEntityPage: React.FC = () => {
   const { pageId } = useParams();

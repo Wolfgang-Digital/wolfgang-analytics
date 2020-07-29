@@ -12,7 +12,7 @@ import {
   useToast,
   Code
 } from '@chakra-ui/core';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { useSchema } from './hooks';
 import TypeBadges from './TypeBadges';
@@ -97,7 +97,7 @@ const SchemaPage: React.FC = () => {
       </Flex>
       <Code p={2} width="100%">
         <SyntaxHighlighter language="json" style={docco}>
-          {schema.graphString}
+          {schema.graphString || 'Preview unavailable'}
         </SyntaxHighlighter>
       </Code>
     </Box>

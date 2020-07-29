@@ -12,7 +12,8 @@ const colours: Record<string, string> = {
   website: 'blue',
   webpage: 'blue',
   faqpage: 'orange',
-  service: 'orange'
+  service: 'orange',
+  howto: 'orange'
 };
 
 const TypeBadges: React.FC<Props> = ({ graph }) => {
