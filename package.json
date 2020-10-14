@@ -20,11 +20,7 @@
     "axios": "^0.19.2",
     "date-fns": "^2.14.0",
     "emotion-theming": "^10.0.27",
-<<<<<<< HEAD
-    "lodash": "^4.17.20",
-=======
     "lodash": "^4.17.19",
->>>>>>> 6fc71effc5acb03a03a0b9b6f6329cda8e94c571
     "react": "^16.13.1",
     "react-date-range": "^1.0.3",
     "react-dom": "^16.13.1",
