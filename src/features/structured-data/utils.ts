@@ -1,7 +1,7 @@
 // Functions to format state into Google's structued data shape
 import { omit, pickBy, identity } from 'lodash';
 
-import { OpeningHoursSpecification, Organisation, LocalBusiness, FAQ, Entity } from './types';
+import { OpeningHoursSpecification, Organisation, LocalBusiness, FAQ, Entity, HowTo } from './types';
 
 const transformOpeningHours = (openingHours?: OpeningHoursSpecification[]) => {
   if (!openingHours) return undefined;
@@ -56,6 +56,26 @@ export const transformClient = (client: Organisation) => {
   }
 };
 
+export const transformHowTo = (howTo: HowTo) => {
+  const formattedHowTo = !!howTo.hasVideo
+    ? {
+      ...omit(howTo, ['uuid', 'type', 'pageId', 'clientId', 'video', 'hasVideo', 'step']),
+      video: {
+        ...howTo.video,
+        '@type': 'VideoObject'
+      },
+      step: howTo.step.map(step => ({
+        ...omit(step, '_clipData'),
+        startOffset: ''
+      }))
+    }
+    : {
+      ...omit(howTo, ['uuid', 'type', 'pageId', 'clientId', 'video', 'hasVideo', 'step']),
+      step: howTo.step.map(step => omit(step, '_clipData'))
+    };
+    return formattedHowTo;
+};
+
 export const transformEntity = (entity: Entity, pageUrl: string) => {
   if (!entity) return undefined;
 
@@ -65,7 +85,7 @@ export const transformEntity = (entity: Entity, pageUrl: string) => {
     mainEntityOfPage: {
       '@id': `${pageUrl}/#webpage`
     },
-    ...omit(entity, ['uuid', 'type', 'pageId', 'clientId'])
+    ...omit(entity, ['uuid', 'type', 'pageId', 'clientId', 'video', 'hasVideo'])
   };
 
   switch (entity.type) {
@@ -76,10 +96,13 @@ export const transformEntity = (entity: Entity, pageUrl: string) => {
       };
 
     case 'Service':
-      return result;
+      return omit(result, 'hasRating');
 
     case 'How To':
-      return result;
+      return {
+        ...result,
+        ...transformHowTo(entity as HowTo)
+      };
 
     default:
       throw new Error(`Unrecognised entity type: ${entity.type}`);

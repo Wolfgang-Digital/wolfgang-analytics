@@ -23,7 +23,7 @@ const SchemaPage: React.FC = () => {
   const toast = useToast();
   const schema = useSchema();
   const { onCopy } = useClipboard(schema.graph);
-
+  
   const handleCopy = () => {
     onCopy?.();
     toast({

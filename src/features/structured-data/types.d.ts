@@ -62,7 +62,6 @@ export interface Entity {
 
 export interface HowTo extends Entity {
   readonly type: 'How To'
-  hasVideo: boolean
   video?: VideoObject
   description?: string
   image?: string
@@ -71,6 +70,18 @@ export interface HowTo extends Entity {
   supply: string[]
   tool: string[]
   step: HowToStep[]
+  hasVideo?: boolean
+}
+
+export interface VideoObject {
+  name: string
+  description: string
+  duration: string
+  dateUploaded: string
+  tumbnailUrls: string[]
+  dateUploaded: string
+  contentUrl: string
+  embedUrl: string
 }
 
 export interface HowToStep {

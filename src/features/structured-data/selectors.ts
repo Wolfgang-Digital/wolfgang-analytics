@@ -1,7 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { sortBy } from 'lodash';
 
-import { getSelectedId, getSelectedClient } from './clients/slice';
+import { getSelectedId, getClients } from './clients/slice';
 import { getWebPages } from './web-pages/slice';
 import { getMainEntityList, getMainEntityOnPage } from './entities/slice';
 
@@ -27,13 +27,15 @@ export const getVisiblePageSnippets = createSelector(
 );
 
 export const getSelectedSchema = (pageId: string) => createSelector(
-  getSelectedClient,
+  getClients,
   getWebPages,
   getMainEntityOnPage(pageId),
-  (client, pages, mainEntity) => {
+  (clients, pages, mainEntity) => {
+    const page = pages[pageId];
+
     return {
-      client,
-      webPage: pages[pageId],
+      client: clients[page.clientId],
+      webPage: page,
       mainEntity
     }
   }

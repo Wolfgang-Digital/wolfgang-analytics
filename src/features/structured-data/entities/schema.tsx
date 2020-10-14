@@ -3,7 +3,7 @@ import { Schema } from 'react-hook-form-generator';
 import { Box, Icon } from '@chakra-ui/core';
 import { MdEuroSymbol } from 'react-icons/md';
 
-import { openingHoursSpecification, postalAddress, geoCoordinates, sameAs } from '../schema';
+import { openingHoursSpecification, postalAddress, geoCoordinates, sameAs, aggregateRating, videoObject } from '../schema';
 import HiddenField from 'components/HiddenField';
 
 const faq: Schema = {
@@ -39,7 +39,12 @@ const service: Schema = {
   description: {
     type: 'textArea',
     label: 'Description'
-  }
+  },
+  hasRating: {
+    type: 'switch',
+    label: 'Include Aggregate Rating'
+  },
+  aggregateRating
 };
 
 const touristAttraction: Schema = {
@@ -131,6 +136,17 @@ const howTo: Schema = {
       }
     }
   },
+  hasVideo: {
+    type: 'switch',
+    label: 'Include Video'
+  },
+  video: {
+    ...videoObject,
+    // @ts-ignore
+    shouldDisplay: data => {
+      return !!data.hasVideo;
+    }
+  },
   step: {
     type: 'array',
     label: 'Steps',
@@ -160,7 +176,8 @@ const howTo: Schema = {
         },
         image: {
           type: 'text',
-          label: 'Image URL',
+          label: 'URL',
+          helperText: 'Image or video URL',
           leftInputAddon: {
             children: <Icon name="link" color="gray.500" />,
             borderTopRightRadius: 0,
@@ -180,6 +197,30 @@ const howTo: Schema = {
           type: 'textArea',
           label: 'Directions',
           isRequired: true
+        },
+        _clipData: {
+          type: 'object',
+          shouldDisplay: data => {
+            return !!data.hasVideo;
+          },
+          properties: {
+            startOffset: {
+              type: 'number',
+              label: 'Clip Start Offset'
+            },
+            endOffset: {
+              type: 'number',
+              label: 'Clip End Offset',
+            }
+          },
+          styles: {
+            objectContainer: {
+              isInline: true
+            },
+            propertyContainer: {
+              flexGrow: 1
+            }
+          }
         }
       }
     }

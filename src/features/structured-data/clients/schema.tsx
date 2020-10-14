@@ -109,6 +109,16 @@ export const getSchema = (type: string) => {
         geoCoordinates
       };
 
+    case 'Travel Agency':
+      return {
+        ...base,
+        telephone,
+        priceRange,
+        address: postalAddress,
+        openingHoursSpecification,
+        geoCoordinates
+      };
+
     default:
       throw new Error(`Invalid schema type: "${type}"`);
   }

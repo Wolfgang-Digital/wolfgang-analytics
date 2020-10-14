@@ -16,7 +16,7 @@ import { SelectOption } from 'types';
 import ClientForm from './ClientForm';
 import Card from 'components/Card';
 
-const organisationTypes = ['Organization', 'Local Business', 'Hotel']
+const organisationTypes = ['Organization', 'Local Business', 'Hotel', 'Travel Agency']
   .sort()
   .map(type => ({ label: type, value: type }));
 
