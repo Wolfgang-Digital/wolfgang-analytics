@@ -201,7 +201,7 @@ const howTo: Schema = {
         _clipData: {
           type: 'object',
           shouldDisplay: data => {
-            return !!data.hasVideo;
+            return !!data?.hasVideo;
           },
           properties: {
             startOffset: {

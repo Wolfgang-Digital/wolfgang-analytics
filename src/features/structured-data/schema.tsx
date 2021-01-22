@@ -172,7 +172,7 @@ export const aggregateRating: Field = {
   label: 'Aggregate Rating',
   isCollapsable: true,
   shouldDisplay: data => {
-    return !!data.hasRating;
+    return !!data?.hasRating;
   },
   properties: {
     ratingValue: {

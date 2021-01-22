@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Auth } from 'aws-amplify';
 
-const BASE_URL = 'https://1si784c8o0.execute-api.eu-west-1.amazonaws.com/prod';
+const BASE_URL = 'https://8aauiio3p1.execute-api.eu-west-1.amazonaws.com/dev';
 
 type ApiResponse<T> = {
   success: true,
@@ -11,12 +11,33 @@ type ApiResponse<T> = {
   error: string
 };
 
-export const awsGet = async <T>(endpoint: string, params: Record<string, any>): Promise<ApiResponse<T>> => {
+export const awsGet = async <T>(endpoint: string, params?: Record<string, any>): Promise<ApiResponse<T>> => {
+  try {
+    const session = await Auth.currentSession();    
+    const auth = session.getIdToken().getJwtToken();
+
+    const res = await axios.get(`${BASE_URL}${endpoint}`, {
+      headers: {
+        'Authorization': auth
+      },
+      params
+    });
+
+    return { success: true, data: res.data as T };
+  } catch (e) {
+    return {
+      success: false,
+      error: e.response?.data?.error || e.toString()
+    };
+  }
+};
+
+export const awsDelete = async <T>(endpoint: string, params?: Record<string, any>): Promise<ApiResponse<T>> => {
   try {
     const session = await Auth.currentSession();
     const auth = session.getIdToken().getJwtToken();
 
-    const res = await axios.get(`${BASE_URL}${endpoint}`, {
+    const res = await axios.delete(`${BASE_URL}${endpoint}`, {
       headers: {
         'Authorization': auth
       },

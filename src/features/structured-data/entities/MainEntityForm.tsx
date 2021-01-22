@@ -48,7 +48,8 @@ const MainEntityForm: React.FC<Props> = ({ type, onDelete }) => {
       toast({
         description: 'Main entity updated',
         status: 'success',
-        position: 'bottom-left'
+        position: 'bottom-left',
+        variant: 'left-accent'
       });
     } else {
       const uuid = v4();
@@ -56,7 +57,8 @@ const MainEntityForm: React.FC<Props> = ({ type, onDelete }) => {
       toast({
         description: 'Main entity created',
         status: 'success',
-        position: 'bottom-left'
+        position: 'bottom-left',
+        variant: 'left-accent'
       });
     }
   };
@@ -68,7 +70,8 @@ const MainEntityForm: React.FC<Props> = ({ type, onDelete }) => {
       toast({
         description: 'Main entity deleted',
         status: 'success',
-        position: 'bottom-left'
+        position: 'bottom-left',
+        variant: 'left-accent'
       });
     }
   };

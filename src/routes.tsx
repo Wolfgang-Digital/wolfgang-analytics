@@ -63,6 +63,18 @@ const routes: RouteWithSubrouteProps[] = [
         component: lazy(() => import('./features/structured-data/SchemaPage'))
       }
     ]
+  },
+  {
+    path: '/user',
+    key: 'USER',
+    component: Routes,
+    routes: [
+      {
+        path: '/user/monthly-reviews',
+        key: 'REVIEWS',
+        component: lazy(() => import('./pages/Reviews'))
+      }
+    ]
   }
 ];
 

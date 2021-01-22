@@ -1,0 +1,87 @@
+[
+  {
+    "name": "Default",
+    "pillars": [
+      {
+        "name": "Performance",
+        "action": "",
+        "behaviour": ""
+      },
+      {
+        "name": "Innovation",
+        "action": "",
+        "behaviour": ""
+      },
+      {
+        "name": "Communication",
+        "action": "",
+        "behaviour": ""
+      },
+      {
+        "name": "Integration",
+        "action": "",
+        "behaviour": ""
+      }
+    ],
+    "metrics": [
+      "Allocated Hours",
+      "Billable Hours Logged",
+      "Unallocated Billable Time Logged",
+      "Unallocated Non-Billable Time Logged",
+      "Total Time Logged",
+      "Department Target",
+      "% Department Target",
+      "Revenue Target",
+      "% Revenue Target"
+    ],
+    "questions": [
+      {
+        "section": "Support",
+        "questions": [
+          "Are there any areas you need additional support?",
+          "Are there any areas you need additional training?",
+          "Are there any resources that would be helpful to you?",
+          "How do you feel you executed your given tasks in the past month?",
+          "How confident are you in carrying out your expected duties?",
+          "How do you rate the teams current morale?",
+          "Have you had to work late over the past month, can you share details?"
+        ]
+      },
+      {
+        "section": "The Work & Your Role",
+        "questions": [
+          "Highlights & issues with client work?",
+          "Any clients you'd be worried about?",
+          "Looking back on the month, is there anything you'd do better or differently?",
+          "Best work over the past month?",
+          "Any issues you'd like raised at all?",
+          "Who does this issue impact?",
+          "Proposed Mitigation",
+          "Biggest Challenge / accomplishment?",
+          "Woohoos Sent",
+          "Woohoos Description",
+          "Inovations Tested",
+          "Innovation Description"
+        ]
+      },
+      {
+        "section": "Professional Development",
+        "questions": [
+          "Progressing as digital marketer? How? Elaborate / new skills eg?",
+          "What would you like to be doing more of in your day to day?",
+          "Career Path trajectory",
+          "What current skills do you have that makes you suitable for this path?",
+          "What skills do need to develop for this path for this path?",
+          "Longer term task to achive career / work objective",
+          "Why?",
+          "How?",
+          "Progress / Complete",
+          "Training budget, is there anything you'd like to use this for in the coming months?",
+          "Have you shown any examples of being a thought leader in Wolfgang? Ideas on thought leadership specific to your career path",
+          "How can we improve as a company here at WG?",
+          "Outside of your career, what are your personal goals and is there anything we can do to help you achieve them?"
+        ]
+      }
+    ]
+  }
+]

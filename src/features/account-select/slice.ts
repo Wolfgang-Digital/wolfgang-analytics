@@ -3,7 +3,7 @@ import { sortBy } from 'lodash';
 
 import { APIPayloadAction, SelectOption } from 'types';
 import { RootState } from 'store';
-import { awsGet } from 'utils/api';
+import { awsGet } from '../forecast/utils';
 
 export const accountOptions = [
   'analytics@wolfgangdigital.com',

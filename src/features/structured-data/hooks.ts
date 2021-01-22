@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { omit } from 'lodash';
 
 import { getSelectedSchema } from './selectors';
-import { transformClient, transformEntity } from './utils';
+// import { transformClient, transformEntity } from './utils';
 
 export const useSchema = () => {
   const { pageId } = useParams();
@@ -31,7 +31,7 @@ export const useSchema = () => {
       const homepageUrl = schema.client.url.replace(/\/$/, '');
       const pageUrl = schema.webPage.url.replace(/\/$/, '');
 
-      graph['@graph'].push(transformClient(schema.client));
+      graph['@graph'].push(schema.client);
 
       graph['@graph'].push({
         '@id': `${homepageUrl}/#website`,
@@ -51,7 +51,7 @@ export const useSchema = () => {
       });
 
       if (schema.mainEntity) {
-        const mainEntity = transformEntity(schema.mainEntity, pageUrl);
+        const mainEntity = schema.mainEntity;
         graph['@graph'].push(mainEntity);
       }
     } catch (e) {

@@ -4,10 +4,12 @@ import { throttle } from 'lodash';
 import { saveState } from 'utils/storage';
 import accountSelect, { initialState as accountSelectState } from './features/account-select/slice';
 import structuredData, { initialState as structuredDataState } from './features/structured-data/reducer';
+import reviews, { initialState as reviewState } from './features/monthly-reviews/slice';
 
 const reducer = combineReducers({
   accountSelect,
-  structuredData
+  structuredData,
+  reviews
 });
 
 const store = configureStore({
@@ -15,7 +17,8 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
   preloadedState: {
     accountSelect: accountSelectState,
-    structuredData: structuredDataState
+    structuredData: structuredDataState,
+    reviews: reviewState
   }
 });
 

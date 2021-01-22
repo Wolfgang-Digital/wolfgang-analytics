@@ -14,8 +14,10 @@ const ScrollTop: React.FC<Props> = ({ isVisible, handleScroll }) => {
       transition="opacity 200ms ease-out"
       variantColor="teal"
       position="absolute"
-      bottom="16px"
-      right="32px"
+      bottom="8px"
+      right="8px"
+      zIndex={1000}
+      size="sm"
       isDisabled={!isVisible}
       _disabled={{
         opacity: 0

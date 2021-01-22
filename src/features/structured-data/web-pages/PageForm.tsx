@@ -39,7 +39,8 @@ const PageForm: React.FC = () => {
       toast({
         description: 'Page updated',
         status: 'success',
-        position: 'bottom-left'
+        position: 'bottom-left',
+        variant: 'left-accent'
       });
     } else {
       const uuid = v4();
@@ -47,7 +48,8 @@ const PageForm: React.FC = () => {
       toast({
         description: 'Page created',
         status: 'success',
-        position: 'bottom-left'
+        position: 'bottom-left',
+        variant: 'left-accent'
       });
       history.push(`/structured-data/pages/${uuid}/main-entity`);
     }

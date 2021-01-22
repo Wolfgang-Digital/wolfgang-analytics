@@ -10,7 +10,8 @@ export const formStyles: FormStyles = {
       justifyContent: 'flex-end'
     },
     submitButton: {
-      variantColor: 'teal'
+      variantColor: 'teal',
+      minWidth: '120px'
     }
   },
   arrayField: {

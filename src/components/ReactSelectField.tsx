@@ -14,6 +14,7 @@ interface Props {
   isRequired?: boolean;
   labelProps?: FormLabelProps;
   isMulti?: boolean;
+  isLoading?: boolean;
 }
 
 const ReactSelectField: React.FC<Props> = ({
@@ -23,7 +24,8 @@ const ReactSelectField: React.FC<Props> = ({
   options,
   isRequired,
   labelProps,
-  isMulti
+  isMulti,
+  isLoading
 }) => {
   const { control } = useFormContext();
 
@@ -33,8 +35,15 @@ const ReactSelectField: React.FC<Props> = ({
       <Controller
         name={name}
         control={control}
-        as={<Select placeholder={placeholder} options={options} isMulti={isMulti} />}
-        onChange={([selected]) => {
+        as={
+          <Select
+            placeholder={placeholder}
+            options={options}
+            isMulti={isMulti}
+            isLoading={isLoading}
+          />
+        }
+        onChange={([selected]: [any]) => {
           return selected;
         }}
       />

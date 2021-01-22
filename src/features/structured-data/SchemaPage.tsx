@@ -27,6 +27,7 @@ const SchemaPage: React.FC = () => {
   const handleCopy = () => {
     onCopy?.();
     toast({
+      variant: 'left-accent',
       description: 'Copied to clipboard',
       status: 'success',
       position: 'bottom-left'

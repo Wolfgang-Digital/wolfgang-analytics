@@ -17,11 +17,11 @@ body {
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
   background: #f7fafc;
 }
 
 #root {
+  overflow: hidden;
   display: flex;
   justify-content: center;
 }
@@ -57,6 +57,26 @@ body {
 pre {
   font-size: 0.85rem !important;
   background: inherit !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #319795;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2C7A7B;
 }
 
 @keyframes fadeIn {

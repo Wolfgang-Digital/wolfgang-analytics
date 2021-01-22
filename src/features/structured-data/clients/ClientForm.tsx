@@ -36,7 +36,8 @@ const ClientForm: React.FC<Props> = ({ type }) => {
       toast({
         description: 'Client updated',
         status: 'success',
-        position: 'bottom-left'
+        position: 'bottom-left',
+        variant: 'left-accent'
       });
     } else {
       const uuid = v4();
@@ -44,7 +45,8 @@ const ClientForm: React.FC<Props> = ({ type }) => {
       toast({
         description: 'Client created',
         status: 'success',
-        position: 'bottom-left'
+        position: 'bottom-left',
+        variant: 'left-accent'
       });
       history.push(`/structured-data/clients/${uuid}`);
     }

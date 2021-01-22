@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { awsGet } from 'utils/api';
+import { awsGet } from './utils';
 
 interface Params {
   gaAccount: string

@@ -1,10 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { Box, Flex, Grid, Button, Link, Image, Heading, PseudoBox, Icon } from '@chakra-ui/core';
 import { Auth } from 'aws-amplify';
 import { useRouteMatch, Link as RouterLink } from 'react-router-dom';
 import { MdTrendingUp } from 'react-icons/md';
 import { BsFileCode } from 'react-icons/bs';
 
+import { UserCtx } from 'utils/context';
 import ScrollTop from './ScrollTop';
 
 interface HeaderProps {
@@ -53,10 +54,10 @@ const SidebarLink: React.FC<{ to: string; onClick?: () => void }> = ({ to, child
         alignItems="center"
         _focus={{ boxShadow: 0 }}
         _hover={{ textDecoration: 0 }}
-        color={!!match ? 'white' : 'gray.500'}
+        color={!!match ? 'teal.400' : 'gray.500'}
         width="100%"
         fontSize="0.9rem"
-        fontWeight={500}
+        fontWeight={400}
       >
         {children}
       </Link>
@@ -65,6 +66,8 @@ const SidebarLink: React.FC<{ to: string; onClick?: () => void }> = ({ to, child
 };
 
 const Sidebar: React.FC = () => {
+  const user = useContext(UserCtx);
+  
   return (
     <Box
       gridArea="sidebar"
@@ -92,12 +95,31 @@ const Sidebar: React.FC = () => {
       <Box borderBottom="1px solid #2a4865" pb={2}>
         <Heading
           as="h3"
-          size="sm"
+          size="xs"
           color="white"
           px={4}
           mb={2}
           borderBottom="1px solid #2a4865"
           padding="8px 16px"
+          fontWeight={400}
+        >
+          {user ? user.username : 'User'}
+        </Heading>
+        <SidebarLink to="/user/monthly-reviews">
+          <Icon name="calendar" size="18px" mr={2} transform="translateY(-2px)" fontWeight={400} />
+          Monthly Reviews
+        </SidebarLink>
+      </Box>
+      <Box borderBottom="1px solid #2a4865" pb={2}>
+        <Heading
+          as="h3"
+          size="xs"
+          color="white"
+          px={4}
+          mb={2}
+          borderBottom="1px solid #2a4865"
+          padding="8px 16px"
+          fontWeight={400}
         >
           Tools
         </Heading>
@@ -162,6 +184,7 @@ const Navigation: React.FC = ({ children }) => {
         onScroll={handleScroll}
         height="calc(100vh - 50px)"
         overflowY="auto"
+        overflowX="hidden"
         paddingBottom={6}
         paddingX={8}
       >
