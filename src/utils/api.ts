@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Auth } from 'aws-amplify';
 
-const BASE_URL = 'https://8aauiio3p1.execute-api.eu-west-1.amazonaws.com/dev';
+const BASE_URL = 'https://8aauiio3p1.execute-api.eu-west-1.amazonaws.com/prod';
 
 type ApiResponse<T> = {
   success: true,
