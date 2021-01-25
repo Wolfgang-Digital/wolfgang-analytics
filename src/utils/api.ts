@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Auth } from 'aws-amplify';
 
-const BASE_URL = process.env.NODE_ENV !== 'production' 
+const BASE_URL = process.env.NODE_ENV === 'production' 
   ? 'https://h7b80ajhe4.execute-api.eu-west-1.amazonaws.com/prod' 
   : 'https://8aauiio3p1.execute-api.eu-west-1.amazonaws.com/dev';
 
