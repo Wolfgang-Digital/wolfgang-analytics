@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Suspense } from 'react';
-import { ThemeProvider, CSSReset, Box, PseudoBox, ColorModeProvider } from '@chakra-ui/core';
+import { ThemeProvider, CSSReset, Box, PseudoBox } from '@chakra-ui/core';
 import { Hub } from 'aws-amplify';
 import { BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -21,7 +21,7 @@ const App: React.FC = () => {
     const updateUser = async () => {
       try {
         const res = await awsGet<any>('/users/me');
-        setUser((res as any).data); 
+        setUser((res as any).data);
       } catch {
         setUser(null);
       }
@@ -37,20 +37,18 @@ const App: React.FC = () => {
         <Authenticator>
           <Provider store={store}>
             <ThemeProvider theme={theme}>
-              <ColorModeProvider>
-                <CSSReset />
-                <Box width="100vw">
-                  <Router>
-                    <Navigation>
-                      <Switch>
-                        <Suspense fallback={<BusyIndicator isBusy color="#4FD1C5" />}>
-                          <Routes routes={routes} />
-                        </Suspense>
-                      </Switch>
-                    </Navigation>
-                  </Router>
-                </Box>
-              </ColorModeProvider>
+              <CSSReset />
+              <Box width="100vw">
+                <Router>
+                  <Navigation>
+                    <Switch>
+                      <Suspense fallback={<BusyIndicator isBusy color="#4FD1C5" />}>
+                        <Routes routes={routes} />
+                      </Suspense>
+                    </Switch>
+                  </Navigation>
+                </Router>
+              </Box>
             </ThemeProvider>
           </Provider>
         </Authenticator>
