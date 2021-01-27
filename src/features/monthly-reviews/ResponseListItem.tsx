@@ -7,14 +7,14 @@ import IconLabel from 'components/IconLabel';
 import { ReviewResponse } from './types';
 
 const isValidInput = (obj?: Record<string, any>) => {
-  return !!obj && ((!!obj.pillars && !!obj.metrics) || !!obj.questions);
+  return !!obj && ((!!obj.pillars && !!obj.metrics) || Object.keys(obj).length > 0);
 };
 
 interface Props {
   reviewId?: string | number;
   response: ReviewResponse['responses'][number];
   isAuthorised?: boolean;
-  handleDelete: (e: any, id: number) => void
+  handleDelete: (e: any, id: number) => void;
 }
 
 const ResponseListItem: React.FC<Props> = ({ reviewId, response, isAuthorised, handleDelete }) => {
@@ -79,18 +79,20 @@ const ResponseListItem: React.FC<Props> = ({ reviewId, response, isAuthorised, h
             onClick={handleEditClick}
           />
         </Tooltip>
-        <Tooltip aria-label="Delete response" label="Delete response" showDelay={200} hasArrow>
-          <IconButton
-            aria-label="Delete response"
-            icon="delete"
-            variant="ghost"
-            size="sm"
-            p={1}
-            isRound
-            color="gray.700"
-            onClick={(e: any) => handleDelete(e, response.response_id)}
-          />
-        </Tooltip>
+        {isAuthorised && (
+          <Tooltip aria-label="Delete response" label="Delete response" showDelay={200} hasArrow>
+            <IconButton
+              aria-label="Delete response"
+              icon="delete"
+              variant="ghost"
+              size="sm"
+              p={1}
+              isRound
+              color="gray.700"
+              onClick={(e: any) => handleDelete(e, response.response_id)}
+            />
+          </Tooltip>
+        )}
       </Flex>
     </PseudoBox>
   );

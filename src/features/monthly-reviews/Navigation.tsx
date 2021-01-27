@@ -6,9 +6,9 @@ import ButtonLink from 'components/ButtonLink';
 import { useUserRoles, Roles } from 'hooks/users';
 
 interface NavItemProps {
-  text: string
-  to: string
-  matchStr?: string
+  text: string;
+  to: string;
+  matchStr?: string;
 }
 
 const NavItem: React.FC<NavItemProps> = ({ text, to, matchStr }) => {
@@ -25,8 +25,8 @@ const NavItem: React.FC<NavItemProps> = ({ text, to, matchStr }) => {
         minWidth: 80,
         isActive: !!match && match.isExact,
         _active: {
-          color: 'purple.500'
-        }
+          color: 'purple.500',
+        },
       }}
     />
   );
@@ -37,14 +37,29 @@ const Navigation: React.FC = () => {
 
   const isAuthorised = useUserRoles([Roles.ADMIN, Roles.DEPT_HEAD]);
 
-  return isAuthorised ? (
+  return (
     <Flex position="absolute" top="12px" zIndex={2}>
-      <IconButton icon="arrow-left" aria-label="Back" variant="link" size="sm" mr={4} onClick={() => history.goBack()} />
+      <IconButton
+        icon="arrow-left"
+        aria-label="Back"
+        variant="link"
+        size="sm"
+        mr={4}
+        onClick={() => history.goBack()}
+      />
       <NavItem text="My Reviews" to="/user/monthly-reviews" />
-      <NavItem text="Create Review" to="/user/monthly-reviews/create/0" matchStr="/user/monthly-reviews/create/*" />
-      <NavItem text="Create Template" to="/user/monthly-reviews/templates/create" />
+      {isAuthorised && (
+        <>
+          <NavItem
+            text="Create Review"
+            to="/user/monthly-reviews/create/0"
+            matchStr="/user/monthly-reviews/create/*"
+          />
+          <NavItem text="Create Template" to="/user/monthly-reviews/templates/create" />
+        </>
+      )}
     </Flex>
-  ) : null;
+  );
 };
 
 export default Navigation;
