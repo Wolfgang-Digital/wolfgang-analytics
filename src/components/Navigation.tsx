@@ -1,11 +1,12 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import { Box, Flex, Grid, Button, Link, Image, Heading, PseudoBox, Icon } from '@chakra-ui/core';
 import { Auth } from 'aws-amplify';
 import { useRouteMatch, Link as RouterLink } from 'react-router-dom';
 import { MdTrendingUp } from 'react-icons/md';
 import { BsFileCode } from 'react-icons/bs';
+import { FaRegUserCircle } from 'react-icons/fa';
 
-import { UserCtx } from 'utils/context';
+import { useCurrentUser } from 'hooks/users';
 import ScrollTop from './ScrollTop';
 
 interface HeaderProps {
@@ -38,7 +39,7 @@ const SidebarLink: React.FC<{ to: string; onClick?: () => void }> = ({ to, child
 
   return (
     <PseudoBox
-      py={1}
+      py={2}
       _hover={{ transform: 'translateX(4px)' }}
       transition="200ms ease-out"
       cursor="pointer"
@@ -65,9 +66,7 @@ const SidebarLink: React.FC<{ to: string; onClick?: () => void }> = ({ to, child
   );
 };
 
-const Sidebar: React.FC = () => {
-  const user = useContext(UserCtx);
-  
+const Sidebar: React.FC<{ username?: string }> = ({ username = 'User' }) => {
   return (
     <Box
       gridArea="sidebar"
@@ -103,8 +102,12 @@ const Sidebar: React.FC = () => {
           padding="8px 16px"
           fontWeight={400}
         >
-          {user ? user.username : 'User'}
+          {username}
         </Heading>
+        <SidebarLink to="/user/profile">
+        <Box as={FaRegUserCircle} size="18px" mr={2} />
+          My Profile
+        </SidebarLink>
         <SidebarLink to="/user/monthly-reviews">
           <Icon name="calendar" size="18px" mr={2} transform="translateY(-2px)" fontWeight={400} />
           Monthly Reviews
@@ -152,6 +155,8 @@ const Sidebar: React.FC = () => {
 };
 
 const Navigation: React.FC = ({ children }) => {
+  const user = useCurrentUser();
+
   const ref = useRef<any>(null);
 
   const [isScrolled, setIsScrolled] = useState(ref.current?.scrollTop > 0);
@@ -167,7 +172,7 @@ const Navigation: React.FC = ({ children }) => {
   const scrollTop = () => {
     ref.current?.scrollTo?.({
       top: 0,
-      behavior: 'smooth'
+      behavior: 'smooth',
     });
   };
 
@@ -178,7 +183,7 @@ const Navigation: React.FC = ({ children }) => {
       templateAreas='"sidebar header" "sidebar main"'
     >
       <Header isScrolled={isScrolled} />
-      <Sidebar />
+      <Sidebar username={user?.username} />
       <Box
         ref={ref}
         onScroll={handleScroll}

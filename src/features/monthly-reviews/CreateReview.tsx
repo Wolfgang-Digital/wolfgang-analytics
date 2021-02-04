@@ -1,4 +1,4 @@
-import React, { useState, useContext, lazy } from 'react';
+import React, { useState, lazy } from 'react';
 import {
   Box,
   Heading,
@@ -14,7 +14,7 @@ import Select from 'react-select';
 import { useSelector } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
 
-import { User, UserCtx } from 'utils/context';
+import { useCurrentUser } from 'hooks/users';
 import { useUserOptions } from 'hooks/users';
 import { useLinkHandler } from 'hooks/useLinkHandler';
 import { awsPost } from 'utils/api';
@@ -23,6 +23,7 @@ import BusyIndicator from 'components/BusyIndicator';
 import ButtonLink from 'components/ButtonLink';
 import { getTemplateOptions } from './slice';
 import { ReviewTemplate } from './types';
+import { User } from 'features/profile/slice';
 
 const Form = lazy(() => import('./ReviewForm'));
 const CreateFormPreview = lazy(() => import('./CreateFormPreview'));
@@ -31,7 +32,7 @@ const CreateReviewForm: React.FC = () => {
   const toast = useToast();
   const navigate = useLinkHandler();
 
-  const currentUser = useContext(UserCtx);
+  const currentUser = useCurrentUser();
 
   const [formData, setFormData] = useState<ReviewTemplate>();
 

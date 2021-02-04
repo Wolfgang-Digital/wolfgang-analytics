@@ -79,7 +79,7 @@ const ResponseDisplay: React.FC = () => {
           )}
         </Box>
       </Card>
-      <ListHeader cols="1fr 2fr 2fr 1fr 2fr">
+      <ListHeader cols="1fr 2fr 2fr 1fr 2fr" mb={1}>
         <Text>Pillar</Text>
         <Text>Action</Text>
         <Text>Behaviour</Text>

@@ -1,6 +1,7 @@
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 
-import { UserCtx, User } from 'utils/context';
+import { getCurrentUser, User } from 'features/profile/slice';
 import { useAwsGet } from './aws';
 
 export const Roles = {
@@ -9,15 +10,15 @@ export const Roles = {
 };
 
 export const useUserRoles = (roles: string | string[]) => {
-  const user = useContext(UserCtx);
+  const profile = useSelector(getCurrentUser);
 
-  if (!user) return false;
+  if (!profile.user) return false;
 
   if (Array.isArray(roles)) {
-    return user.roles?.map(r => r.role_name).some(r => roles.includes(r));
+    return profile.user.roles?.map(r => r.role_name).some(r => roles.includes(r));
   }
 
-  return user.roles?.map(r => r.role_name).includes(roles);
+  return profile.user.roles?.map(r => r.role_name).includes(roles);
 };
 
 export const useUserOptions = () => {
@@ -38,6 +39,11 @@ export const useUserOptions = () => {
 };
 
 export const useUserId = () => {
-  const user = useContext(UserCtx);
-  return user?.user_id;
+  const profile = useSelector(getCurrentUser);
+  return profile.user?.user_id;
+};
+
+export const useCurrentUser = () => {
+  const profile = useSelector(getCurrentUser);
+  return profile.user;
 };

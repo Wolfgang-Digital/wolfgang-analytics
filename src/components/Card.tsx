@@ -4,7 +4,7 @@ import { Box, BoxProps } from '@chakra-ui/core';
 const Card: React.FC<BoxProps> = ({ children, ...props }) => (
   <Box
     background="white"
-    boxShadow="1px 1px 4px rgba(0, 0, 0, 0.1)"
+    boxShadow="1px 1px 2px #EDF2F7"
     borderRadius={4}
     padding={4}
     {...props}

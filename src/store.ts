@@ -5,11 +5,13 @@ import { saveState } from 'utils/storage';
 import accountSelect, { initialState as accountSelectState } from './features/account-select/slice';
 import structuredData, { initialState as structuredDataState } from './features/structured-data/reducer';
 import reviews, { initialState as reviewState } from './features/monthly-reviews/slice';
+import profile, { initialState as profileState } from './features/profile/slice';
 
 const reducer = combineReducers({
   accountSelect,
   structuredData,
-  reviews
+  reviews,
+  profile
 });
 
 const store = configureStore({
@@ -18,7 +20,8 @@ const store = configureStore({
   preloadedState: {
     accountSelect: accountSelectState,
     structuredData: structuredDataState,
-    reviews: reviewState
+    reviews: reviewState,
+    profile: profileState
   }
 });
 

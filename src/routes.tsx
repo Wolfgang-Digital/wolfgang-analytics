@@ -70,6 +70,11 @@ const routes: RouteWithSubrouteProps[] = [
     component: Routes,
     routes: [
       {
+        path: '/user/profile',
+        key: 'PROFILE',
+        component: lazy(() => import('./features/profile/UserProfile'))
+      },
+      {
         path: '/user/monthly-reviews',
         key: 'REVIEWS',
         component: lazy(() => import('./pages/Reviews'))
