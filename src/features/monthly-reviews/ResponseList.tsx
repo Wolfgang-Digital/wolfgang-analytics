@@ -37,7 +37,8 @@ const ReviewList: React.FC = () => {
 
   const handleCreate = async () => {
     setIsSubmitting(true);
-    const res = await awsPost(`/reviews/r/${id}/response`, { date: new Date() });
+    const employeeId = data?.employee_id;
+    const res = await awsPost(`/reviews/r/${id}/response`, { date: new Date(), employeeId });
     if (res.success) {
       dispatch(fetchResponses(id));
     } else {

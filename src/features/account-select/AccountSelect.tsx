@@ -52,6 +52,7 @@ const AccountSelect: React.FC<BoxProps> = ({ ...props }) => {
             value={selectedAccount}
             options={accountOptions}
             isLoading={isLoading}
+            isDisabled={isLoading}
             styles={selectStyles}
             onChange={selected => {
               dispatch(setSelectedAccount(selected as SelectOption));
@@ -64,7 +65,7 @@ const AccountSelect: React.FC<BoxProps> = ({ ...props }) => {
           <Select
             placeholder="Select property..."
             value={selectedProperty}
-            isDisabled={!selectedAccount}
+            isDisabled={!selectedAccount || isLoading}
             options={propertyOptions}
             isLoading={isLoading}
             styles={selectStyles}
@@ -78,7 +79,7 @@ const AccountSelect: React.FC<BoxProps> = ({ ...props }) => {
           <Select
             placeholder="Select view..."
             value={selectedView}
-            isDisabled={!selectedAccount || !selectedProperty}
+            isDisabled={!selectedAccount || !selectedProperty || isLoading}
             options={viewOptions}
             isLoading={isLoading}
             styles={selectStyles}

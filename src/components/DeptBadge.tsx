@@ -7,10 +7,12 @@ const colours: Record<string, string> = {
   SEO: 'orange',
   Social: 'purple',
   Content: 'cyan',
-  CRO: 'blue'
+  CRO: 'blue',
+  Admin: 'red',
+  'Department Head': 'orange'
 };
 
-interface Props {
+interface Props  {
   department?: string;
   m?: string;
 }
@@ -22,6 +24,7 @@ const DeptBadge: React.FC<Props> = ({ department, ...rest }) => {
       justifyContent="center"
       alignItems="center"
       px={2}
+      minHeight="24px"
       variantColor={colours[department || ''] || 'gray'}
       {...rest}
     >

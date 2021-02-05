@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box, Text, Skeleton, Heading } from '@chakra-ui/core';
+import { Box, Text, Skeleton, Heading, Flex } from '@chakra-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
 import BusyIndicator from 'components/BusyIndicator';
 import { EditableText, EditableSelect } from 'components/Editable';
+import { useUserRoles, Roles } from 'hooks/users';
 import { getCurrentUser, updateCurrentUser } from './slice';
 import Card from 'components/Card';
 import DeptBadge from 'components/DeptBadge';
@@ -20,6 +21,8 @@ const options = [
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch();
   const profile = useSelector(getCurrentUser);
+
+  const isAuthorised = useUserRoles([Roles.ADMIN, Roles.DEPT_HEAD]);
 
   const updateUsername = (value: string) => {
     dispatch(updateCurrentUser({ key: 'username', value }));
@@ -41,7 +44,7 @@ const UserProfile: React.FC = () => {
         User Profile
       </Heading>
       <Card py={2}>
-        <Box minHeight={50}>
+        <Box minHeight="58px">
           <Text fontSize="0.8em" fontWeight={500} color="gray.500">
             Username
           </Text>
@@ -49,7 +52,7 @@ const UserProfile: React.FC = () => {
             <EditableText defaultValue={profile.user?.username} onSubmit={updateUsername} />
           </Skeleton>
         </Box>
-        <Box minHeight={50}>
+        <Box minHeight="58px">
           <Text fontSize="0.8em" fontWeight={500} color="gray.500">
             Email
           </Text>
@@ -57,7 +60,7 @@ const UserProfile: React.FC = () => {
             <Text>{profile.user?.email}</Text>
           </Skeleton>
         </Box>
-        <Box minHeight={50}>
+        <Box minHeight="58px">
           <Text fontSize="0.8em" fontWeight={500} color="gray.500">
             Department
           </Text>
@@ -67,11 +70,28 @@ const UserProfile: React.FC = () => {
               options={options}
               onSubmit={updateDepartment}
               component={() => (
-                <DeptBadge department={profile.user?.departments?.[0]?.department_name} m="2px auto 0 0" />
+                <DeptBadge
+                  department={profile.user?.departments?.[0]?.department_name}
+                  m="2px auto 0 0"
+                />
               )}
             />
           </Skeleton>
         </Box>
+        {isAuthorised && (
+          <Box minHeight="58px">
+            <Text fontSize="0.8em" fontWeight={500} color="gray.500">
+              Roles
+            </Text>
+            <Skeleton isLoaded={!profile.isLoading}>
+              <Flex>
+                {profile.user?.roles?.map((role) => (
+                  <DeptBadge key={role.role_id} department={role.role_name} m="2px 8px 0 0" />
+                ))}
+              </Flex>
+            </Skeleton>
+          </Box>
+        )}
       </Card>
     </Box>
   );

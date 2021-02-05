@@ -105,7 +105,7 @@ const Sidebar: React.FC<{ username?: string }> = ({ username = 'User' }) => {
           {username}
         </Heading>
         <SidebarLink to="/user/profile">
-        <Box as={FaRegUserCircle} size="18px" mr={2} />
+        <Box as={FaRegUserCircle} size="18px" transform="translateY(-1px)" mr={2} />
           My Profile
         </SidebarLink>
         <SidebarLink to="/user/monthly-reviews">

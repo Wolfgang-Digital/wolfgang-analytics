@@ -11,7 +11,8 @@ export const accountOptions = [
   'ga.wolfgang@wolfgangdigital.com',
   'g_analytics@wolfgangdigital.com',
   'ga5@wolfgangdigital.com',
-  'ga6@wolfgangdigital.com'
+  'ga6@wolfgangdigital.com',
+  'ga7@wolfgangdigital.com'
 ]
   .sort()
   .map(value => ({

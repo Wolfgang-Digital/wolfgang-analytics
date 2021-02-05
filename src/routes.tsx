@@ -72,7 +72,7 @@ const routes: RouteWithSubrouteProps[] = [
       {
         path: '/user/profile',
         key: 'PROFILE',
-        component: lazy(() => import('./features/profile/UserProfile'))
+        component: lazy(() => import('./pages/Profile'))
       },
       {
         path: '/user/monthly-reviews',

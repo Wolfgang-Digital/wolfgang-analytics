@@ -17,14 +17,21 @@ export interface User {
   }[]
 }
 
+export interface Notification {
+  icon?: string
+  text: string 
+}
+
 export interface ProfileState {
   isLoading: boolean
   user?: User
   error?: string
+  notifications: []
 }
 
 export const initialState: ProfileState = {
-  isLoading: false
+  isLoading: false,
+  notifications: []
 };
 
 export const fetchCurrentUser = createAsyncThunk<User>(
