@@ -1,8 +1,7 @@
 import React from 'react';
-import { Box, Text, Skeleton, Heading, Flex } from '@chakra-ui/core';
+import { Box, Text, Skeleton, Flex } from '@chakra-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
-import BusyIndicator from 'components/BusyIndicator';
 import { EditableText, EditableSelect } from 'components/Editable';
 import { useUserRoles, Roles } from 'hooks/users';
 import { getCurrentUser, updateCurrentUser } from './slice';
@@ -39,11 +38,7 @@ const UserProfile: React.FC = () => {
 
   return (
     <Box>
-      <BusyIndicator isBusy={profile.isLoading} color="#4FD1C5" />
-      <Heading size="lg" as="h1" marginBottom="1rem">
-        User Profile
-      </Heading>
-      <Card py={2}>
+      <Card py={2} boxShadow="none">
         <Box minHeight="58px">
           <Text fontSize="0.8em" fontWeight={500} color="gray.500">
             Username

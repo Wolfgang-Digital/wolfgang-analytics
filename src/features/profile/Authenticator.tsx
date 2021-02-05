@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Hub } from 'aws-amplify';
 import { AmplifyAuthenticator, AmplifySignIn, AmplifySignUp } from '@aws-amplify/ui-react';
 
-import { fetchCurrentUser } from './slice';
+import { fetchCurrentUser, getCurrentUser, fetchNotifications } from './slice';
 
 const Authenticator: React.FC = ({ children }) => {
   const dispatch = useDispatch();
+  const profile = useSelector(getCurrentUser);
 
   useEffect(() => {
     const updateUser = () => {
@@ -15,6 +16,12 @@ const Authenticator: React.FC = ({ children }) => {
     Hub.listen('auth', updateUser);
     return () => Hub.remove('auth', updateUser);
   }, [dispatch]);
+
+  useEffect(() => {
+    if (profile.user) {
+      dispatch(fetchNotifications());
+    }
+  }, [dispatch, profile.user]);
 
   return (
     <AmplifyAuthenticator usernameAlias="email">

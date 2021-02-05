@@ -19,14 +19,15 @@ export interface User {
 
 export interface Notification {
   icon?: string
-  text: string 
+  text: string
+  actionUrl?: string
 }
 
 export interface ProfileState {
   isLoading: boolean
   user?: User
   error?: string
-  notifications: []
+  notifications: Notification[]
 }
 
 export const initialState: ProfileState = {
@@ -58,6 +59,18 @@ export const updateCurrentUser = createAsyncThunk<User, { key: string, value: an
   }
 );
 
+export const fetchNotifications = createAsyncThunk<Notification[]>(
+  'users/notifications/get',
+  async (params, { rejectWithValue }) => {
+    const res = await awsGet<Notification[]>('/users/me/notifications');
+    if (res.success) {
+      return res.data;
+    } else {
+      return rejectWithValue(res.error);
+    }
+  }
+);
+
 const slice = createSlice({
   name: 'profile',
   initialState,
@@ -66,6 +79,7 @@ const slice = createSlice({
   },
 
   extraReducers: {
+    // Fetch current user
     [fetchCurrentUser.pending.toString()]: state => {
       state.error = undefined;
       state.isLoading = true;
@@ -83,6 +97,7 @@ const slice = createSlice({
       state.isLoading = false;
     },
 
+    // Update current user
     [updateCurrentUser.pending.toString()]: state => {
       state.error = undefined;
       state.isLoading = true;
@@ -98,6 +113,24 @@ const slice = createSlice({
       state.error = payload;
       state.user = undefined;
       state.isLoading = false;
+    },
+
+    // Fetch notifications
+    [fetchNotifications.pending.toString()]: state => {
+      state.notifications = [];
+      state.isLoading = true;
+    },
+
+    [fetchNotifications.fulfilled.toString()]: (state, { payload }: PayloadAction<Notification[]>) => {
+      state.notifications = payload;
+      state.error = undefined;
+      state.isLoading = false;
+    },
+
+    [fetchNotifications.rejected.toString()]: (state, { payload }: PayloadAction<string>) => {
+      state.error = payload;
+      state.notifications = [];
+      state.isLoading = false;
     }
   }
 });
@@ -107,6 +140,11 @@ const getProfileState = (state: RootState) => state.profile;
 export const getCurrentUser = createSelector(
   getProfileState,
   profile => profile
+);
+
+export const getNotifications = createSelector(
+  getProfileState,
+  profile => profile.notifications
 );
 
 export default slice.reducer;
