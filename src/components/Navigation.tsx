@@ -1,5 +1,16 @@
 import React, { useState, useRef } from 'react';
-import { Box, Flex, Grid, Button, Link, Image, Heading, PseudoBox, Icon } from '@chakra-ui/core';
+import {
+  Box,
+  Flex,
+  Grid,
+  Button,
+  Link,
+  Image,
+  Heading,
+  PseudoBox,
+  Icon,
+  Spinner,
+} from '@chakra-ui/core';
 import { Auth } from 'aws-amplify';
 import { useRouteMatch, Link as RouterLink } from 'react-router-dom';
 import { MdTrendingUp } from 'react-icons/md';
@@ -8,6 +19,7 @@ import { FaRegUserCircle } from 'react-icons/fa';
 
 import { useCurrentUser } from 'hooks/users';
 import ScrollTop from './ScrollTop';
+import NavigationPopover from 'features/profile/NavigationPopover';
 
 interface HeaderProps {
   isScrolled: boolean;
@@ -26,6 +38,7 @@ const Header: React.FC<HeaderProps> = ({ isScrolled }) => {
       boxShadow={isScrolled ? '1px 2px 2px rgba(0, 0, 0, 0.15)' : 'none'}
     >
       <Grid gridTemplateColumns="auto auto" maxWidth={300} marginLeft="auto" gridColumnGap="1rem">
+        <NavigationPopover />
         <Button variant="link" size="sm" onClick={() => Auth.signOut()}>
           Sign Out
         </Button>
@@ -66,7 +79,10 @@ const SidebarLink: React.FC<{ to: string; onClick?: () => void }> = ({ to, child
   );
 };
 
-const Sidebar: React.FC<{ username?: string }> = ({ username = 'User' }) => {
+const Sidebar: React.FC<{ username?: string; isLoading?: boolean }> = ({
+  username = 'User',
+  isLoading,
+}) => {
   return (
     <Box
       gridArea="sidebar"
@@ -102,10 +118,10 @@ const Sidebar: React.FC<{ username?: string }> = ({ username = 'User' }) => {
           padding="8px 16px"
           fontWeight={400}
         >
-          {username}
+          {isLoading ? <Spinner size="sm" /> : username}
         </Heading>
         <SidebarLink to="/user/profile">
-        <Box as={FaRegUserCircle} size="18px" transform="translateY(-1px)" mr={2} />
+          <Box as={FaRegUserCircle} size="18px" transform="translateY(-1px)" mr={2} />
           My Profile
         </SidebarLink>
         <SidebarLink to="/user/monthly-reviews">
@@ -183,7 +199,7 @@ const Navigation: React.FC = ({ children }) => {
       templateAreas='"sidebar header" "sidebar main"'
     >
       <Header isScrolled={isScrolled} />
-      <Sidebar username={user?.username} />
+      <Sidebar username={user?.username} isLoading={!user} />
       <Box
         ref={ref}
         onScroll={handleScroll}

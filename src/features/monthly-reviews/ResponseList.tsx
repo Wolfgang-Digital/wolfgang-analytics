@@ -8,6 +8,7 @@ import { useUserRoles, Roles } from 'hooks/users';
 import { awsPost, awsDelete } from 'utils/api';
 import BusyIndicator from 'components/BusyIndicator';
 import { fetchResponses, getResponse } from './slice';
+import { triggerUpdate } from '../profile/slice';
 import Card from 'components/Card';
 import AlertBox from 'components/AlertBox';
 import LabelledValue from 'components/LabelledValue';
@@ -41,6 +42,7 @@ const ReviewList: React.FC = () => {
     const res = await awsPost(`/reviews/r/${id}/response`, { date: new Date(), employeeId });
     if (res.success) {
       dispatch(fetchResponses(id));
+      dispatch(triggerUpdate());
     } else {
       console.log(res.error);
     }
@@ -52,6 +54,7 @@ const ReviewList: React.FC = () => {
     const res = await awsDelete(`/reviews/response/${responseId}`);
     if (res.success) {
       dispatch(fetchResponses(id));
+      dispatch(triggerUpdate());
     } else {
       console.log(res.error);
     }

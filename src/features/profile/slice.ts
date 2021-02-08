@@ -2,6 +2,7 @@ import { createSlice, PayloadAction, createSelector, createAsyncThunk } from '@r
 
 import { awsGet, awsPost } from 'utils/api';
 import { RootState } from 'store';
+import { updateResponse } from '../monthly-reviews/slice';
 
 export interface User {
   user_id: string
@@ -28,11 +29,14 @@ export interface ProfileState {
   user?: User
   error?: string
   notifications: Notification[]
+  // Change this to trigger a notifications update - temp solution
+  update: number
 }
 
 export const initialState: ProfileState = {
   isLoading: false,
-  notifications: []
+  notifications: [],
+  update: 0
 };
 
 export const fetchCurrentUser = createAsyncThunk<User>(
@@ -75,7 +79,9 @@ const slice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
-
+    triggerUpdate: state => {
+      state.update++;
+    }
   },
 
   extraReducers: {
@@ -107,6 +113,7 @@ const slice = createSlice({
       state.user = payload;
       state.error = undefined;
       state.isLoading = false;
+      state.update++;
     },
 
     [updateCurrentUser.rejected.toString()]: (state, { payload }: PayloadAction<string>) => {
@@ -125,17 +132,36 @@ const slice = createSlice({
       state.notifications = payload;
       state.error = undefined;
       state.isLoading = false;
+
+      // Check for user based notifications
+      if (state.user && !state.user.departments) {
+        state.notifications.unshift({
+          icon: 'info-outline',
+          text: 'Your department has not been set',
+          actionUrl: '/user/profile'
+        });
+      }
     },
 
     [fetchNotifications.rejected.toString()]: (state, { payload }: PayloadAction<string>) => {
       state.error = payload;
       state.notifications = [];
       state.isLoading = false;
+    },
+
+    // External reducers
+    [updateResponse.fulfilled.toString()]: state => {
+      state.update++;
     }
   }
 });
 
 const getProfileState = (state: RootState) => state.profile;
+
+export const getIsLoading = createSelector(
+  getProfileState,
+  profile => profile.isLoading
+);
 
 export const getCurrentUser = createSelector(
   getProfileState,
@@ -147,4 +173,10 @@ export const getNotifications = createSelector(
   profile => profile.notifications
 );
 
+export const getNumNotifications = createSelector(
+  getNotifications,
+  notifications => notifications.length
+);
+
+export const { triggerUpdate } = slice.actions;
 export default slice.reducer;

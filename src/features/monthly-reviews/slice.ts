@@ -12,12 +12,10 @@ export interface ReviewsState {
   templates: ReviewTemplate[]
   reviewResponse?: ReviewResponse
   errorMessage?: string
-  deletedReviews: string[]
 }
 
 export const initialState: ReviewsState = {
   isLoading: false,
-  deletedReviews: [],
   templates: default_templates.concat(loadState('reviewTemplates', [])).map(template => ({
     ...template,
     pillars: template.pillars.map(pillar => ({ value: pillar })),

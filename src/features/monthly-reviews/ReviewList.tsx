@@ -34,16 +34,20 @@ const ReviewList: React.FC = () => {
 
   const isAuthorised = useUserRoles([Roles.ADMIN, Roles.DEPT_HEAD]);
 
-  const listTransitions = useTransition(data?.filter(r => !deleted.includes(r.review_id)) || [], (item) => item.review_id, {
-    config: config.gentle,
-    from: { opacity: 0, transform: 'translate3d(-10%, 0px, 0px)' },
-    enter: { opacity: 1, transform: 'translate3d(0%, 0px, 0px)' },
-    leave: { opacity: 0, height: 0, transform: 'translate3d(10%, 0px, 0px)' },
-    trail: 100,
-  });
+  const listTransitions = useTransition(
+    data?.filter((r) => !deleted.includes(r.review_id)) || [],
+    (item) => item.review_id,
+    {
+      config: config.gentle,
+      from: { opacity: 0, transform: 'translate3d(-10%, 0px, 0px)' },
+      enter: { opacity: 1, transform: 'translate3d(0%, 0px, 0px)' },
+      leave: { opacity: 0, height: 0, transform: 'translate3d(10%, 0px, 0px)' },
+      trail: 100,
+    }
+  );
 
   const onDelete = (id: number) => {
-    setDeleted(current => [...current, id]);
+    setDeleted((current) => [...current, id]);
   };
 
   return (
@@ -52,18 +56,18 @@ const ReviewList: React.FC = () => {
       <Heading size="lg" as="h1" marginBottom="1rem">
         My Reviews
       </Heading>
-      <Grid templateColumns="1fr 1fr">
-        <InputGroup marginBottom="1rem">
-          <InputLeftAddon children={<Icon name="search" />} />
-          <Input
-            roundedLeft="0"
-            placeholder="Filter by user"
-            value={filter}
-            onChange={(e: any) => setFilter(e.target.value)}
-          />
-        </InputGroup>
-        <Box textAlign="right">
-          {isAuthorised && (
+      {isAuthorised && (
+        <Grid templateColumns="1fr 1fr">
+          <InputGroup marginBottom="1rem">
+            <InputLeftAddon children={<Icon name="search" />} />
+            <Input
+              roundedLeft="0"
+              placeholder="Filter by user"
+              value={filter}
+              onChange={(e: any) => setFilter(e.target.value)}
+            />
+          </InputGroup>
+          <Box textAlign="right">
             <ButtonLink
               text="Create Review"
               linkProps={{ to: '/user/monthly-reviews/create/0' }}
@@ -75,9 +79,9 @@ const ReviewList: React.FC = () => {
                 variantColor: 'teal',
               }}
             />
-          )}
-        </Box>
-      </Grid>
+          </Box>
+        </Grid>
+      )}
       {!!error && (
         <AlertBox
           status="error"

@@ -21,7 +21,7 @@ const Authenticator: React.FC = ({ children }) => {
     if (profile.user) {
       dispatch(fetchNotifications());
     }
-  }, [dispatch, profile.user]);
+  }, [dispatch, profile.user, profile.update]);
 
   return (
     <AmplifyAuthenticator usernameAlias="email">
