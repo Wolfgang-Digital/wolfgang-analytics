@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Heading, Grid, Text, List } from '@chakra-ui/core';
+import { Box, Heading, Grid, Text, List } from '@chakra-ui/core';
 import { useParams } from 'react-router-dom';
 import { useTransition, animated, config } from 'react-spring';
 import { useSelector, useDispatch } from 'react-redux';
@@ -13,6 +13,7 @@ import Card from 'components/Card';
 import AlertBox from 'components/AlertBox';
 import LabelledValue from 'components/LabelledValue';
 import ResponseListItem from './ResponseListItem';
+import MonthPopover from './MonthPopover';
 
 const ReviewList: React.FC = () => {
   const { id } = useParams();
@@ -36,10 +37,10 @@ const ReviewList: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleCreate = async () => {
+  const handleCreate = async (date: Date) => {
     setIsSubmitting(true);
     const employeeId = data?.employee_id;
-    const res = await awsPost(`/reviews/r/${id}/response`, { date: new Date(), employeeId });
+    const res = await awsPost(`/reviews/r/${id}/response`, { date, employeeId });
     if (res.success) {
       dispatch(fetchResponses(id));
       dispatch(triggerUpdate());
@@ -72,11 +73,7 @@ const ReviewList: React.FC = () => {
           <LabelledValue label="Manager" value={data?.manager_name || ''} />
           <LabelledValue label="Department" value={data?.department || ''} />
         </Box>
-        {isAuthorised && (
-          <Button variantColor="teal" m="auto" size="sm" fontWeight={400} onClick={handleCreate} isLoading={isSubmitting}>
-            Add Response
-          </Button>
-        )}
+        {isAuthorised && <MonthPopover handleSubmit={handleCreate} isLoading={isSubmitting} />}
       </Card>
       {!!error && (
         <AlertBox

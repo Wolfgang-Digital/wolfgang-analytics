@@ -25,10 +25,10 @@ const NotificationList: React.FC<Props> = ({ withDivider, ...rest }) => {
         <Stack spacing={2}>
           {notifications.length > 0 ? (
             notifications.map((notification, i) => (
-              <div key={i}>
+              <Box key={i}>
                 <NotificationListItem notification={notification} {...rest} />
                 {withDivider && i < notifications.length - 1 ? <Divider /> : null}
-              </div>
+              </Box>
             ))
           ) : (
             <Message
