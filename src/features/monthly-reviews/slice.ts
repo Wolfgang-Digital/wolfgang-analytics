@@ -16,7 +16,7 @@ export interface ReviewsState {
 
 export const initialState: ReviewsState = {
   isLoading: false,
-  templates: default_templates.concat(loadState('reviewTemplates', [])).map(template => ({
+  templates: default_templates.map(template => ({
     ...template,
     pillars: template.pillars.map(pillar => ({ value: pillar })),
     metrics: template.metrics.map(metric => ({ value: metric })),
@@ -26,7 +26,7 @@ export const initialState: ReviewsState = {
         questions: question.questions.map(text => ({ value: text }))
       }
     }))
-  }))
+  })).concat(loadState('reviewTemplates', []))
 };
 
 export const fetchResponses = createAsyncThunk<ReviewResponse, number>(
@@ -121,6 +121,13 @@ export const getResponse = createSelector(
 export const getIsLoading = createSelector(
   getReviewState,
   state => state.isLoading
+);
+
+export const getSavedTemplates = createSelector(
+  getReviewState,
+  state => {
+    return state.templates.filter(template => template.name !== 'Default');
+  }
 );
 
 export const { createTemplate } = slice.actions;

@@ -55,7 +55,11 @@ const Navigation: React.FC = () => {
             to="/user/monthly-reviews/create/0"
             matchStr="/user/monthly-reviews/create/*"
           />
-          <NavItem text="Create Template" to="/user/monthly-reviews/templates/create" />
+          <NavItem
+            text="Create Template"
+            to="/user/monthly-reviews/templates/create/0"
+            matchStr="/user/monthly-reviews/templates/create/*"
+          />
         </>
       )}
     </Flex>

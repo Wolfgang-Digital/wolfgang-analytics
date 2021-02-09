@@ -12,6 +12,8 @@ import ResponseList from 'features/monthly-reviews/ResponseList';
 import ResponseForm from 'features/monthly-reviews/ResponseForm';
 import ResponseDisplay from 'features/monthly-reviews/ResponseDisplay';
 import FormPreview from 'features/monthly-reviews/FormPreview';
+import CreateTemplate from 'features/monthly-reviews/CreateTemplate';
+import UpdateReview from 'features/monthly-reviews/UpdateReview';
 
 const Reviews: React.FC = () => {
   const isLoading = useSelector(getIsLoading);
@@ -35,7 +37,9 @@ const Reviews: React.FC = () => {
           <Route exact path="/user/monthly-reviews/r/:id/preview" component={FormPreview} />
           <Route exact path="/user/monthly-reviews/r/:id" component={ResponseList} />
           <Route exact path="/user/monthly-reviews" component={ReviewList} />
+          <Route path="/user/monthly-reviews/templates/create" component={CreateTemplate} />
           <Route path="/user/monthly-reviews/create" component={CreateReview} />
+          <Route path="/user/monthly-reviews/r/:id/edit" component={UpdateReview} />
         </Switch>
       </ErrorBoundary>
     </>

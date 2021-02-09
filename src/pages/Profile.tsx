@@ -20,7 +20,7 @@ const Reviews: React.FC = () => {
       <ErrorBoundary>
         <Grid templateColumns="1fr 1fr" columnGap={4}>
           <UserProfile />
-          <Notifications />
+          <Notifications py={2} />
         </Grid>
       </ErrorBoundary>
     </>

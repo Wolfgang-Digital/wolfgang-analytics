@@ -86,7 +86,7 @@ const CreateReviewForm: React.FC = () => {
   return (
     <Box pb={6}>
       <BusyIndicator color="#4FD1C5" isBusy={submitLoading} />
-      <Heading size="lg" as="h1" marginBottom="1rem">
+      <Heading size="lg" as="h1" marginBottom="2rem">
         Create a Review
       </Heading>
       <Switch>

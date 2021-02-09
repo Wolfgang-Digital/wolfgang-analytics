@@ -12,7 +12,7 @@ import { useLinkHandler } from 'hooks/useLinkHandler';
 interface Props {
   review: Review;
   isAuthorised?: boolean;
-  handleDelete: (id: number) => void
+  handleDelete: (id: number) => void;
 }
 
 const ReviewListItem: React.FC<Props> = ({ review, isAuthorised, handleDelete }) => {
@@ -23,7 +23,7 @@ const ReviewListItem: React.FC<Props> = ({ review, isAuthorised, handleDelete })
   const handleDeleteClick = async (e: any) => {
     e.stopPropagation();
     const res = await awsDelete(`/reviews/r/${review.review_id}`);
-    
+
     if (res.success) {
       handleDelete(review.review_id);
       toast({
@@ -39,7 +39,12 @@ const ReviewListItem: React.FC<Props> = ({ review, isAuthorised, handleDelete })
   const handleViewClick = (e: any) => {
     e.stopPropagation();
     navigate(`/user/monthly-reviews/r/${review.review_id}/preview`);
-  }
+  };
+
+  const handleEditClick = (e: any) => {
+    e.stopPropagation();
+    navigate(`/user/monthly-reviews/r/${review.review_id}/edit/0`);
+  };
 
   return (
     <PseudoBox
@@ -62,7 +67,12 @@ const ReviewListItem: React.FC<Props> = ({ review, isAuthorised, handleDelete })
       <DeptBadge department={review.department} m="auto auto auto 0" />
       <IconLabel icon="calendar" text={format(new Date(review.created_on), 'dd.MM.yyyy')} />
       <Flex justifyContent="flex-end">
-        <Tooltip aria-label="Show review questions" label="Show review questions" showDelay={200} hasArrow>
+        <Tooltip
+          aria-label="Show review questions"
+          label="Show review questions"
+          showDelay={200}
+          hasArrow
+        >
           <IconButton
             aria-label="Show review questions"
             icon="info-outline"
@@ -75,18 +85,32 @@ const ReviewListItem: React.FC<Props> = ({ review, isAuthorised, handleDelete })
           />
         </Tooltip>
         {isAuthorised && (
-          <Tooltip aria-label="Delete review" label="Delete review" showDelay={200} hasArrow>
-            <IconButton
-              aria-label="Delete review"
-              icon="delete"
-              variant="ghost"
-              size="sm"
-              p={1}
-              isRound
-              color="gray.700"
-              onClick={handleDeleteClick}
-            />
-          </Tooltip>
+          <>
+            <Tooltip aria-label="Edit review" label="Edit review" showDelay={200} hasArrow>
+              <IconButton
+                aria-label="Edit review"
+                icon="edit"
+                variant="ghost"
+                size="sm"
+                p={1}
+                isRound
+                color="gray.700"
+                onClick={handleEditClick}
+              />
+            </Tooltip>
+            <Tooltip aria-label="Delete review" label="Delete review" showDelay={200} hasArrow>
+              <IconButton
+                aria-label="Delete review"
+                icon="delete"
+                variant="ghost"
+                size="sm"
+                p={1}
+                isRound
+                color="gray.700"
+                onClick={handleDeleteClick}
+              />
+            </Tooltip>
+          </>
         )}
       </Flex>
     </PseudoBox>

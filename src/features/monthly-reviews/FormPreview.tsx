@@ -9,11 +9,12 @@ import AlertBox from 'components/AlertBox';
 import BusyIndicator from 'components/BusyIndicator';
 
 interface Props {
-  review?: ReviewTemplate;
+  review?: Review['form_data'];
   employee?: string;
   manager?: string;
   department?: string;
   handleCreate: () => void;
+  button?: any;
 }
 
 const Pillar: React.FC<{ pillar: ReviewTemplate['pillars'][number] }> = ({ pillar }) => {
@@ -40,19 +41,28 @@ const Pillar: React.FC<{ pillar: ReviewTemplate['pillars'][number] }> = ({ pilla
   );
 };
 
-const CreateFormPreview: React.FC<Props> = () => {
+const CreateFormPreview: React.FC<Props> = ({
+  review,
+  employee,
+  manager,
+  department,
+  button: Component,
+}) => {
   const { id } = useParams();
-  const { data, isLoading, error } = useAwsGet<Review>(`/reviews/r/${id}/form`);
+  const { data: loadedData, isLoading, error } = useAwsGet<Review>(`/reviews/r/${id}/form`);
+
+  const data = review || loadedData?.form_data;
 
   return (
     <Box>
       <BusyIndicator isBusy={isLoading} color="#4FD1C5" />
       <Card display="grid" gridTemplateColumns="1fr auto">
         <Box>
-          <LabelledValue label="Employee" value={data?.employee_name || ''} />
-          <LabelledValue label="Manager" value={data?.manager_name || ''} />
-          <LabelledValue label="Department" value={data?.department || ''} />
+          <LabelledValue label="Employee" value={employee || loadedData?.employee_name || ''} />
+          <LabelledValue label="Manager" value={manager || loadedData?.manager_name || ''} />
+          <LabelledValue label="Department" value={department || loadedData?.department || ''} />
         </Box>
+        {Component ? <Component /> : null}
       </Card>
       {!!error && (
         <AlertBox
@@ -77,7 +87,7 @@ const CreateFormPreview: React.FC<Props> = () => {
               <Text textAlign="center">Action</Text>
               <Text textAlign="center">Behaviour</Text>
             </Grid>
-            {data?.form_data?.pillars?.map((pillar) => (
+            {data?.pillars?.map((pillar) => (
               <Box key={pillar.value.name}>
                 <Pillar pillar={pillar} />
               </Box>
@@ -93,7 +103,7 @@ const CreateFormPreview: React.FC<Props> = () => {
             >
               Metric
             </Text>
-            {data?.form_data?.metrics?.map((metric, i) => (
+            {data?.metrics?.map((metric, i) => (
               <Box
                 key={i}
                 borderRadius={4}
@@ -108,7 +118,7 @@ const CreateFormPreview: React.FC<Props> = () => {
           </Stack>
         </Box>
         <Stack spacing={2}>
-          {data?.form_data?.questions?.map((section, i) => (
+          {data?.questions?.map((section, i) => (
             <Box key={i}>
               <Text
                 borderRadius={2}

@@ -17,14 +17,32 @@ const schema: Schema = {
           type: 'text',
           label: 'Pillar Name',
           isRequired: true,
+          styles: {
+            label: {
+              fontSize: '0.9em',
+              color: 'gray.600',
+            },
+          },
         },
         action: {
           type: 'textArea',
           label: 'Action',
+          styles: {
+            label: {
+              fontSize: '0.9em',
+              color: 'gray.600',
+            },
+          },
         },
         behaviour: {
           type: 'textArea',
           label: 'Behaviour',
+          styles: {
+            label: {
+              fontSize: '0.9em',
+              color: 'gray.600',
+            },
+          },
         },
       },
     },
@@ -37,6 +55,12 @@ const schema: Schema = {
       type: 'text',
       label: 'Metric Name',
       isRequired: true,
+      styles: {
+        label: {
+          fontSize: '0.9em',
+          color: 'gray.600',
+        },
+      },
     },
   },
   questions: {
@@ -50,13 +74,28 @@ const schema: Schema = {
           type: 'text',
           label: 'Section',
           isRequired: true,
+          styles: {
+            label: {
+              fontSize: '0.9em',
+              color: 'gray.600',
+            },
+          },
         },
         questions: {
           type: 'array',
+          label: 'Questions',
           isCollapsable: true,
+          styles: {
+            label: {
+              fontSize: '0.9em',
+              color: 'gray.600',
+            },
+            countText: {
+              display: 'inline-block',
+            },
+          },
           itemField: {
             type: 'text',
-            label: 'Question Text',
             isRequired: true,
           },
         },
@@ -66,8 +105,8 @@ const schema: Schema = {
 };
 
 interface Props {
-  handleSubmit: (data: ReviewTemplate) => void
-  defaultValues?: any
+  handleSubmit: (data: ReviewTemplate) => void;
+  defaultValues?: any;
 }
 
 const ReviewForm: React.FC<Props> = ({ handleSubmit, defaultValues }) => {

@@ -29,6 +29,8 @@ const NavigationPopover: React.FC = () => {
             variant="ghost"
             variantColor="purple"
             size="lg"
+            outline="none"
+            _focus={{ outline: 'none' }}
           />
           {numNotifications > 0 && (
             <AvatarBadge
