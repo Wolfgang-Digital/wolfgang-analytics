@@ -2,20 +2,12 @@ import React from 'react';
 import { Box, Text, Skeleton, Flex } from '@chakra-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
+import { departmentOptions } from 'utils/constants';
 import { EditableText, EditableSelect } from 'components/Editable';
 import { useUserRoles, Roles } from 'hooks/users';
 import { getCurrentUser, updateCurrentUser } from './slice';
 import Card from 'components/Card';
 import DeptBadge from 'components/DeptBadge';
-
-const options = [
-  { label: 'Content', value: 5 },
-  { label: 'CRO', value: 7 },
-  { label: 'Dev', value: 1 },
-  { label: 'PPC', value: 3 },
-  { label: 'SEO', value: 4 },
-  { label: 'Social', value: 6 },
-];
 
 const UserProfile: React.FC = () => {
   const dispatch = useDispatch();
@@ -62,7 +54,7 @@ const UserProfile: React.FC = () => {
           <Skeleton isLoaded={!profile.isLoading}>
             <EditableSelect
               defaultValue={profile.user?.departments?.[0]?.department_name}
-              options={options}
+              options={departmentOptions}
               onSubmit={updateDepartment}
               component={() => (
                 <DeptBadge

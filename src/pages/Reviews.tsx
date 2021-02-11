@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -15,6 +15,8 @@ import FormPreview from 'features/monthly-reviews/FormPreview';
 import CreateTemplate from 'features/monthly-reviews/CreateTemplate';
 import UpdateReview from 'features/monthly-reviews/UpdateReview';
 
+const DepartmentReport = lazy(() => import('features/monthly-reviews/DepartmentReport'));
+
 const Reviews: React.FC = () => {
   const isLoading = useSelector(getIsLoading);
 
@@ -24,6 +26,7 @@ const Reviews: React.FC = () => {
       <Navigation />
       <ErrorBoundary>
         <Switch>
+          <Route exact path="/user/monthly-reviews/department" component={DepartmentReport} />
           <Route
             exact
             path="/user/monthly-reviews/r/:reviewId/response/:responseId/edit/:role"

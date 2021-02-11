@@ -88,3 +88,20 @@ export interface FilledReview {
 }
 
 export type ResponseUpdate = ReviewResponse['responses'][number]
+
+type ReportAvg = {
+  name: string
+  total: number
+  count: number
+}
+
+export interface DepartmentReport {
+  department: string
+  start: string
+  end: string
+  data: {
+    metrics: Record<string, ReportAvg>
+    pillars: Record<string, ReportAvg>
+    questions: Record<string, any>
+  }
+}

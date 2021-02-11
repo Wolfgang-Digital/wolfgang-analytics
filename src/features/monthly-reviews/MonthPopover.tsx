@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import {
   Popover,
   PopoverTrigger,
@@ -11,7 +11,8 @@ import {
   Text,
 } from '@chakra-ui/core';
 import Select from 'react-select';
-import { format, subMonths } from 'date-fns';
+
+import { useMonths } from 'hooks/useMonths';
 
 interface Props {
   handleSubmit: (date: Date) => void;
@@ -19,17 +20,7 @@ interface Props {
 }
 
 const MonthPopover: React.FC<Props> = ({ handleSubmit, isLoading }) => {
-  const options = useMemo(() => {
-    const months = [];
-    const today = new Date();
-    months.push({ label: format(today, 'MMMM yyyy'), value: today });
-
-    for (let i = 1; i < 6; i++) {
-      const date = subMonths(today, i);
-      months.push({ label: format(date, 'MMMM yyyy'), value: date });
-    }
-    return months;
-  }, []);
+  const options = useMonths();
 
   const [date, setDate] = useState(options[0]);
 

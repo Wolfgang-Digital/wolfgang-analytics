@@ -15,12 +15,12 @@ export const useAwsGet = <T>(path: string, params?: Record<string, string | numb
 
       try {
         const res = await awsGet<T>(path, params);
-        setIsLoading(false);
         if (res.success) {
           setData(res.data);
         } else {
           setError(res.error);
         }
+        setIsLoading(false);
       } catch (e) {
         setIsLoading(false);
         setError(e.toString());

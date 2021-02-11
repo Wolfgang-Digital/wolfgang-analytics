@@ -20,7 +20,7 @@ const NavItem: React.FC<NavItemProps> = ({ text, to, matchStr }) => {
       linkProps={{ to }}
       buttonProps={{
         variant: 'link',
-        mr: 4,
+        mr: 6,
         size: 'sm',
         minWidth: 80,
         isActive: !!match && match.isExact,
@@ -59,6 +59,11 @@ const Navigation: React.FC = () => {
             text="Create Template"
             to="/user/monthly-reviews/templates/create/0"
             matchStr="/user/monthly-reviews/templates/create/*"
+          />
+          <NavItem
+            text="Department Reports"
+            to="/user/monthly-reviews/department"
+            matchStr="/user/monthly-reviews/department"
           />
         </>
       )}

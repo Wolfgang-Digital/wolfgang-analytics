@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { ButtonGroup, IconButton, Flex, Text, Input, Grid } from '@chakra-ui/core';
+import { ButtonGroup, IconButton, Flex, Text, Input, Grid, BoxProps } from '@chakra-ui/core';
 import Select from 'react-select';
 
 interface ControlProps {
@@ -77,9 +77,10 @@ interface SelectProps extends TextProps {
     value: any
   }[]
   onSubmit: (value: any) => void
+  textProps?: BoxProps
 }
 
-export const EditableSelect: React.FC<SelectProps> = ({ defaultValue, onSubmit, onCancel, options, component }) => {
+export const EditableSelect: React.FC<SelectProps> = ({ defaultValue, onSubmit, onCancel, options, component, textProps }) => {
   const [isEditiing, setIsEditing] = useState(false);
   const [value, setValue] = useState<any>(undefined);
 
@@ -93,7 +94,7 @@ export const EditableSelect: React.FC<SelectProps> = ({ defaultValue, onSubmit, 
     setIsEditing(false);
   };
 
-  const DisplayComponent = component ? component : () => <Text>{defaultValue}</Text>;
+  const DisplayComponent = component ? component : () => <Text {...textProps}>{defaultValue}</Text>;
 
   return (
     <Grid templateColumns="1fr auto" columnGap={2}>
