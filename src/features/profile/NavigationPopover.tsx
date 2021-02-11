@@ -50,13 +50,7 @@ const NavigationPopover: React.FC = () => {
           )}
         </Box>
       </PopoverTrigger>
-      <PopoverContent
-        zIndex={100}
-        _focus={{ outline: 'none' }}
-        minWidth={350}
-        boxShadow="1px 1px 2px #EDF2F7"
-        border={0}
-      >
+      <PopoverContent zIndex={100} _focus={{ outline: 'none' }} minWidth={350} border={0}>
         <PopoverArrow border={0} />
         <PopoverCloseButton />
         <PopoverBody>

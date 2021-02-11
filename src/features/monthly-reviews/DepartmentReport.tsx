@@ -11,10 +11,12 @@ import {
   BoxProps,
   FormControl,
   FormLabel,
+  Divider,
 } from '@chakra-ui/core';
 import Select from 'react-select';
 
 import { useDepartmentReport } from './hooks';
+import DRSection from './DRSection';
 
 const cardProps: BoxProps = {
   background: 'white',
@@ -37,8 +39,10 @@ const DepartmentReport: React.FC = () => {
     isLoading,
   } = useDepartmentReport();
 
+  console.log(data);
+
   return (
-    <Box>
+    <Box pb={12}>
       <Heading size="lg" as="h1" marginBottom="2rem">
         Department Reports
       </Heading>
@@ -46,15 +50,19 @@ const DepartmentReport: React.FC = () => {
         templateColumns="250px 250px 1fr auto"
         columnGap={4}
         templateAreas="'date dept empty button'"
-        mb="3rem"
+        mb={4}
       >
         <FormControl>
-          <FormLabel>Month</FormLabel>
-          <Select value={month} options={months} onChange={(e: any) => setMonth(e)} />
+          <FormLabel fontSize="0.85rem" color="gray.700">
+            Month
+          </FormLabel>
+          <Select value={month} options={months} onChange={setMonth as any} />
         </FormControl>
         <FormControl>
-          <FormLabel>Department</FormLabel>
-          <Select value={dept} options={departments} onChange={(e: any) => setDept(e)} />
+          <FormLabel fontSize="0.85rem" color="gray.700">
+            Department
+          </FormLabel>
+          <Select value={dept} options={departments} onChange={setDept as any} />
         </FormControl>
         <Button
           gridArea="button"
@@ -67,6 +75,7 @@ const DepartmentReport: React.FC = () => {
           Get Report
         </Button>
       </Grid>
+      <Divider mb={4} />
       {data ? (
         <>
           <Heading as="h2" size="sm" color="teal.600" mb={2}>
@@ -76,8 +85,12 @@ const DepartmentReport: React.FC = () => {
             {Object.values(data.data.pillars).map((pillar) => (
               <Stat key={pillar.name} {...cardProps}>
                 <StatLabel>{pillar.name}</StatLabel>
-                <StatNumber>{(pillar.total / pillar.count).toFixed(1)}</StatNumber>
-                <StatHelpText>{`${pillar.total} with ${pillar.count} responses`}</StatHelpText>
+                <StatNumber>
+                  {(pillar.total / pillar.count).toFixed(1).replace(/\.0$/, '')}
+                </StatNumber>
+                <StatHelpText>{`${pillar.total} total with ${pillar.count} response${
+                  pillar.count > 1 ? 's' : ''
+                }`}</StatHelpText>
               </Stat>
             ))}
           </Grid>
@@ -92,11 +105,21 @@ const DepartmentReport: React.FC = () => {
             {Object.values(data.data.metrics).map((metric) => (
               <Stat key={metric.name} {...cardProps}>
                 <StatLabel>{metric.name}</StatLabel>
-                <StatNumber>{(metric.total / metric.count).toFixed(1)}</StatNumber>
-                <StatHelpText>{`${metric.total} with ${metric.count} responses`}</StatHelpText>
+                <StatNumber>
+                  {(metric.total / metric.count).toFixed(1).replace(/\.0$/, '')}
+                </StatNumber>
+                <StatHelpText>{`${metric.total} total with ${metric.count} response${
+                  metric.count > 1 ? 's' : ''
+                }`}</StatHelpText>
               </Stat>
             ))}
           </Grid>
+          <Heading as="h2" size="sm" color="teal.600" mb={2}>
+            Employee Feedback
+          </Heading>
+          {Object.values(data.data.sections).map((section) => (
+            <DRSection key={section.sectionName} section={section} />
+          ))}
         </>
       ) : null}
     </Box>

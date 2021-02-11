@@ -21,3 +21,5 @@ export const formatNumberString = (num: number) => {
 };
 
 export const mapFormArrayValues = <T>(array: any[]) => array.map(item => item.value ?? item) as T[];
+
+export const getInitials = (name: string) => name.replace(/(\b[a-zA-Z])[a-zA-Z]* ?/g, '$1');

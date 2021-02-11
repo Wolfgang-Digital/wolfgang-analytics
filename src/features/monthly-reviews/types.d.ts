@@ -102,6 +102,15 @@ export interface DepartmentReport {
   data: {
     metrics: Record<string, ReportAvg>
     pillars: Record<string, ReportAvg>
-    questions: Record<string, any>
+    sections: Record<string, {
+      sectionName: string
+      questions: Record<string, {
+        text: string,
+        answers: {
+          username: string
+          answer: string
+        }[]
+      }>
+    }>
   }
 }
