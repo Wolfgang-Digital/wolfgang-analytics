@@ -39,8 +39,6 @@ const DepartmentReport: React.FC = () => {
     isLoading,
   } = useDepartmentReport();
 
-  console.log(data);
-
   return (
     <Box pb={12}>
       <Heading size="lg" as="h1" marginBottom="2rem">
