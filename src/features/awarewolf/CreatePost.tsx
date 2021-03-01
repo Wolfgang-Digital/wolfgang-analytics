@@ -16,7 +16,7 @@ import {
 import { useDispatch } from 'react-redux';
 
 import { useLinkHandler } from 'hooks/useLinkHandler';
-import { setIsLoading, Post } from './slice';
+import { setIsLoading, Post, setError } from './slice';
 import TagList from './TagList';
 import { awsPost } from 'utils/api';
 
@@ -56,8 +56,11 @@ const CreatePost: React.FC = () => {
     dispatch(setIsLoading(true));
     const res = await awsPost<Post>(`/awarewolf/posts`, { title, text, tags });
     dispatch(setIsLoading(false));
+
     if (res.success) {
       navigate(`/awarewolf/posts/p/${res.data.post_id}`);
+    } else {
+      dispatch(setError(res.error));
     }
   };
 

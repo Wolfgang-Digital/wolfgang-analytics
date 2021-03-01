@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Box, List } from '@chakra-ui/core';
+import { Box, List, ListItem } from '@chakra-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTransition, config, animated } from 'react-spring';
 
@@ -26,6 +26,11 @@ const PostList: React.FC = () => {
   return (
     <Box pb={6} mt={4}>
       <List>
+        {posts.length === 0 && (
+          <ListItem border="1px solid #E2E8F0" borderRadius={4} p={4} fontSize="0.9em" color="gray.500">
+            No posts to display
+          </ListItem>
+        )}
         {transitions.map(({ item, key, props }) => (
           <animated.li key={key} style={props}>
             <PostListItem post={item} />

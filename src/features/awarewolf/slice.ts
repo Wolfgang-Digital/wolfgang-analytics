@@ -150,7 +150,11 @@ const slice = createSlice({
   reducers: {
     setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
-    }
+    },
+
+    setError: (state, { payload }: PayloadAction<string>) => {
+      state.error = payload;
+    },
   },
   extraReducers: {
     [fetchPosts.pending.toString()]: state => {
@@ -321,5 +325,5 @@ export const getComments = createSelector(
   }
 );
 
-export const { setIsLoading } = slice.actions;
+export const { setIsLoading, setError } = slice.actions;
 export default slice.reducer;
