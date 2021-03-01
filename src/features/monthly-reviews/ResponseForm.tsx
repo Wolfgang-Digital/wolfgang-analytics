@@ -127,18 +127,23 @@ const ResponseForm: React.FC = () => {
             type: 'object',
             label: current.value.section,
             isCollapsable: true,
+            styles: {
+              label: {
+                fontSize: '1.2em',
+                fontWeight: 700,
+                color: 'teal.500',
+                p: 0,
+              },
+            },
             properties: current.value.questions.reduce((_result, _current) => {
               _result[_current.value] = {
                 type: 'textArea',
                 label: _current.value,
                 styles: {
                   label: {
-                    fontSize: '1.2em',
-                    fontWeight: 700,
-                    color: 'teal.500',
-                    p: 0,
-                  },
-                },
+                    color: 'purple.500'
+                  }
+                }
               };
               return _result;
             }, {} as Schema),
