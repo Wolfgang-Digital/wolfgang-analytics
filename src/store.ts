@@ -6,12 +6,14 @@ import accountSelect, { initialState as accountSelectState } from './features/ac
 import structuredData, { initialState as structuredDataState } from './features/structured-data/reducer';
 import reviews, { initialState as reviewState } from './features/monthly-reviews/slice';
 import profile, { initialState as profileState } from './features/profile/slice';
+import awarewolf, { initialState as awarewolfState } from './features/awarewolf/slice';
 
 const reducer = combineReducers({
   accountSelect,
   structuredData,
   reviews,
-  profile
+  profile,
+  awarewolf
 });
 
 const store = configureStore({
@@ -21,7 +23,8 @@ const store = configureStore({
     accountSelect: accountSelectState,
     structuredData: structuredDataState,
     reviews: reviewState,
-    profile: profileState
+    profile: profileState,
+    awarewolf: awarewolfState
   }
 });
 

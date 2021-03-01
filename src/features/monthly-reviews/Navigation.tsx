@@ -1,36 +1,9 @@
 import React from 'react';
 import { Flex, IconButton } from '@chakra-ui/core';
-import { useRouteMatch, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-import ButtonLink from 'components/ButtonLink';
+import { NavItem } from 'components/NavItem';
 import { useUserRoles, Roles } from 'hooks/users';
-
-interface NavItemProps {
-  text: string;
-  to: string;
-  matchStr?: string;
-}
-
-const NavItem: React.FC<NavItemProps> = ({ text, to, matchStr }) => {
-  const match = useRouteMatch(matchStr || to);
-
-  return (
-    <ButtonLink
-      text={text}
-      linkProps={{ to }}
-      buttonProps={{
-        variant: 'link',
-        mr: 6,
-        size: 'sm',
-        minWidth: 80,
-        isActive: !!match && match.isExact,
-        _active: {
-          color: 'purple.500',
-        },
-      }}
-    />
-  );
-};
 
 const Navigation: React.FC = () => {
   const history = useHistory();

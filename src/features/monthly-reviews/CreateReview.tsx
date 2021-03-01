@@ -44,25 +44,23 @@ const CreateReviewForm: React.FC = () => {
     templateOptions[0]
   );
 
-  
   const handleFormSubmit = (data: ReviewTemplate) => {
     setFormData(data);
     navigate('/user/monthly-reviews/create/2');
   };
 
-  
   const [submitLoading, setIsLoading] = useState(false);
   const handleCreateReview = async () => {
     const body = {
       employeeId: employee?.value.user_id,
       managerId: currentUser?.user_id,
       department: employee?.value.departments[0]?.department_name,
-      formData
+      formData,
     };
     setIsLoading(true);
     const result = await awsPost('/reviews', body);
     setIsLoading(false);
-    
+
     if (result.success) {
       toast({
         variant: 'left-accent',
@@ -84,7 +82,7 @@ const CreateReviewForm: React.FC = () => {
   };
 
   return (
-    <Box pb={6}>
+    <Box pb={12}>
       <BusyIndicator color="#4FD1C5" isBusy={submitLoading} />
       <Heading size="lg" as="h1" marginBottom="2rem">
         Create a Review
@@ -140,9 +138,7 @@ const CreateReviewForm: React.FC = () => {
         </Route>
         <Route exact path="/user/monthly-reviews/create/1">
           <Box display="flex" flexDirection="column" outline={0}>
-            <Card maxWidth="1080px" width="100%" margin="auto">
-              <Form handleSubmit={handleFormSubmit} defaultValues={formData || template.value} />
-            </Card>
+            <Form handleSubmit={handleFormSubmit} defaultValues={formData || template.value} />
           </Box>
         </Route>
         <Route exact path="/user/monthly-reviews/create/2">

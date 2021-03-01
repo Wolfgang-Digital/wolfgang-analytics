@@ -128,6 +128,10 @@ const Sidebar: React.FC<{ username?: string; isLoading?: boolean }> = ({
           <Icon name="calendar" size="18px" mr={2} transform="translateY(-2px)" fontWeight={400} />
           Monthly Reviews
         </SidebarLink>
+        <SidebarLink to="/awarewolf">
+          <Icon name="chat" size="18px" mr={2} fontWeight={400} />
+          Awarewolf
+        </SidebarLink>
       </Box>
       <Box borderBottom="1px solid #2a4865" pb={2}>
         <Heading

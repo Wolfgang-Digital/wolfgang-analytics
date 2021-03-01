@@ -14,7 +14,6 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { saveState } from 'utils/storage';
 import { useLinkHandler } from 'hooks/useLinkHandler';
-import Card from 'components/Card';
 import { ReviewTemplate } from './types';
 import { getSavedTemplates, createTemplate } from './slice';
 import ReviewForm from './ReviewForm';
@@ -52,34 +51,32 @@ const CreateTemplate: React.FC = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" pb={6}>
+    <Box display="flex" flexDirection="column" pb={12}>
       <Heading size="lg" as="h1" marginBottom="2rem">
         Create a Template
       </Heading>
-      <Card maxWidth="1080px" width="100%" margin="auto">
-        <Switch>
-          <Route exact path="/user/monthly-reviews/templates/create/0">
-            <ReviewForm handleSubmit={handleSubmit} />
-          </Route>
-          <Route exact path="/user/monthly-reviews/templates/create/1">
-            <Grid templateColumns="1fr auto" columnGap={4}>
-              <FormControl isRequired>
-                <FormLabel htmlFor="templateName">Template Name</FormLabel>
-                <Input name="templateName" value={name} onChange={handleChange} />
-              </FormControl>
-              <Button
-                marginTop="auto"
-                rightIcon="download"
-                minWidth="150px"
-                variantColor="teal"
-                onClick={handleSave}
-              >
-                Save
-              </Button>
-            </Grid>
-          </Route>
-        </Switch>
-      </Card>
+      <Switch>
+        <Route exact path="/user/monthly-reviews/templates/create/0">
+          <ReviewForm handleSubmit={handleSubmit} />
+        </Route>
+        <Route exact path="/user/monthly-reviews/templates/create/1">
+          <Grid templateColumns="1fr auto" columnGap={4}>
+            <FormControl isRequired>
+              <FormLabel htmlFor="templateName">Template Name</FormLabel>
+              <Input name="templateName" value={name} onChange={handleChange} />
+            </FormControl>
+            <Button
+              marginTop="auto"
+              rightIcon="download"
+              minWidth="150px"
+              variantColor="teal"
+              onClick={handleSave}
+            >
+              Save
+            </Button>
+          </Grid>
+        </Route>
+      </Switch>
     </Box>
   );
 };
