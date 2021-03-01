@@ -131,6 +131,14 @@ const ResponseForm: React.FC = () => {
               _result[_current.value] = {
                 type: 'textArea',
                 label: _current.value,
+                styles: {
+                  label: {
+                    fontSize: '1.2em',
+                    fontWeight: 700,
+                    color: 'teal.500',
+                    p: 0,
+                  },
+                },
               };
               return _result;
             }, {} as Schema),
