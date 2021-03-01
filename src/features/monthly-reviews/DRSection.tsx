@@ -38,7 +38,13 @@ const QuestionList: React.FC<{
   return (
     <Box>
       <Grid templateColumns="1fr auto auto" columnGap={4} alignItems="center" mb={2}>
-        <Text display="flex" alignItems="center" fontWeight={500}>
+        <Text
+          display="flex"
+          alignItems="center"
+          fontWeight={500}
+          onClick={onToggle}
+          cursor="pointer"
+        >
           <Icon name="question" mr={2} color="gray.400" />
           {question.text}
         </Text>
@@ -89,7 +95,7 @@ const DRSection: React.FC<Props> = ({ section }) => {
   return (
     <Box>
       <Grid templateColumns="1fr auto auto" columnGap={4} alignItems="center">
-        <Text fontWeight={500} mb={2} fontSize="1.2rem">
+        <Text fontWeight={500} mb={2} fontSize="1.2rem" onClick={onToggle} cursor="pointer">
           {section.sectionName}
         </Text>
         <Text fontSize="0.85rem">

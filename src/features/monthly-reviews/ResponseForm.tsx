@@ -58,6 +58,9 @@ const ResponseForm: React.FC = () => {
                 propertyContainer: {
                   width: '100%',
                 },
+                label: {
+                  color: 'purple.500'
+                }
               },
               properties: {
                 score: {
@@ -97,6 +100,9 @@ const ResponseForm: React.FC = () => {
                 propertyContainer: {
                   width: '100%',
                 },
+                label: {
+                  color: 'purple.500'
+                }
               },
               properties: {
                 value: {
@@ -115,21 +121,23 @@ const ResponseForm: React.FC = () => {
         },
       };
     } else {
-      return data?.form_data.questions.reduce((result, current) => {
-        result[current.value.section] = {
-          type: 'object',
-          label: current.value.section,
-          isCollapsable: true,
-          properties: current.value.questions.reduce((_result, _current) => {
-            _result[_current.value] = {
-              type: 'textArea',
-              label: _current.value
-            };
-            return _result;
-          }, {} as Schema)
-        };
-        return result;
-      }, {} as Schema) || {} as Schema;
+      return (
+        data?.form_data.questions.reduce((result, current) => {
+          result[current.value.section] = {
+            type: 'object',
+            label: current.value.section,
+            isCollapsable: true,
+            properties: current.value.questions.reduce((_result, _current) => {
+              _result[_current.value] = {
+                type: 'textArea',
+                label: _current.value,
+              };
+              return _result;
+            }, {} as Schema),
+          };
+          return result;
+        }, {} as Schema) || ({} as Schema)
+      );
     }
   }, [role, data]);
 
@@ -161,7 +169,7 @@ const ResponseForm: React.FC = () => {
   };
 
   return (
-    <Box pb={6}>
+    <Box pb={12}>
       <Skeleton isLoaded={!isLoading}>
         <Heading size="lg" as="h1" marginBottom="1rem">
           {response && format(new Date(response.review_date), 'MMMM yyyy')}
@@ -180,16 +188,14 @@ const ResponseForm: React.FC = () => {
           )}
         </Box>
       </Card>
-      <Card maxWidth="1080px" width="100%" margin="auto">
-        {!!data && (
-          <Form
-            schema={schema as Schema}
-            styles={formStyles}
-            handleSubmit={handleSubmit}
-            formOptions={{ defaultValues }}
-          />
-        )}
-      </Card>
+      {!!data && (
+        <Form
+          schema={schema as Schema}
+          styles={formStyles}
+          handleSubmit={handleSubmit}
+          formOptions={{ defaultValues }}
+        />
+      )}
     </Box>
   );
 };

@@ -54,6 +54,14 @@ body {
   transition: opacity 300ms, transform 300ms;
 }
 
+.custom-html-style :first-child {
+  margin-top: 0 !important;
+}
+
+.custom-html-style :last-child {
+  margin-bottom: 0 !important;
+}
+
 pre {
   font-size: 0.85rem !important;
   background: inherit !important;
