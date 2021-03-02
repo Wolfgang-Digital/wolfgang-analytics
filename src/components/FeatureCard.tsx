@@ -8,19 +8,23 @@ interface Props {
   image: string;
   description: string;
   link: string;
+  linkText: string
   learnMoreLink?: string;
   colour: string;
-  bgPos: string
+  bgPos: string;
+  bgSize?: string
 }
 
-const ToolIntroPanel: React.FC<Props> = ({
+const FeatureCard: React.FC<Props> = ({
   title,
   image,
   description,
   link,
   learnMoreLink,
   colour,
-  bgPos
+  linkText,
+  bgPos,
+  bgSize = '80%'
 }) => {
   const handleLinkClick = useLinkHandler();
 
@@ -29,7 +33,7 @@ const ToolIntroPanel: React.FC<Props> = ({
       backgroundImage={`url('/static/${image}')`}
       height="320px"
       width="100%"
-      backgroundSize="80%"
+      backgroundSize={bgSize}
       backgroundRepeat="no-repeat"
       backgroundPosition={bgPos}
       boxShadow="1px 2px 4px rgba(0, 0, 0, 0.2)"
@@ -46,7 +50,7 @@ const ToolIntroPanel: React.FC<Props> = ({
           height: '100%',
           opacity: 0.5,
           borderTopLeftRadius: 8,
-          borderTopRightRadius: 8
+          borderTopRightRadius: 8,
         }}
       >
         <Box
@@ -67,9 +71,18 @@ const ToolIntroPanel: React.FC<Props> = ({
           </Heading>
           <Text fontSize="14px">{description}</Text>
           <Flex mt="auto" alignItems="center">
-            <Link href={learnMoreLink} isExternal fontWeight={500} color="white" fontSize="14px" mr={4}>
-              Learn More
-            </Link>
+            {learnMoreLink && (
+              <Link
+                href={learnMoreLink}
+                isExternal
+                fontWeight={500}
+                color="white"
+                fontSize="14px"
+                mr={4}
+              >
+                Learn More
+              </Link>
+            )}
             <Button
               variant="link"
               color="white"
@@ -77,7 +90,7 @@ const ToolIntroPanel: React.FC<Props> = ({
               fontWeight={500}
               onClick={() => handleLinkClick(link)}
             >
-              Use the Tool
+              {linkText}
             </Button>
           </Flex>
         </Box>
@@ -86,4 +99,4 @@ const ToolIntroPanel: React.FC<Props> = ({
   );
 };
 
-export default ToolIntroPanel;
+export default FeatureCard;
