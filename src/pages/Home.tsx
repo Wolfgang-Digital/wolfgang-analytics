@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
       <Heading mb={4} mt={2} size="lg" transform="translateY(-6px)">
         Wolfgang Analytics
         <Text as="span" fontWeight={400}>
-          - Features
+          {' - Features'}
         </Text>
       </Heading>
       <SimpleGrid columns={[1, 2, 3]} spacing={10}>
@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
           link="/awarewolf"
           linkText="Show Posts"
           image="awarewolf_banner.png"
-          description="A form for company suggestions, ideas and banter."
+          description="A forum for company suggestions, ideas and banter."
           colour="blue"
           bgPos="center top"
           bgSize="100%"
