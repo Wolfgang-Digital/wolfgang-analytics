@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
           description="Your monthly review questionnaire."
           colour="purple"
           bgPos="center top"
-          bgSize="100%"
+          bgSize="80%"
         />
         <FeatureCard
           title="Metric Forecasting"
@@ -30,7 +30,7 @@ const HomePage: React.FC = () => {
           image="analytics_charts.png"
           description="Predict future trends using client data from Google Analytics."
           learnMoreLink="https://facebook.github.io/prophet/"
-          colour="teal"
+          colour="blue"
           bgPos="center top 32px"
         />
         <FeatureCard
@@ -40,7 +40,7 @@ const HomePage: React.FC = () => {
           image="code_illustration.png"
           description="Form interface for generating structured data for Google search."
           learnMoreLink="https://developers.google.com/search/docs/guides/intro-structured-data"
-          colour="orange"
+          colour="teal"
           bgPos="center top -10px"
         />
         <FeatureCard
@@ -49,9 +49,9 @@ const HomePage: React.FC = () => {
           linkText="Show Posts"
           image="awarewolf_banner.png"
           description="A forum for company suggestions, ideas and banter."
-          colour="blue"
+          colour="orange"
           bgPos="center top"
-          bgSize="100%"
+          bgSize="80%"
         />
       </SimpleGrid>
     </>
