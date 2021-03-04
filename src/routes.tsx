@@ -86,6 +86,11 @@ const routes: RouteWithSubrouteProps[] = [
     key: 'AWAREWOLF',
     component: lazy(() => import('./pages/Awarewolf')),
   },
+  {
+    path: '/pipeline',
+    key: 'PIPELINE',
+    component: lazy(() => import('./pages/Pipeline')),
+  },
 ];
 
 export default routes;

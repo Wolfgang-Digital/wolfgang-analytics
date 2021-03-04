@@ -9,7 +9,8 @@ const colours: Record<string, string> = {
   Content: 'cyan',
   CRO: 'blue',
   Admin: 'red',
-  'Department Head': 'orange'
+  'Department Head': 'orange',
+  'Client Lead': 'purple'
 };
 
 interface Props  {

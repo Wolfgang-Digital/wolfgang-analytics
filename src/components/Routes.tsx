@@ -19,7 +19,7 @@ export const RouteWithSubroutes: React.FC<RouteWithSubrouteProps> = ({
       path={path}
       exact={exact}
       render={props => (
-        <PseudoBox animation="fadeIn 300ms ease-in-out" height="100%">
+        <PseudoBox animation="fadeIn 300ms ease-in-out">
           <Component {...props} routes={routes} />
         </PseudoBox>
       )}

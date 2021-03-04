@@ -6,7 +6,8 @@ import { useAwsGet } from './aws';
 
 export const Roles = {
   ADMIN: 'Admin',
-  DEPT_HEAD: 'Department Head'
+  DEPT_HEAD: 'Department Head',
+  CLIENT_LEAD: 'Client Lead'
 };
 
 export const useUserRoles = (roles: string | string[]) => {

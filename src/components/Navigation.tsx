@@ -15,9 +15,9 @@ import { Auth } from 'aws-amplify';
 import { useRouteMatch, Link as RouterLink } from 'react-router-dom';
 import { MdTrendingUp } from 'react-icons/md';
 import { BsFileCode } from 'react-icons/bs';
-import { FaRegUserCircle } from 'react-icons/fa';
+import { FaRegUserCircle, FaRegFolderOpen } from 'react-icons/fa';
 
-import { useCurrentUser } from 'hooks/users';
+import { useCurrentUser, useUserRoles, Roles } from 'hooks/users';
 import ScrollTop from './ScrollTop';
 import NavigationPopover from 'features/profile/NavigationPopover';
 
@@ -83,6 +83,8 @@ const Sidebar: React.FC<{ username?: string; isLoading?: boolean }> = ({
   username = 'User',
   isLoading,
 }) => {
+  const isAdmin = useUserRoles([Roles.ADMIN, Roles.CLIENT_LEAD, Roles.DEPT_HEAD]);
+  
   return (
     <Box
       gridArea="sidebar"
@@ -155,6 +157,26 @@ const Sidebar: React.FC<{ username?: string; isLoading?: boolean }> = ({
           Schema Generator
         </SidebarLink>
       </Box>
+      {isAdmin && (
+        <Box borderBottom="1px solid #2a4865" pb={2}>
+          <Heading
+            as="h3"
+            size="xs"
+            color="white"
+            px={4}
+            mb={2}
+            borderBottom="1px solid #2a4865"
+            padding="8px 16px"
+            fontWeight={400}
+          >
+            Admin
+          </Heading>
+          <SidebarLink to="/pipeline">
+            <Box as={FaRegFolderOpen} size="22px" mr={2} />
+            Pipeline
+          </SidebarLink>
+        </Box>
+      )}
       <PseudoBox
         borderTop="1px solid #2a4865"
         mt="auto"
