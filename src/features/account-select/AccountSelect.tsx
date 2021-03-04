@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react';
 import { Box, Stack, FormControl, FormLabel, FormErrorMessage, BoxProps } from '@chakra-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
-import Select, { Styles } from 'react-select';
+import Select, { Styles as ReactStyles } from 'react-select';
 
 import { SelectOption } from 'types';
 import BusyIndicator from 'components/BusyIndicator';
@@ -17,7 +17,7 @@ import {
   setSelectedView
 } from './slice';
 
-const selectStyles: Styles = {
+const selectStyles: ReactStyles = {
   loadingIndicator: base => ({
     ...base,
     color: '#6b46c1'

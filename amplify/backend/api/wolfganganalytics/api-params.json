@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/items",
+            "lambdaFunction": "test",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "wolfganganalytics",
+    "apiName": "wolfganganalytics",
+    "functionArns": [
+        {
+            "lambdaFunction": "test"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-wolfganganalytics-dev-112601-authRole",
+        "unAuthRoleName": "amplify-wolfganganalytics-dev-112601-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "test",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
