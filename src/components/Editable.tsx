@@ -37,7 +37,7 @@ interface TextProps {
   defaultValue?: string;
   onSubmit: (value: string) => void;
   onCancel?: () => void;
-  component?: any
+  component?: any;
 }
 
 export const EditableText: React.FC<TextProps> = ({ defaultValue, onSubmit, onCancel }) => {
@@ -73,14 +73,21 @@ export const EditableText: React.FC<TextProps> = ({ defaultValue, onSubmit, onCa
 
 interface SelectProps extends TextProps {
   options: {
-    label: string
-    value: any
-  }[]
-  onSubmit: (value: any) => void
-  textProps?: BoxProps
+    label: string;
+    value: any;
+  }[];
+  onSubmit: (value: any) => void;
+  textProps?: BoxProps;
 }
 
-export const EditableSelect: React.FC<SelectProps> = ({ defaultValue, onSubmit, onCancel, options, component, textProps }) => {
+export const EditableSelect: React.FC<SelectProps> = ({
+  defaultValue,
+  onSubmit,
+  onCancel,
+  options,
+  component,
+  textProps,
+}) => {
   const [isEditiing, setIsEditing] = useState(false);
   const [value, setValue] = useState<any>(undefined);
 
@@ -101,10 +108,10 @@ export const EditableSelect: React.FC<SelectProps> = ({ defaultValue, onSubmit, 
       {isEditiing ? (
         <Select
           value={value}
-          defaultValue={{ label: defaultValue, value: defaultValue }}
+          defaultValue={defaultValue ? { label: defaultValue, value: defaultValue } : undefined}
           options={options}
           onChange={(e: any) => setValue(e)}
-      />
+        />
       ) : (
         <DisplayComponent />
       )}

@@ -101,7 +101,6 @@ const CreateEntry: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<any>) => {
     e.preventDefault();
-    console.log(form);
     dispatch(createEntry(form));
   };
 
