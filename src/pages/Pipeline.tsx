@@ -9,6 +9,7 @@ import { getStatus } from 'features/pipeline/slice';
 import Navigation from 'features/pipeline/Navigation';
 import EntryList from 'features/pipeline/EntryList';
 import CreateEntry from 'features/pipeline/CreateEntry';
+import ViewEntry from 'features/pipeline/ViewEntry';
 
 const Pipeline: React.FC = () => {
   const toast = useToast();
@@ -33,6 +34,7 @@ const Pipeline: React.FC = () => {
       <ErrorBoundary>
         <Switch>
           <Route exact path="/pipeline/create" component={CreateEntry} />
+          <Route exact path="/pipeline/e/:id" component={ViewEntry} />
           <Route exact path="/pipeline" component={EntryList} />
         </Switch>
       </ErrorBoundary>

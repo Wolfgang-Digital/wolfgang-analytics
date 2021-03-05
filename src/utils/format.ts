@@ -23,3 +23,8 @@ export const formatNumberString = (num: number) => {
 export const mapFormArrayValues = <T>(array: any[]) => array.map(item => item.value ?? item) as T[];
 
 export const getInitials = (name: string) => name.replace(/(\b[a-zA-Z])[a-zA-Z]* ?/g, '$1');
+
+export const formatCurrency = (value?: number) => {
+  if (!value) return '';
+  return value.toLocaleString('en-GB', { style: 'currency', currency: 'EUR' }).replace(/\.0*$/, '');
+}

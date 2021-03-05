@@ -35,17 +35,18 @@ const EditableControls: React.FC<ControlProps> = ({
 
 interface TextProps {
   defaultValue?: string;
-  onSubmit: (value: string) => void;
+  onSubmit: (value: string, name?: string) => void;
   onCancel?: () => void;
   component?: any;
+  name?: string;
 }
 
-export const EditableText: React.FC<TextProps> = ({ defaultValue, onSubmit, onCancel }) => {
+export const EditableText: React.FC<TextProps> = ({ defaultValue, onSubmit, onCancel, name }) => {
   const [isEditiing, setIsEditing] = useState(false);
   const ref: any = useRef();
 
   const handleSubmit = () => {
-    onSubmit(ref.current?.value || defaultValue);
+    onSubmit(ref.current?.value || defaultValue, name);
     setIsEditing(false);
   };
 
@@ -57,7 +58,7 @@ export const EditableText: React.FC<TextProps> = ({ defaultValue, onSubmit, onCa
   return (
     <Grid templateColumns="1fr auto" columnGap={2}>
       {isEditiing ? (
-        <Input defaultValue={defaultValue} ref={ref as any} size="sm" />
+        <Input name={name} defaultValue={defaultValue} ref={ref as any} size="sm" />
       ) : (
         <Text>{defaultValue}</Text>
       )}
@@ -76,8 +77,11 @@ interface SelectProps extends TextProps {
     label: string;
     value: any;
   }[];
-  onSubmit: (value: any) => void;
+  onSubmit: (value: any, name?: string) => void;
   textProps?: BoxProps;
+  defaultValue?: any;
+  isMulti?: boolean;
+  name?: string
 }
 
 export const EditableSelect: React.FC<SelectProps> = ({
@@ -87,12 +91,16 @@ export const EditableSelect: React.FC<SelectProps> = ({
   options,
   component,
   textProps,
+  isMulti,
+  name
 }) => {
   const [isEditiing, setIsEditing] = useState(false);
-  const [value, setValue] = useState<any>(undefined);
+  const [value, setValue] = useState<any>(
+    typeof defaultValue === 'string' ? undefined : defaultValue
+  );
 
   const handleSubmit = () => {
-    onSubmit(value.value);
+    onSubmit(isMulti ? value : value.value, name);
     setIsEditing(false);
   };
 
@@ -108,9 +116,16 @@ export const EditableSelect: React.FC<SelectProps> = ({
       {isEditiing ? (
         <Select
           value={value}
-          defaultValue={defaultValue ? { label: defaultValue, value: defaultValue } : undefined}
+          defaultValue={
+            typeof defaultValue !== 'string'
+              ? defaultValue
+                ? { label: defaultValue, value: defaultValue }
+                : undefined
+              : defaultValue
+          }
           options={options}
           onChange={(e: any) => setValue(e)}
+          isMulti={isMulti}
         />
       ) : (
         <DisplayComponent />

@@ -24,7 +24,7 @@ type Option = {
   value: string;
 };
 
-const channels = [
+export const channels = [
   { label: 'GA', value: 'GA' },
   { label: 'PPC', value: 'PPC' },
   { label: 'SEO', value: 'SEO' },
@@ -35,7 +35,7 @@ const channels = [
   { label: 'CRO', value: 'CRO' },
 ].sort((a, b) => (a.label < b.label ? -1 : a.label > b.label ? 1 : 0));
 
-const sources = [
+export const sources = [
   { label: 'Radio', value: 'RadioGA' },
   { label: 'Print', value: 'Print' },
   { label: 'Podcast', value: 'Podcast' },
