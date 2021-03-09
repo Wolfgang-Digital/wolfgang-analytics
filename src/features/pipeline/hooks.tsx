@@ -1,12 +1,11 @@
-import React from 'react';
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { useTable, useSortBy } from 'react-table';
+import { useTable, useSortBy, Column } from 'react-table';
 import { format } from 'date-fns';
 import { Badge } from '@chakra-ui/core';
 
 import { formatCurrency } from 'utils/format';
-import { getEntries } from './slice';
+import { getEntries, PipelineEntry } from './slice';
 
 const formatDate = (str?: string) => {
   return str ? format(new Date(str), 'dd MMM yy') : '';
@@ -15,7 +14,7 @@ const formatDate = (str?: string) => {
 export const useEntryTable = () => {
   const entries = useSelector(getEntries);
 
-  const columns = useMemo(() => {
+  const columns: Column<PipelineEntry>[] = useMemo(() => {
     return [
       { Header: 'Date', accessor: 'created_at', Cell: (props: any) => formatDate(props.value) },
       { Header: 'Company', accessor: 'company_name' },
@@ -29,10 +28,14 @@ export const useEntryTable = () => {
             </Badge>
           );
         },
+        sortType: (a: any, b: any, id: any, desc: any) => {
+          return a.original[id] && !b.original[id] ? -1 : !a.original[id] && b.original[id] ? 1 : 0;
+        }
       },
       { Header: 'Country', accessor: 'country' },
       { Header: 'Leads', accessor: 'led_by' },
       { Header: 'Channels', accessor: 'channels', Cell: (props: any) => props.value.join(' / ') },
+      { Header: 'Source', accessor: 'source' },
       {
         Header: 'Contacted',
         accessor: 'lead_contact_date',

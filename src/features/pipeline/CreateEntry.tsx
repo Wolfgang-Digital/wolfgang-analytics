@@ -69,7 +69,6 @@ const initialState: Pick<
   channels: [],
   country: '',
   source_comment: '',
-  lead_contact_date: '',
   ppc_fmv: 0,
   seo_fmv: 0,
   twelve_month_value: 0

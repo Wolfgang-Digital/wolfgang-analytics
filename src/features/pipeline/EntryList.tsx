@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { Box, Grid, Text, PseudoBox, Heading, Icon, Skeleton } from '@chakra-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { Row } from 'react-table';
 
 import { useLinkHandler } from 'hooks/useLinkHandler';
 import { fetchEntries, PipelineEntry, getStatus } from './slice';
 import { useEntryTable } from './hooks';
-import { Row } from 'react-table';
+import Filters from './Filters';
 
 const PostList: React.FC = () => {
   const navigate = useLinkHandler();
@@ -31,11 +32,14 @@ const PostList: React.FC = () => {
         Pipeline
       </Heading>
       <Skeleton isLoaded={!isLoading}>
+        <Filters />
+      </Skeleton>
+      <Skeleton isLoaded={!isLoading}>
         <Box pb={6} mt={4} {...getTableProps()}>
           <Box>
             {headerGroups.map((headerGroup: any) => (
               <Grid
-                templateColumns="repeat(11, 1fr)"
+                templateColumns="repeat(12, 1fr)"
                 background="#EDF2F7"
                 p="0.5rem 1rem"
                 borderRadius={2}
@@ -71,7 +75,7 @@ const PostList: React.FC = () => {
               return (
                 <PseudoBox
                   display="grid"
-                  gridTemplateColumns="repeat(11, 1fr)"
+                  gridTemplateColumns="repeat(12, 1fr)"
                   gridColumnGap={2}
                   background="white"
                   alignItems="center"
@@ -98,7 +102,7 @@ const PostList: React.FC = () => {
           <Box>
             {footerGroups.map((group) => (
               <Grid
-                templateColumns="repeat(11, 1fr)"
+                templateColumns="repeat(12, 1fr)"
                 background="#EDF2F7"
                 p="0.5rem 1rem"
                 borderRadius={2}

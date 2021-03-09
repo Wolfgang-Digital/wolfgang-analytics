@@ -20,17 +20,24 @@ export interface PipelineEntry {
   twelve_month_value?: number
 }
 
+export interface PipelineFilter {
+  column: { label: string, value: string }
+  operator: { label: string, value: string }
+  value: string | number
+}
+
 export interface PipelineState {
   isLoading: boolean
   error?: string
-  data: PipelineEntry[],
+  data: PipelineEntry[]
   current?: PipelineEntry
+  filters: PipelineFilter[]
 }
 
-export const fetchEntries = createAsyncThunk<PipelineEntry[]>(
+export const fetchEntries = createAsyncThunk<PipelineEntry[], string | undefined>(
   'pipline/entries/get',
   async (params, { rejectWithValue }) => {
-    const res = await awsGet<PipelineEntry[]>('/pipeline');
+    const res = await awsGet<PipelineEntry[]>(`/pipeline/${params || ''}`);
     if (res.success) {
       return res.data;
     } else {
@@ -82,13 +89,28 @@ export const updateEntry = createAsyncThunk<PipelineEntry, {
 
 export const initialState: PipelineState = {
   isLoading: false,
-  data: []
+  data: [],
+  filters: []
 };
 
 const slice = createSlice({
   name: 'pipeline',
   initialState,
-  reducers: {},
+  reducers: {
+    addFilter: (state, { payload }: PayloadAction<PipelineFilter>) => {
+      if (!state.filters.find(filter => filter.column.value === payload.column.value)) {
+        state.filters.push(payload);
+      }
+    },
+
+    removeFilter: (state, { payload }: PayloadAction<PipelineFilter>) => {
+      state.filters = state.filters.filter(filter => filter.column.value !== payload.column.value)
+    },
+
+    clearFilters: state => {
+      state.filters = [];
+    }
+  },
   extraReducers: {
     [fetchEntries.pending.toString()]: state => {
       state.isLoading = true;
@@ -176,4 +198,23 @@ export const getCurrentEntry = createSelector(
   state => state.current
 );
 
+export const getFilters = createSelector(
+  getPipelineState,
+  state => state.filters
+);
+
+export const getQueryString = createSelector(
+  getFilters,
+  filters => {
+    const query = filters.reduce((query, filter) => {
+      if (query.length > 0) query += '&';
+      query += `${filter.column.value}=${filter.operator.value} ${filter.value}`;
+      return query;
+    }, '');
+    if (query.length > 0) return `?${query}`;
+    return '';
+  }
+);
+
+export const { addFilter, removeFilter, clearFilters } = slice.actions;
 export default slice.reducer;
