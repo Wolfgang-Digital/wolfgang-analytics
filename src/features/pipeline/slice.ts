@@ -2,29 +2,8 @@ import { createSlice, createSelector, createAsyncThunk, PayloadAction } from '@r
 
 import { RootState } from 'store';
 import { awsGet, awsPost } from 'utils/api';
-
-export interface PipelineEntry {
-  id: number
-  company_name: string
-  is_new: boolean
-  created_at: string
-  updated_at: string
-  country?: string
-  source?: string
-  source_comment?: string
-  led_by: string
-  channels: string[]
-  lead_contact_date?: string
-  seo_fmv?: number
-  ppc_fmv?: number
-  twelve_month_value?: number
-}
-
-export interface PipelineFilter {
-  column: { label: string, value: string }
-  operator: { label: string, value: string }
-  value: string | number
-}
+import { PipelineEntry, PipelineFilter } from './types';
+import { getFilterQuery } from './utils';
 
 export interface PipelineState {
   isLoading: boolean
@@ -32,6 +11,9 @@ export interface PipelineState {
   data: PipelineEntry[]
   current?: PipelineEntry
   filters: PipelineFilter[]
+  currentTab: 'ENQUIRY' | 'PROPOSAL' | 'MONEY'
+  cursor: number
+  query: string
 }
 
 export const fetchEntries = createAsyncThunk<PipelineEntry[], string | undefined>(
@@ -90,7 +72,10 @@ export const updateEntry = createAsyncThunk<PipelineEntry, {
 export const initialState: PipelineState = {
   isLoading: false,
   data: [],
-  filters: []
+  filters: [],
+  currentTab: 'ENQUIRY',
+  cursor: 0,
+  query: ''
 };
 
 const slice = createSlice({
@@ -98,18 +83,33 @@ const slice = createSlice({
   initialState,
   reducers: {
     addFilter: (state, { payload }: PayloadAction<PipelineFilter>) => {
-      if (!state.filters.find(filter => filter.column.value === payload.column.value)) {
-        state.filters.push(payload);
-      }
+      state.filters = state.filters.filter(filter => filter.column !== payload.column);
+      state.filters.push(payload);
     },
 
     removeFilter: (state, { payload }: PayloadAction<PipelineFilter>) => {
-      state.filters = state.filters.filter(filter => filter.column.value !== payload.column.value)
+      state.filters = state.filters.filter(filter => filter.column !== payload.column)
     },
 
     clearFilters: state => {
       state.filters = [];
-    }
+    },
+
+    setTab: (state, { payload }: PayloadAction<PipelineState['currentTab']>) => {
+      state.currentTab = payload;
+    },
+
+    setCursor: (state, { payload }: PayloadAction<number>) => {
+      state.cursor = payload;
+    },
+
+    setQuery: (state, { payload }: PayloadAction<string>) => {
+      state.query = payload;
+    },
+
+    setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
+      state.isLoading = payload;
+    },
   },
   extraReducers: {
     [fetchEntries.pending.toString()]: state => {
@@ -203,18 +203,33 @@ export const getFilters = createSelector(
   state => state.filters
 );
 
+export const getCurrentTab = createSelector(
+  getPipelineState,
+  state => state.currentTab
+);
+
+export const getQuery = createSelector(
+  getPipelineState,
+  state => state.query
+);
+
 export const getQueryString = createSelector(
   getFilters,
-  filters => {
-    const query = filters.reduce((query, filter) => {
+  getQuery,
+  (filters, q) => {
+    let query = filters.reduce((query, filter) => {
       if (query.length > 0) query += '&';
-      query += `${filter.column.value}=${filter.operator.value} ${filter.value}`;
+      query += getFilterQuery(filter);
       return query;
     }, '');
+    if (q.length > 0) {
+      if (query.length > 0) query += `&q=${q}`;
+      else query = `q=${q}`;
+    }
     if (query.length > 0) return `?${query}`;
     return '';
   }
 );
 
-export const { addFilter, removeFilter, clearFilters } = slice.actions;
+export const { addFilter, removeFilter, clearFilters, setTab, setCursor, setQuery, setIsLoading } = slice.actions;
 export default slice.reducer;

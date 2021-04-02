@@ -5,7 +5,8 @@ import { format } from 'date-fns';
 import { Badge } from '@chakra-ui/core';
 
 import { formatCurrency } from 'utils/format';
-import { getEntries, PipelineEntry } from './slice';
+import { getEntries } from './slice';
+import { PipelineEntry } from './types';
 
 const formatDate = (str?: string) => {
   return str ? format(new Date(str), 'dd MMM yy') : '';
@@ -16,7 +17,7 @@ export const useEntryTable = () => {
 
   const columns: Column<PipelineEntry>[] = useMemo(() => {
     return [
-      { Header: 'Date', accessor: 'created_at', Cell: (props: any) => formatDate(props.value) },
+      { Header: 'Date', accessor: 'date_added', Cell: (props: any) => formatDate(props.value) },
       { Header: 'Company', accessor: 'company_name' },
       {
         Header: 'Type',

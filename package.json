@@ -30,6 +30,7 @@
     "react-hook-form-generator": "^0.3.6",
     "react-icons": "^3.10.0",
     "react-markdown-editor-lite": "^1.2.4",
+    "react-onclickoutside": "^6.10.0",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
@@ -37,6 +38,7 @@
     "react-spring": "^8.0.27",
     "react-table": "^7.6.3",
     "recharts": "^1.8.5",
+    "remove": "^0.1.5",
     "typescript": "~3.7.2",
     "uuid": "^8.1.0",
     "yup": "^0.29.3"
@@ -71,6 +73,7 @@
     "@types/lodash": "^4.14.155",
     "@types/markdown-it": "^12.0.1",
     "@types/react-date-range": "^0.94.4",
+    "@types/react-onclickoutside": "^6.7.3",
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.5",
     "@types/react-select": "^3.0.13",

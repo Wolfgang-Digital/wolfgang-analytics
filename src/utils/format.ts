@@ -24,7 +24,8 @@ export const mapFormArrayValues = <T>(array: any[]) => array.map(item => item.va
 
 export const getInitials = (name: string) => name.replace(/(\b[a-zA-Z])[a-zA-Z]* ?/g, '$1');
 
-export const formatCurrency = (value?: number) => {
+export const formatCurrency = (value?: number | string) => {
   if (!value) return '';
-  return value.toLocaleString('en-GB', { style: 'currency', currency: 'EUR' }).replace(/\.0*$/, '');
+  let num = typeof value === 'string' ? parseFloat(value) : value;
+  return num.toLocaleString('en-GB', { style: 'currency', currency: 'EUR' }).replace(/\.0*$/, '');
 }

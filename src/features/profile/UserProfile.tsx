@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Skeleton, Flex } from '@chakra-ui/core';
+import { Box, Text, Skeleton, Flex, Divider } from '@chakra-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { departmentOptions } from 'utils/constants';
@@ -30,7 +30,7 @@ const UserProfile: React.FC = () => {
 
   return (
     <Box>
-      <Card py={2} boxShadow="none">
+      <Card py={2} boxShadow="none" borderRadius={4} border="1px solid #E2E8F0">
         <Box minHeight="58px">
           <Text fontSize="0.8em" fontWeight={500} color="gray.500">
             Username
@@ -39,6 +39,7 @@ const UserProfile: React.FC = () => {
             <EditableText defaultValue={profile.user?.username} onSubmit={updateUsername} />
           </Skeleton>
         </Box>
+        <Divider mt={0} />
         <Box minHeight="58px">
           <Text fontSize="0.8em" fontWeight={500} color="gray.500">
             Email
@@ -47,6 +48,7 @@ const UserProfile: React.FC = () => {
             <Text>{profile.user?.email}</Text>
           </Skeleton>
         </Box>
+        <Divider mt={0} />
         <Box minHeight="58px">
           <Text fontSize="0.8em" fontWeight={500} color="gray.500">
             Department
@@ -65,6 +67,7 @@ const UserProfile: React.FC = () => {
             />
           </Skeleton>
         </Box>
+        <Divider mt={0} />
         {isAuthorised && (
           <Box minHeight="58px">
             <Text fontSize="0.8em" fontWeight={500} color="gray.500">

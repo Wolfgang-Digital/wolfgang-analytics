@@ -69,7 +69,7 @@ const FeatureCard: React.FC<Props> = ({
           <Heading as="h3" fontSize="16px" letterSpacing={0.5} mb={2}>
             {title}
           </Heading>
-          <Text fontSize="14px">{description}</Text>
+          <Text fontSize="14px" mb={2}>{description}</Text>
           <Flex mt="auto" alignItems="center">
             {learnMoreLink && (
               <Link

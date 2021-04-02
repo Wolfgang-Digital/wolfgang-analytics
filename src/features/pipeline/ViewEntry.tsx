@@ -1,3 +1,4 @@
+/*
 import React, { useEffect } from 'react';
 import { Box, Heading, Stack, Skeleton, Text, Badge, Grid } from '@chakra-ui/core';
 import { useParams } from 'react-router-dom';
@@ -158,3 +159,6 @@ const ViewEntry: React.FC = () => {
 };
 
 export default ViewEntry;
+*/
+
+export const a = {};

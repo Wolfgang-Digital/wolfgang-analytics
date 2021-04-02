@@ -8,7 +8,12 @@ breakpoints.xl = breakpoints[3];
 
 const customTheme = {
   ...theme,
-  breakpoints
+  breakpoints,
+  fonts: {
+    ...theme.fonts,
+    body: "'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif",
+    heading: "'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif"
+  }
 };
 
 export default customTheme;

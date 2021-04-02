@@ -46,7 +46,7 @@ export interface AwarewolfState {
 }
 
 export const initialState: AwarewolfState = {
-  isLoading: false,
+  isLoading: true,
   voteIsLoading: false,
   posts: [],
   comments: []
