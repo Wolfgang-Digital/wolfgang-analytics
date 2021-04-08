@@ -6,8 +6,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuDivider,
-  MenuGroup,
   Text,
 } from '@chakra-ui/core';
 import 'react-date-range/dist/styles.css';
@@ -16,8 +14,17 @@ import 'react-date-range/dist/theme/default.css';
 import { useClickOutside } from 'hooks/useClickOutside';
 import { getControls } from './FilterControls';
 
-const enquiryFilters = ['Date', 'Type', 'Ongoing', 'Channels', 'Source', 'Updated'];
-const proposalFilters = ['Date Contacted', 'Proposal Date', 'Meeting Date'];
+const enquiryFilters = [
+  'Date',
+  'Type',
+  'Duration',
+  'Channels',
+  'Source',
+  'Status',
+  'Outcome',
+  'Updated',
+];
+// const proposalFilters = ['Date Contacted', 'Proposal Date', 'Meeting Date'];
 
 interface MenuItemProps {
   label: string;
@@ -79,29 +86,15 @@ const FilterMenu: React.FC = () => {
       />
       <div ref={ref}>
         <MenuList fontSize="0.85em" placement="bottom-start" id="menu">
-          <MenuGroup title="The Enquiry">
-            {enquiryFilters.map((filter) => (
-              <FilterMenuItem
-                key={filter}
-                label={filter}
-                current={current}
-                setCurrent={setCurrent}
-                close={onClose}
-              />
-            ))}
-          </MenuGroup>
-          <MenuDivider />
-          <MenuGroup title="The Proposal">
-            {proposalFilters.map((filter) => (
-              <FilterMenuItem
-                key={filter}
-                label={filter}
-                current={current}
-                setCurrent={setCurrent}
-                close={onClose}
-              />
-            ))}
-          </MenuGroup>
+          {enquiryFilters.map((filter) => (
+            <FilterMenuItem
+              key={filter}
+              label={filter}
+              current={current}
+              setCurrent={setCurrent}
+              close={onClose}
+            />
+          ))}
         </MenuList>
       </div>
     </Menu>

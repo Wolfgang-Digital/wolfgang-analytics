@@ -8,6 +8,7 @@ import { getFilterQuery } from './utils';
 export interface PipelineState {
   isLoading: boolean
   error?: string
+  message?: string
   data: PipelineEntry[]
   current?: PipelineEntry
   filters: PipelineFilter[]
@@ -55,12 +56,11 @@ export const createEntry = createAsyncThunk<PipelineEntry, Partial<PipelineEntry
 
 export const updateEntry = createAsyncThunk<PipelineEntry, {
   id: string | number,
-  key: string,
-  value?: string | boolean | string[] | number
+  values: Record<string, any>
 }>(
   'pipline/entry/update',
-  async ({ id, key, value }, { rejectWithValue }) => {
-    const res = await awsPost<PipelineEntry>(`/pipeline/e/${id}`, { key, value });
+  async ({ id, values }, { rejectWithValue }) => {
+    const res = await awsPost<PipelineEntry>(`/pipeline/e/${id}`, values);
     if (res.success) {
       return res.data;
     } else {
@@ -110,11 +110,16 @@ const slice = createSlice({
     setIsLoading: (state, { payload }: PayloadAction<boolean>) => {
       state.isLoading = payload;
     },
+
+    setCurrentEntry: (state, { payload }: PayloadAction<number>) => {
+      state.current = state.data.find(e => e.id === payload);
+    }
   },
   extraReducers: {
     [fetchEntries.pending.toString()]: state => {
       state.isLoading = true;
       state.error = undefined;
+      state.message = undefined;
     },
 
     [fetchEntries.fulfilled.toString()]: (state, { payload }: PayloadAction<PipelineEntry[]>) => {
@@ -131,6 +136,7 @@ const slice = createSlice({
     [createEntry.pending.toString()]: state => {
       state.isLoading = true;
       state.error = undefined;
+      state.message = undefined;
     },
 
     [createEntry.fulfilled.toString()]: (state, { payload }: PayloadAction<PipelineEntry>) => {
@@ -147,6 +153,7 @@ const slice = createSlice({
     [fetchEntry.pending.toString()]: state => {
       state.isLoading = true;
       state.error = undefined;
+      state.message = undefined;
     },
 
     [fetchEntry.fulfilled.toString()]: (state, { payload }: PayloadAction<PipelineEntry>) => {
@@ -163,12 +170,14 @@ const slice = createSlice({
     [updateEntry.pending.toString()]: state => {
       state.isLoading = true;
       state.error = undefined;
+      state.message = undefined;
     },
 
     [updateEntry.fulfilled.toString()]: (state, { payload }: PayloadAction<PipelineEntry>) => {
       state.isLoading = false;
       state.error = undefined;
       state.current = payload;
+      state.message = `${payload.company_name} updated successfully`;
     },
 
     [updateEntry.rejected.toString()]: (state, { payload }: PayloadAction<string>) => {
@@ -184,13 +193,19 @@ export const getStatus = createSelector(
   getPipelineState,
   state => ({
     isLoading: state.isLoading,
-    error: state.error
+    error: state.error,
+    message: state.message
   })
 );
 
 export const getEntries = createSelector(
   getPipelineState,
   state => state.data
+);
+
+export const getEntryCount = createSelector(
+  getEntries,
+  entries => entries.length
 );
 
 export const getCurrentEntry = createSelector(
@@ -231,5 +246,5 @@ export const getQueryString = createSelector(
   }
 );
 
-export const { addFilter, removeFilter, clearFilters, setTab, setCursor, setQuery, setIsLoading } = slice.actions;
+export const { addFilter, removeFilter, clearFilters, setTab, setCursor, setQuery, setIsLoading, setCurrentEntry } = slice.actions;
 export default slice.reducer;

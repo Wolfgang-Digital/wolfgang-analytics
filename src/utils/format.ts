@@ -29,3 +29,12 @@ export const formatCurrency = (value?: number | string) => {
   let num = typeof value === 'string' ? parseFloat(value) : value;
   return num.toLocaleString('en-GB', { style: 'currency', currency: 'EUR' }).replace(/\.0*$/, '');
 }
+
+export function toTitleCase(str: string) {
+  return str.replace(
+    /\w\S*/g,
+    function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+  );
+}

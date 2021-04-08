@@ -309,7 +309,7 @@ export const getControls = (column: string) => {
       case 'Channels':
         return ChannelFilter;
 
-      case 'Ongoing':
+      case 'Duration':
         return DurationFilter;
 
       case 'Source':

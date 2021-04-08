@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import {  Cell } from 'react-table';
+import { Cell } from 'react-table';
 import { format } from 'date-fns';
 import { Badge } from '@chakra-ui/core';
 
@@ -11,6 +11,14 @@ export const formatDate = (str?: any) => {
 
 const sortBool = (a: any, b: any, id: any, desc: any) => {
   return a.original[id] && !b.original[id] ? -1 : !a.original[id] && b.original[id] ? 1 : 0;
+};
+
+export const getOutcomeColour = (outcome?: string) => {
+  return outcome?.match(/(win|won)/gi)
+    ? 'teal'
+    : outcome?.match(/(lost|lose|loss)/gi)
+    ? 'red'
+    : 'orange';
 };
 
 export const enquiryColumns = [
@@ -34,7 +42,7 @@ export const enquiryColumns = [
   },
   { Header: 'Country', accessor: 'country' },
   {
-    Header: 'Ongoing',
+    Header: 'Duration',
     accessor: 'is_ongoing',
     Cell: (props: Cell) => {
       return (
@@ -52,7 +60,6 @@ export const enquiryColumns = [
     Cell: (props: Cell) => props.value.join(' / '),
   },
   { Header: 'Source', accessor: 'source' },
-  { Header: 'Source Comment', accessor: 'source_comment' },
   { Header: 'Leads', accessor: 'leads' },
   {
     Header: 'Status',
@@ -67,6 +74,17 @@ export const enquiryColumns = [
     sortType: sortBool,
   },
   {
+    Header: 'Outcome',
+    accessor: 'outcome',
+    Cell: (props: Cell) => {
+      return (
+        <Badge variantColor={getOutcomeColour(props.value)} mr="auto">
+          {props.value || 'Pending'}
+        </Badge>
+      );
+    },
+  },
+  {
     Header: 'Updated',
     accessor: 'last_updated',
     Cell: (props: Cell) => formatDate(props.value),
@@ -74,6 +92,7 @@ export const enquiryColumns = [
 ];
 
 export const propsalColumns = [
+  { Header: 'Company', accessor: 'company_name' },
   { Header: 'Details & Progress Update', accessor: 'details' },
   {
     Header: 'Date Contacted',
@@ -101,7 +120,6 @@ export const propsalColumns = [
     Cell: (props: Cell) => (props.value ? `${props.value}%` : ''),
   },
   { Header: 'COVID-19 Impact', accessor: 'covid_impact' },
-  { Header: 'Outcome', accessor: 'outcome' },
   { Header: 'Reason if Lost', accessor: 'loss_reason' },
   { Header: 'Reason if Won', accessor: 'win_reason' },
   {
@@ -112,6 +130,7 @@ export const propsalColumns = [
 ];
 
 export const moneyColumns = [
+  { Header: 'Company', accessor: 'company_name' },
   {
     Header: 'PPC FmV',
     accessor: 'ppc_fmv',

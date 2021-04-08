@@ -20,7 +20,7 @@ const EditableControls: React.FC<ControlProps> = ({
       display="flex"
       justifyContent="flex-start"
       alignItems="center"
-      variant="outline"
+      variant="ghost"
       size="xs"
     >
       <IconButton icon="check" aria-label="submit" variantColor="teal" onClick={onSubmit} />

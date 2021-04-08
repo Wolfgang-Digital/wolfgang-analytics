@@ -23,18 +23,13 @@ interface Props {
   state: typeof initialFormState['enquiry'];
   updateForm: (args: { key: keyof typeof initialFormState['enquiry']; value: any }) => void;
   boxProps?: BoxProps;
+  isEditPage?: boolean;
 }
 
-const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
+const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
   return (
     <Box background="white" borderRadius={4} border="1px solid #E2E8F0" flexGrow={1} {...boxProps}>
-      <Heading
-        color="red.500"
-        size="md"
-        borderBottom="1px solid #E2E8F0"
-        textAlign="center"
-        p={2}
-      >
+      <Heading color="red.500" size="md" borderBottom="1px solid #E2E8F0" textAlign="center" p={2}>
         The Enquiry
       </Heading>
       <Box as="form" p={4}>
@@ -81,6 +76,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
           </FormLabel>
           <Input
             name="country"
+            value={state.country}
             isFullWidth
             onChange={(e: any) => updateForm({ key: 'country', value: e.target.value })}
           />
@@ -88,7 +84,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
         <Divider />
         <FormControl pb={1} isRequired>
           <FormLabel color="gray.500" fontSize="sm">
-            Ongoing
+            Duration
           </FormLabel>
           <RadioGroup
             isInline
@@ -133,6 +129,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
             Source
           </FormLabel>
           <Select
+            // @ts-ignore
             value={state.source}
             onChange={(value: any) => updateForm({ key: 'source', value })}
             options={sourceOptions}
@@ -157,29 +154,34 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
           </FormLabel>
           <Input
             name="leads"
+            value={state.leads}
             isFullWidth
             onChange={(e: any) => updateForm({ key: 'leads', value: e.target.value })}
           />
         </FormControl>
-        <Divider />
-        <FormControl pb={1} isRequired>
-          <FormLabel color="gray.500" fontSize="sm">
-            Status
-          </FormLabel>
-          <RadioGroup
-            isInline
-            spacing={6}
-            value={state.status}
-            onChange={(e, value) => updateForm({ key: 'status', value })}
-          >
-            <Radio value="Open" variantColor="teal">
-              Open
-            </Radio>
-            <Radio value="Closed" variantColor="red">
-              Closed
-            </Radio>
-          </RadioGroup>
-        </FormControl>
+        {!isEditPage && (
+          <>
+            <Divider />
+            <FormControl pb={1} isRequired>
+              <FormLabel color="gray.500" fontSize="sm">
+                Status
+              </FormLabel>
+              <RadioGroup
+                isInline
+                spacing={6}
+                value={state.status}
+                onChange={(e, value) => updateForm({ key: 'status', value })}
+              >
+                <Radio value="Open" variantColor="teal">
+                  Open
+                </Radio>
+                <Radio value="Closed" variantColor="red">
+                  Closed
+                </Radio>
+              </RadioGroup>
+            </FormControl>
+          </>
+        )}
       </Box>
     </Box>
   );

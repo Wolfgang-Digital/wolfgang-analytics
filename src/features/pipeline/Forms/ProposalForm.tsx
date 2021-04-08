@@ -19,9 +19,10 @@ interface Props {
   state: typeof initialFormState['proposal'];
   updateForm: (args: { key: keyof typeof initialFormState['proposal']; value: any }) => void;
   boxProps?: BoxProps;
+  isEditPage?: boolean;
 }
 
-const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
+const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
   const [percent, setPercent] = useState<number | undefined>(state.success_probability);
 
   const updateSlider = debounce((value: number) => {
@@ -35,13 +36,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
 
   return (
     <Box background="white" borderRadius={4} border="1px solid #E2E8F0" flexGrow={1} {...boxProps}>
-      <Heading
-        color="blue.500"
-        size="md"
-        borderBottom="1px solid #E2E8F0"
-        textAlign="center"
-        p={2}
-      >
+      <Heading color="blue.500" size="md" borderBottom="1px solid #E2E8F0" textAlign="center" p={2}>
         The Proposal
       </Heading>
       <Box as="form" p={4}>
@@ -105,18 +100,22 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
             isFullWidth
           />
         </FormControl>
-        <Divider />
-        <FormControl pb={1}>
-          <FormLabel color="gray.500" fontSize="sm">
-            Outcome
-          </FormLabel>
-          <Input
-            name="outcome"
-            value={state.outcome}
-            onChange={(e: any) => updateForm({ key: 'outcome', value: e.target.value })}
-            isFullWidth
-          />
-        </FormControl>
+        {!isEditPage && (
+          <>
+            <Divider />
+            <FormControl pb={1}>
+              <FormLabel color="gray.500" fontSize="sm">
+                Outcome
+              </FormLabel>
+              <Input
+                name="outcome"
+                value={state.outcome}
+                onChange={(e: any) => updateForm({ key: 'outcome', value: e.target.value })}
+                isFullWidth
+              />
+            </FormControl>
+          </>
+        )}
         <Divider />
         <FormControl pb={1}>
           <FormLabel color="gray.500" fontSize="sm">
@@ -141,16 +140,20 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
             isFullWidth
           />
         </FormControl>
-        <Divider />
-        <FormControl pb={1}>
-          <FormLabel color="gray.500" fontSize="sm">
-            Date Closed
-          </FormLabel>
-          <CalendarPicker
-            date={state.date_closed}
-            setDate={(value) => updateForm({ key: 'date_closed', value })}
-          />
-        </FormControl>
+        {!isEditPage && (
+          <>
+            <Divider />
+            <FormControl pb={1}>
+              <FormLabel color="gray.500" fontSize="sm">
+                Date Closed
+              </FormLabel>
+              <CalendarPicker
+                date={state.date_closed}
+                setDate={(value) => updateForm({ key: 'date_closed', value })}
+              />
+            </FormControl>
+          </>
+        )}
       </Box>
     </Box>
   );

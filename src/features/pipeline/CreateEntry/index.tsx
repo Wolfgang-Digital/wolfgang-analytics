@@ -6,12 +6,12 @@ import { useDispatch } from 'react-redux';
 import { awsPost } from 'utils/api';
 import { useForm } from 'hooks/useForm';
 import { useLinkHandler } from 'hooks/useLinkHandler';
-import { initialFormState } from './utils';
-import { PipelineEntry } from './types';
-import { setIsLoading } from './slice';
-import EnquiryForm from './Forms/EnquiryForm';
-import ProposalForm from './Forms/ProposalForm';
-import MoneyForm from './Forms/MoneyForm';
+import { initialFormState } from '../utils';
+import { PipelineEntry } from '../types';
+import { setIsLoading } from '../slice';
+import EnquiryForm from '../Forms/EnquiryForm';
+import ProposalForm from '../Forms/ProposalForm';
+import MoneyForm from '../Forms/MoneyForm';
 
 const CreateEntry: React.FC = () => {
   const toast = useToast();

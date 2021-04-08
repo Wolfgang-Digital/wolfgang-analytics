@@ -27,8 +27,8 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
   const totals = useMemo(() => {
     return Object.entries(state).reduce(
       (result, [key, value]: [string, string | undefined]) => {
-        if (key.includes('fmv') && !!value) result.monthOne += parseFloat(value);
-        else if (key.includes('12mv') && !!value) result.monthTwelve += parseFloat(value);
+        if (key.includes('fmv') && key !== 'total_fmv' && !!value) result.monthOne += parseFloat(value);
+        else if (key.includes('12mv') && key !== 'total_12mv' && !!value) result.monthTwelve += parseFloat(value);
         return result;
       },
       { monthOne: 0, monthTwelve: 0 }

@@ -1,11 +1,17 @@
 import React from 'react';
 import { Box, Grid, Icon, PseudoBox, Text } from '@chakra-ui/core';
 import { Row } from 'react-table';
+import { useDispatch } from 'react-redux';
 
+import { useLinkHandler } from 'hooks/useLinkHandler';
 import { PipelineEntry } from '../types';
+import { setCurrentEntry } from '../slice';
 import { usePipelineTable } from './hooks';
 
 const Table: React.FC = () => {
+  const dispatch = useDispatch();
+  const navigate = useLinkHandler();
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -15,8 +21,13 @@ const Table: React.FC = () => {
     footerGroups,
   } = usePipelineTable();
 
+  const handleSelect = (id: number) => {
+    dispatch(setCurrentEntry(id));
+    navigate(`/pipeline/e/${id}`);
+  };
+
   return (
-    <Box pb={6} mt={4} overflowX="auto">
+    <Box mt={4} overflowX="auto">
       <Box {...getTableProps()}>
         {headerGroups.map((headerGroup: any) => (
           <Grid
@@ -67,7 +78,7 @@ const Table: React.FC = () => {
               cursor="pointer"
               mb={2}
               minW="min-content"
-              //onClick={() => navigate(`/pipeline/e/${row.original.id}`)}
+              onClick={() => handleSelect(row.original.id)}
               _hover={{
                 borderLeftColor: 'purple.400',
               }}

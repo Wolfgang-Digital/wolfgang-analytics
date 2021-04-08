@@ -9,6 +9,7 @@ import { getStatus } from 'features/pipeline/slice';
 import Navigation from 'features/pipeline/Navigation';
 import Entries from 'features/pipeline/Entries';
 import CreateEntry from 'features/pipeline/CreateEntry';
+import EditEntry from 'features/pipeline/EditEntry';
 
 const Pipeline: React.FC = () => {
   const toast = useToast();
@@ -23,8 +24,16 @@ const Pipeline: React.FC = () => {
         position: 'bottom-left',
         isClosable: true,
       });
+    } else if (status.message) {
+      toast({
+        variant: 'left-accent',
+        status: 'success',
+        description: status.message,
+        position: 'bottom-left',
+        isClosable: true,
+      });
     }
-  }, [toast, status.error]);
+  }, [toast, status]);
 
   return (
     <>
@@ -34,6 +43,7 @@ const Pipeline: React.FC = () => {
         <Switch>
           <Route exact path="/pipeline" component={Entries} />
           <Route exact path="/pipeline/create" component={CreateEntry} />
+          <Route exact path="/pipeline/e/:id" component={EditEntry} />
         </Switch>
       </ErrorBoundary>
     </>

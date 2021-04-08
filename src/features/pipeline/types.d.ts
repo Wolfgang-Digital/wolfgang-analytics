@@ -48,3 +48,52 @@ export interface PipelineFilter {
   operator: string
   value: string | number
 }
+
+export interface EnquirySnippet {
+  company_name: string
+  date_added: Date
+  is_new: boolean
+  country: string
+  is_ongoing: boolean
+  scope: string
+  channels: string[]
+  source?: string
+  source_comment?: string
+  leads: string
+  status: string
+}
+
+export interface ProposalSnippet {
+  details: string
+  date_contacted?: Date
+  proposal_issue_date?: Date
+  meeting_date?: Date
+  follow_up_dates?: Date[]
+  success_probability?: number
+  covid_impact?: string
+  outcome?: string
+  loss_reason?: string
+  win_reason?: string
+  date_closed?: Date
+}
+
+export interface MoneySnippet {
+  ppc_fmv?: number | string
+  seo_fmv?: number | string
+  content_fmv?: number | string
+  email_fmv?: number | string
+  social_fmv?: number | string
+  creative_fmv?: number | string
+  cro_fmv?: number | string
+  analytics_fmv?: number | string
+  total_fmv?: number | string
+  ppc_12mv?: number | string
+  seo_12mv?: number | string
+  content_12mv?: number | string
+  email_12mv?: number | string
+  social_12mv?: number | string
+  creative_12mv?: number | string
+  cro_12mv?: number | string
+  analytics_12mv?: number | string
+  total_12mv?: number | string
+}

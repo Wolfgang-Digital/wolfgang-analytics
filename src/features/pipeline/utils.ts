@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import { PipelineFilter } from './types';
+import { PipelineFilter, EnquirySnippet, ProposalSnippet, MoneySnippet } from './types';
 
 export const columnMap = new Map();
 columnMap.set('Date', 'date_added');
@@ -9,7 +9,7 @@ columnMap.set('Date Contacted', 'date_contacted');
 columnMap.set('Updated', 'last_updated');
 columnMap.set('Status', 'status');
 columnMap.set('Channels', 'channels');
-columnMap.set('Ongoing', 'is_ongoing');
+columnMap.set('Duration', 'is_ongoing');
 columnMap.set('Source', 'source');
 
 export const channels = [
@@ -47,7 +47,7 @@ export const getFilterQuery = (filter: PipelineFilter) => {
       case 'Type':
         return `is_new=${filter.value === 'New' ? 'true' : 'false'}`;
 
-      case 'Ongoing':
+      case 'Duration':
         return `is_ongoing=${filter.value === 'Ongoing' ? 'true' : 'false'}`;
 
       default:
@@ -60,7 +60,13 @@ export const getFilterQuery = (filter: PipelineFilter) => {
   }
 };
 
-export const initialFormState = {
+type FormState = {
+  enquiry: EnquirySnippet
+  proposal: ProposalSnippet
+  money: MoneySnippet
+}
+
+export const initialFormState: FormState = {
   enquiry: {
     date_added: new Date(),
     company_name: '',
