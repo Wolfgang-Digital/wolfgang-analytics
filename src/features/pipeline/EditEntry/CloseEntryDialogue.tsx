@@ -4,9 +4,17 @@ import Select from 'react-select';
 import { useDispatch } from 'react-redux';
 import { updateEntry } from '../slice';
 
-const options = [
+const outcomeOptions = [
   { label: 'Won', value: 'Won' },
   { label: 'Lost', value: 'Lost' },
+];
+
+const lossReasonOptions = [
+  { label: 'Price', value: 'Price' },
+  { label: 'Forecast Results', value: 'Lost' },
+  { label: 'Questions around Strategy', value: 'Questions around Strategy' },
+  { label: 'Timing of our response', value: 'Timing of our response' },
+  { label: 'Issues with Contract', value: 'Issues with Contract' },
 ];
 
 interface Props {
@@ -15,15 +23,16 @@ interface Props {
 
 const CloseEntryDialogue: React.FC<Props> = ({ id }) => {
   const dispatch = useDispatch();
-  const [outcome, setOutcome] = useState<typeof options[number]>();
-  const [reason, setReason] = useState('');
+  const [outcome, setOutcome] = useState<typeof outcomeOptions[number]>();
+  const [winReason, setWinReason] = useState('');
+  const [lossReason, setLossReason] = useState<typeof lossReasonOptions[number]>();
 
   const handleSubmit = () => {
     if (id && outcome?.value) {
       const values = {
         status: 'Closed',
         outcome: outcome.value,
-        [outcome.value === 'Won' ? 'win_reason' : 'loss_reason']: reason,
+        [outcome.value === 'Won' ? 'win_reason' : 'loss_reason']: winReason,
         date_closed: new Date(),
       };
       dispatch(updateEntry({ id, values }));
@@ -37,14 +46,30 @@ const CloseEntryDialogue: React.FC<Props> = ({ id }) => {
         <FormLabel color="gray.500" fontSize="sm">
           Outcome
         </FormLabel>
-        <Select value={outcome} onChange={(value: any) => setOutcome(value)} options={options} />
+        <Select
+          value={outcome}
+          onChange={(value: any) => setOutcome(value)}
+          options={outcomeOptions}
+        />
       </FormControl>
       {!!outcome && (
         <FormControl mt={2}>
           <FormLabel color="gray.500" fontSize="sm">
             {outcome.value === 'Lost' ? 'Loss' : 'Win'} Reason
           </FormLabel>
-          <Input value={reason} isFullWidth onChange={(e: any) => setReason(e.target.value)} />
+          {outcome.value === 'Lost' ? (
+            <Select
+              value={lossReason}
+              onChange={(value: any) => setLossReason(value)}
+              options={lossReasonOptions}
+            />
+          ) : (
+            <Input
+              value={winReason}
+              isFullWidth
+              onChange={(e: any) => setWinReason(e.target.value)}
+            />
+          )}
         </FormControl>
       )}
       <Button
