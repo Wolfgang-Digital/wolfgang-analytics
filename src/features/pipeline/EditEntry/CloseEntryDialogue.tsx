@@ -32,7 +32,8 @@ const CloseEntryDialogue: React.FC<Props> = ({ id }) => {
       const values = {
         status: 'Closed',
         outcome: outcome.value,
-        [outcome.value === 'Won' ? 'win_reason' : 'loss_reason']: winReason,
+        [outcome.value === 'Won' ? 'win_reason' : 'loss_reason']:
+          outcome.value === 'Won' ? winReason : lossReason?.value,
         date_closed: new Date(),
       };
       dispatch(updateEntry({ id, values }));
