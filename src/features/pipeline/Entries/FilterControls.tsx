@@ -298,6 +298,114 @@ export const DurationFilter: React.FC<FilterProps> = ({ column, isOpen, close })
   );
 };
 
+export const OutcomeFilter: React.FC<FilterProps> = ({ column, isOpen, close }) => {
+  const [outcome, setOutcome] = useState('Won');
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
+    dispatch(
+      addFilter({
+        column,
+        operator: 'is',
+        value: outcome,
+      })
+    );
+    close();
+  };
+
+  return (
+    <Popover placement="auto" isOpen={isOpen}>
+      <PopoverTrigger>
+        <div style={{ visibility: 'hidden', width: '100%', height: '100%' }}></div>
+      </PopoverTrigger>
+      <PopoverContent zIndex={100} _focus={{ outline: 'none' }} position="absolute" border={0}>
+        <PopoverHeader textAlign="center" fontWeight={700} color="gray.600">
+          {column}
+        </PopoverHeader>
+        <PopoverBody onClick={(e) => e.stopPropagation()}>
+          <RadioGroup
+            defaultValue={outcome}
+            size="sm"
+            onChange={(e, val) => setOutcome(val as string)}
+          >
+            <Radio variantColor="green" value="Won">
+              Won
+            </Radio>
+            <Radio variantColor="red" value="Lost">
+              Lost
+            </Radio>
+          </RadioGroup>
+          <Button
+            size="sm"
+            isFullWidth
+            variantColor="blue"
+            variant="ghost"
+            fontWeight={400}
+            onClick={handleSubmit}
+            mt={2}
+          >
+            Apply Filter
+          </Button>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+export const StatusFilter: React.FC<FilterProps> = ({ column, isOpen, close }) => {
+  const [status, setOutcome] = useState('Open');
+  const dispatch = useDispatch();
+
+  const handleSubmit = () => {
+    dispatch(
+      addFilter({
+        column,
+        operator: 'is',
+        value: status,
+      })
+    );
+    close();
+  };
+
+  return (
+    <Popover placement="auto" isOpen={isOpen}>
+      <PopoverTrigger>
+        <div style={{ visibility: 'hidden', width: '100%', height: '100%' }}></div>
+      </PopoverTrigger>
+      <PopoverContent zIndex={100} _focus={{ outline: 'none' }} position="absolute" border={0}>
+        <PopoverHeader textAlign="center" fontWeight={700} color="gray.600">
+          {column}
+        </PopoverHeader>
+        <PopoverBody onClick={(e) => e.stopPropagation()}>
+          <RadioGroup
+            defaultValue={status}
+            size="sm"
+            onChange={(e, val) => setOutcome(val as string)}
+          >
+            <Radio variantColor="green" value="Open">
+              Open
+            </Radio>
+            <Radio variantColor="red" value="Closed">
+              Closed
+            </Radio>
+          </RadioGroup>
+          <Button
+            size="sm"
+            isFullWidth
+            variantColor="blue"
+            variant="ghost"
+            fontWeight={400}
+            onClick={handleSubmit}
+            mt={2}
+          >
+            Apply Filter
+          </Button>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
 export const getControls = (column: string) => {
   if (column.toLowerCase().includes('date')) {
     return DateFilter;
@@ -314,6 +422,12 @@ export const getControls = (column: string) => {
 
       case 'Source':
         return SourceFilter;
+
+      case 'Outcome':
+        return OutcomeFilter;
+
+      case 'Status':
+        return StatusFilter;
 
       default:
         return null;

@@ -1,4 +1,5 @@
 export interface PipelineEntry {
+  total: number
   id: number
   company_name: string
   date_added: string

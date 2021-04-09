@@ -11,6 +11,7 @@ columnMap.set('Status', 'status');
 columnMap.set('Channels', 'channels');
 columnMap.set('Duration', 'is_ongoing');
 columnMap.set('Source', 'source');
+columnMap.set('Outcome', 'outcome');
 
 export const channels = [
   'GA',

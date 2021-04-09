@@ -13,8 +13,10 @@ export interface PipelineState {
   current?: PipelineEntry
   filters: PipelineFilter[]
   currentTab: 'ENQUIRY' | 'PROPOSAL' | 'MONEY'
-  cursor: number
+  offset: number
+  limit: number
   query: string
+  total: number
 }
 
 export const fetchEntries = createAsyncThunk<PipelineEntry[], string | undefined>(
@@ -74,7 +76,9 @@ export const initialState: PipelineState = {
   data: [],
   filters: [],
   currentTab: 'ENQUIRY',
-  cursor: 0,
+  offset: 0,
+  limit: 20,
+  total: 0,
   query: ''
 };
 
@@ -99,8 +103,12 @@ const slice = createSlice({
       state.currentTab = payload;
     },
 
-    setCursor: (state, { payload }: PayloadAction<number>) => {
-      state.cursor = payload;
+    incrementOffset: state => {
+      state.offset += state.limit;
+    },
+
+    decrementOffset: state => {
+      state.offset = Math.max(0, state.offset - state.limit);
     },
 
     setQuery: (state, { payload }: PayloadAction<string>) => {
@@ -126,6 +134,7 @@ const slice = createSlice({
       state.isLoading = false;
       state.error = undefined;
       state.data = payload;
+      state.total = payload[0]?.total || 0;
     },
 
     [fetchEntries.rejected.toString()]: (state, { payload }: PayloadAction<string>) => {
@@ -203,9 +212,16 @@ export const getEntries = createSelector(
   state => state.data
 );
 
-export const getEntryCount = createSelector(
-  getEntries,
-  entries => entries.length
+export const getPagination = createSelector(
+  getPipelineState,
+  state => {
+    return {
+      total: state.total,
+      current: state.data.length,
+      offset: state.offset,
+      limit: state.limit
+    };
+  }
 );
 
 export const getCurrentEntry = createSelector(
@@ -231,7 +247,8 @@ export const getQuery = createSelector(
 export const getQueryString = createSelector(
   getFilters,
   getQuery,
-  (filters, q) => {
+  getPagination,
+  (filters, q, page) => {
     let query = filters.reduce((query, filter) => {
       if (query.length > 0) query += '&';
       query += getFilterQuery(filter);
@@ -241,10 +258,21 @@ export const getQueryString = createSelector(
       if (query.length > 0) query += `&q=${q}`;
       else query = `q=${q}`;
     }
+    query += `&offset=${page.offset}&limit=${page.limit}`
     if (query.length > 0) return `?${query}`;
     return '';
   }
 );
 
-export const { addFilter, removeFilter, clearFilters, setTab, setCursor, setQuery, setIsLoading, setCurrentEntry } = slice.actions;
+export const { 
+  addFilter, 
+  removeFilter, 
+  clearFilters, 
+  setTab,  
+  setQuery, 
+  setIsLoading, 
+  setCurrentEntry,
+  incrementOffset,
+  decrementOffset
+} = slice.actions;
 export default slice.reducer;
