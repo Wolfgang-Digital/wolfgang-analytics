@@ -22,7 +22,7 @@ const enquiryFilters = [
   'Source',
   'Status',
   'Outcome',
-  'Updated',
+  'Updated'
 ];
 // const proposalFilters = ['Date Contacted', 'Proposal Date', 'Meeting Date'];
 

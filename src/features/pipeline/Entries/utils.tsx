@@ -137,7 +137,7 @@ export const moneyColumns = [
     Cell: (props: Cell) => formatCurrency(props.value),
     Footer: (info: any) => {
       const total = useMemo(() => {
-        return info.rows.reduce((sum: number, row: any) => parseFloat(row.values.ppc_fmv) || 0 + sum, 0);
+        return info.rows.reduce((sum: number, row: any) => (parseFloat(row.values.ppc_fmv) || 0) + sum, 0);
       }, [info.rows]);
       return formatCurrency(total);
     },
@@ -148,7 +148,7 @@ export const moneyColumns = [
     Cell: (props: Cell) => formatCurrency(props.value),
     Footer: (info: any) => {
       const total = useMemo(() => {
-        return info.rows.reduce((sum: number, row: any) => parseFloat(row.values.seo_fmv) || 0 + sum, 0);
+        return info.rows.reduce((sum: number, row: any) => (parseFloat(row.values.seo_fmv) || 0) + sum, 0);
       }, [info.rows]);
       return formatCurrency(total);
     },
@@ -160,7 +160,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.content_fmv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.content_fmv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -174,7 +174,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.email_fmv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.email_fmv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -188,7 +188,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.social_fmv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.social_fmv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -202,7 +202,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.creative_fmv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.creative_fmv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -215,7 +215,7 @@ export const moneyColumns = [
     Cell: (props: Cell) => formatCurrency(props.value),
     Footer: (info: any) => {
       const total = useMemo(() => {
-        return info.rows.reduce((sum: number, row: any) => parseFloat(row.values.cro_fmv) || 0 + sum, 0);
+        return info.rows.reduce((sum: number, row: any) => (parseFloat(row.values.cro_fmv) || 0) + sum, 0);
       }, [info.rows]);
       return formatCurrency(total);
     },
@@ -227,7 +227,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.analytics_fmv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.analytics_fmv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -241,7 +241,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.total_fmv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.total_fmv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -255,7 +255,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.ppc_12mv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.ppc_12mv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -269,7 +269,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.seo_12mv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.seo_12mv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -283,7 +283,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.content_12mv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.content_12mv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -297,7 +297,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.email_12mv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.email_12mv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -311,7 +311,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.social_12mv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.social_12mv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -325,7 +325,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.creative_12mv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.creative_12mv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -339,7 +339,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.cro_12mv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.cro_12mv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -353,7 +353,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.analytics_12mv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.analytics_12mv) || 0) + sum,
           0
         );
       }, [info.rows]);
@@ -367,7 +367,7 @@ export const moneyColumns = [
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
-          (sum: number, row: any) => parseFloat(row.values.total_12mv) || 0 + sum,
+          (sum: number, row: any) => (parseFloat(row.values.total_12mv) || 0) + sum,
           0
         );
       }, [info.rows]);

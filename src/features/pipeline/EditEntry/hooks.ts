@@ -9,7 +9,7 @@ export const useEnquiryForm = (entry?: PipelineEntry) => {
   const input: typeof initialFormState['enquiry'] = useMemo(() => {
     const data = entry || initialFormState.enquiry;
     const { date_added, company_name, is_new, country, is_ongoing, scope, channels, source, source_comment, leads, status } = data;
-    
+
     return {
       date_added: new Date(date_added),
       company_name,
@@ -30,37 +30,34 @@ export const useEnquiryForm = (entry?: PipelineEntry) => {
 };
 
 export const useProposalForm = (entry?: PipelineEntry) => {
+  const data = entry || initialFormState.proposal;
+  const {
+    details,
+    date_contacted,
+    proposal_issue_date,
+    meeting_date,
+    //      follow_up_dates, 
+    success_probability,
+    covid_impact,
+    outcome,
+    win_reason,
+    loss_reason,
+    date_closed
+  } = data;
   // @ts-ignore
-  const input: typeof initialFormState['proposal'] = useMemo(() => {
-    const data = entry || initialFormState.proposal;
-    const { 
-      details, 
-      date_contacted, 
-      proposal_issue_date, 
-      meeting_date, 
-//      follow_up_dates, 
-      success_probability, 
-      covid_impact,  
-      outcome,
-      win_reason,
-      loss_reason,
-      date_closed
-    } = data;
-    
-    return {
-      details, 
-      date_contacted: date_contacted ? new Date(date_contacted) : undefined, 
-      proposal_issue_date: proposal_issue_date ? new Date(proposal_issue_date) : undefined,
-      meeting_date: meeting_date ? new Date(meeting_date) : undefined,
-//      follow_up_dates, 
-      success_probability, 
-      covid_impact: covid_impact || '',  
-      outcome: outcome || '',
-      win_reason: win_reason || '',
-      loss_reason: loss_reason || '',
-      date_closed: date_closed ? new Date(date_closed) : undefined,
-    };
-  }, [entry]);
+  const input: typeof initialFormState['proposal'] = {
+    details,
+    date_contacted: date_contacted ? new Date(date_contacted) : undefined,
+    proposal_issue_date: proposal_issue_date ? new Date(proposal_issue_date) : undefined,
+    meeting_date: meeting_date ? new Date(meeting_date) : undefined,
+    //      follow_up_dates, 
+    success_probability,
+    covid_impact: covid_impact || '',
+    outcome: outcome || '',
+    win_reason: win_reason || '',
+    loss_reason: loss_reason || '',
+    date_closed: date_closed ? new Date(date_closed) : undefined,
+  };
 
   const { form, updateForm } = useForm(input, entry?.id.toString());
   return { proposalForm: form, updateProposal: updateForm };

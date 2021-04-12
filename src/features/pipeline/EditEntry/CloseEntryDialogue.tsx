@@ -19,15 +19,16 @@ const lossReasonOptions = [
 
 interface Props {
   id?: number | string;
+  isClosed?: boolean;
 }
 
-const CloseEntryDialogue: React.FC<Props> = ({ id }) => {
+const CloseEntryDialogue: React.FC<Props> = ({ id, isClosed }) => {
   const dispatch = useDispatch();
   const [outcome, setOutcome] = useState<typeof outcomeOptions[number]>();
   const [winReason, setWinReason] = useState('');
   const [lossReason, setLossReason] = useState<typeof lossReasonOptions[number]>();
 
-  const handleSubmit = () => {
+  const handleCloseEntry = () => {
     if (id && outcome?.value) {
       const values = {
         status: 'Closed',
@@ -40,49 +41,77 @@ const CloseEntryDialogue: React.FC<Props> = ({ id }) => {
     }
   };
 
+  const handleOpenEntry = () => {
+    if (id) {
+      const values = {
+        status: 'Open',
+        outcome: null,
+        win_reason: null,
+        loss_reason: null,
+        date_closed: null,
+      };
+      dispatch(updateEntry({ id, values }));
+    }
+  };
+
   return (
     <Box>
       <Divider />
-      <FormControl isRequired>
-        <FormLabel color="gray.500" fontSize="sm">
-          Outcome
-        </FormLabel>
-        <Select
-          value={outcome}
-          onChange={(value: any) => setOutcome(value)}
-          options={outcomeOptions}
-        />
-      </FormControl>
-      {!!outcome && (
-        <FormControl mt={2}>
-          <FormLabel color="gray.500" fontSize="sm">
-            {outcome.value === 'Lost' ? 'Loss' : 'Win'} Reason
-          </FormLabel>
-          {outcome.value === 'Lost' ? (
+      {isClosed ? (
+        <Button
+          mt={2}
+          variantColor="red"
+          size="sm"
+          fontWeight={400}
+          isFullWidth
+          onClick={handleOpenEntry}
+        >
+          Re-Open Entry
+        </Button>
+      ) : (
+        <>
+          <FormControl isRequired>
+            <FormLabel color="gray.500" fontSize="sm">
+              Outcome
+            </FormLabel>
             <Select
-              value={lossReason}
-              onChange={(value: any) => setLossReason(value)}
-              options={lossReasonOptions}
+              value={outcome}
+              onChange={(value: any) => setOutcome(value)}
+              options={outcomeOptions}
             />
-          ) : (
-            <Input
-              value={winReason}
-              isFullWidth
-              onChange={(e: any) => setWinReason(e.target.value)}
-            />
+          </FormControl>
+          {!!outcome && (
+            <FormControl mt={2}>
+              <FormLabel color="gray.500" fontSize="sm">
+                {outcome.value === 'Lost' ? 'Loss' : 'Win'} Reason
+              </FormLabel>
+              {outcome.value === 'Lost' ? (
+                <Select
+                  value={lossReason}
+                  onChange={(value: any) => setLossReason(value)}
+                  options={lossReasonOptions}
+                />
+              ) : (
+                <Input
+                  value={winReason}
+                  isFullWidth
+                  onChange={(e: any) => setWinReason(e.target.value)}
+                />
+              )}
+            </FormControl>
           )}
-        </FormControl>
+          <Button
+            mt={2}
+            variantColor="red"
+            size="sm"
+            fontWeight={400}
+            isFullWidth
+            onClick={handleCloseEntry}
+          >
+            Close Entry
+          </Button>
+        </>
       )}
-      <Button
-        mt={2}
-        variantColor="red"
-        size="sm"
-        fontWeight={400}
-        isFullWidth
-        onClick={handleSubmit}
-      >
-        Close Entry
-      </Button>
     </Box>
   );
 };

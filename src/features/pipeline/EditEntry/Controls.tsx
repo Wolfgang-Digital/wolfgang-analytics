@@ -27,7 +27,7 @@ interface Props {
   outcome?: string;
   onUpdate: () => void;
   dateClosed?: string;
-  id?: string | number
+  id?: string | number;
 }
 
 const Controls: React.FC<Props> = ({
@@ -110,7 +110,7 @@ const Controls: React.FC<Props> = ({
         )}
       </Box>
       <Collapse isOpen={isOpen}>
-        <CloseEntryDialogue id={id} />
+        <CloseEntryDialogue id={id} isClosed={status === 'Closed'} />
       </Collapse>
       <Divider />
       <Box>
