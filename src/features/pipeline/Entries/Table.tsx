@@ -85,8 +85,17 @@ const Table: React.FC = () => {
               {...row.getRowProps()}
             >
               {row.cells.map((cell) => {
+                const colour =
+                  cell.column.Header === 'Total FmV' || cell.column.Header === 'Total 12mV'
+                    ? 'teal.500'
+                    : undefined;
                 return (
-                  <Box minWidth="50px" {...cell.getCellProps()}>
+                  <Box
+                    minWidth="50px"
+                    {...cell.getCellProps()}
+                    color={colour}
+                    fontWeight={colour ? 500 : 400}
+                  >
                     {cell.render('Cell')}
                   </Box>
                 );
@@ -108,11 +117,17 @@ const Table: React.FC = () => {
             minWidth="min-content"
             {...group.getFooterGroupProps()}
           >
-            {group.headers.map((column) => (
-              <Text minWidth="50px" {...column.getFooterProps()}>
-                {column.render('Footer')}
-              </Text>
-            ))}
+            {group.headers.map((column) => {
+              const colour =
+                column.Header === 'Total FmV' || column.Header === 'Total 12mV'
+                  ? 'teal.500'
+                  : undefined;
+              return (
+                <Text minWidth="50px" {...column.getFooterProps()} color={colour}>
+                  {column.render('Footer')}
+                </Text>
+              );
+            })}
           </Grid>
         ))}
       </Box>

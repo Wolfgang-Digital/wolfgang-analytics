@@ -50,10 +50,12 @@ const EditEntry: React.FC = () => {
         ) : tab === 'PROPOSAL' ? (
           <ProposalForm state={proposalForm} updateForm={updateProposal} isEditPage />
         ) : (
-          <MoneyForm state={moneyForm} updateForm={updateMoney} />
+          <MoneyForm state={moneyForm} updateForm={updateMoney} channels={entry?.channels} />
         )}
         <Contols
           id={entry?.id}
+          dateAdded={entry?.date_added}
+          lastUpdated={entry?.last_updated}
           tab={tab}
           setTab={setTab}
           onUpdate={handleUpdate}

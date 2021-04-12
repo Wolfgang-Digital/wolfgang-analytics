@@ -11,10 +11,11 @@ const outcomeOptions = [
 
 const lossReasonOptions = [
   { label: 'Price', value: 'Price' },
-  { label: 'Forecast Results', value: 'Lost' },
+  { label: 'Forecast Results', value: 'Forecast Results' },
   { label: 'Questions around Strategy', value: 'Questions around Strategy' },
   { label: 'Timing of our response', value: 'Timing of our response' },
   { label: 'Issues with Contract', value: 'Issues with Contract' },
+  { label: 'Other', value: 'Other' },
 ];
 
 interface Props {

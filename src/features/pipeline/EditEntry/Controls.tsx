@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/core';
 import { useSelector } from 'react-redux';
-import { format } from 'date-fns';
+import { format, differenceInDays } from 'date-fns';
 
 import { toTitleCase } from 'utils/format';
 import { getOutcomeColour } from '../Entries/utils';
@@ -27,7 +27,9 @@ interface Props {
   outcome?: string;
   onUpdate: () => void;
   dateClosed?: string;
+  dateAdded?: string;
   id?: string | number;
+  lastUpdated?: string;
 }
 
 const Controls: React.FC<Props> = ({
@@ -39,6 +41,8 @@ const Controls: React.FC<Props> = ({
   status,
   onUpdate,
   dateClosed,
+  dateAdded,
+  lastUpdated,
 }) => {
   const { isOpen, onToggle } = useDisclosure();
   const { isLoading } = useSelector(getStatus);
@@ -82,6 +86,29 @@ const Controls: React.FC<Props> = ({
           The Money
         </Button>
       </ButtonGroup>
+      <Divider />
+      <Box>
+        <Text color="gray.500" fontSize="sm" fontWeight={500}>
+          Last Updated
+        </Text>
+        {lastUpdated && (
+          <Text mb={0} fontSize="0.9em">
+            {format(new Date(lastUpdated), 'dd MMM yyyy')}
+          </Text>
+        )}
+      </Box>
+      <Divider />
+      <Box>
+        <Text color="gray.500" fontSize="sm" fontWeight={500}>
+          Time in Pipe
+        </Text>
+        {dateAdded && (
+          <Text mb={0} fontSize="0.9em">{`${differenceInDays(
+            new Date(),
+            new Date(dateAdded)
+          )} days`}</Text>
+        )}
+      </Box>
       <Divider />
       <Box>
         <Text color="gray.500" fontSize="sm" fontWeight={500}>

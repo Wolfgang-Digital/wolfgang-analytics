@@ -21,9 +21,17 @@ interface Props {
   state: typeof initialFormState['money'];
   updateForm: (args: { key: keyof typeof initialFormState['money']; value: any }) => void;
   boxProps?: BoxProps;
+  channels?: string[] | { label: string, value: string }[] 
 }
 
-const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
+const getIsRequired = (col: string, channels: Props['channels']) => {
+  if (!channels) return false;
+  if (typeof channels[0] === 'string') return (channels as string[]).includes(col);
+  // @ts-ignore
+  return channels.find(x => x.value === col);
+};
+
+const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels }) => {
   const totals = useMemo(() => {
     return Object.entries(state).reduce(
       (result, [key, value]: [string, string | undefined]) => {
@@ -48,7 +56,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
       </Heading>
       <Box as="form" p={4}>
         <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('PPC', channels)} isDisabled={!getIsRequired('PPC', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               PPC First-Month Value
             </FormLabel>
@@ -63,7 +71,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
               />
             </InputGroup>
           </FormControl>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('PPC', channels)} isDisabled={!getIsRequired('PPC', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               PPC 12-Month Value
             </FormLabel>
@@ -81,7 +89,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
         </Grid>
         <Divider />
         <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('SEO', channels)} isDisabled={!getIsRequired('SEO', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               SEO First-Month Value
             </FormLabel>
@@ -96,7 +104,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
               />
             </InputGroup>
           </FormControl>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('SEO', channels)} isDisabled={!getIsRequired('SEO', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               SEO 12-Month Value
             </FormLabel>
@@ -114,7 +122,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
         </Grid>
         <Divider />
         <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('Content', channels)} isDisabled={!getIsRequired('Content', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               Content First-Month Value
             </FormLabel>
@@ -129,7 +137,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
               />
             </InputGroup>
           </FormControl>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('Content', channels)} isDisabled={!getIsRequired('Content', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               Content 12-Month Value
             </FormLabel>
@@ -147,7 +155,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
         </Grid>
         <Divider />
         <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('Email', channels)} isDisabled={!getIsRequired('Email', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               Email First-Month Value
             </FormLabel>
@@ -162,7 +170,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
               />
             </InputGroup>
           </FormControl>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('Email', channels)} isDisabled={!getIsRequired('Email', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               Email 12-Month Value
             </FormLabel>
@@ -180,7 +188,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
         </Grid>
         <Divider />
         <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('Social', channels)} isDisabled={!getIsRequired('Social', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               Social First-Month Value
             </FormLabel>
@@ -195,7 +203,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
               />
             </InputGroup>
           </FormControl>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('Social', channels)} isDisabled={!getIsRequired('Social', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               Social 12-Month Value
             </FormLabel>
@@ -213,7 +221,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
         </Grid>
         <Divider />
         <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('Creative', channels)} isDisabled={!getIsRequired('Creative', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               Creative First-Month Value
             </FormLabel>
@@ -228,7 +236,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
               />
             </InputGroup>
           </FormControl>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('Creative', channels)} isDisabled={!getIsRequired('Creative', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               Creative 12-Month Value
             </FormLabel>
@@ -246,7 +254,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
         </Grid>
         <Divider />
         <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('CRO', channels)} isDisabled={!getIsRequired('CRO', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               CRO First-Month Value
             </FormLabel>
@@ -261,7 +269,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
               />
             </InputGroup>
           </FormControl>
-          <FormControl pb={1}>
+          <FormControl pb={1}  isRequired={getIsRequired('CRO', channels)} isDisabled={!getIsRequired('CRO', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               CRO 12-Month Value
             </FormLabel>
@@ -279,7 +287,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
         </Grid>
         <Divider />
         <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('Analytics', channels)} isDisabled={!getIsRequired('Analytics', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               Analytics First-Month Value
             </FormLabel>
@@ -294,7 +302,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps }) => {
               />
             </InputGroup>
           </FormControl>
-          <FormControl pb={1}>
+          <FormControl pb={1} isRequired={getIsRequired('Analytics', channels)} isDisabled={!getIsRequired('Analytics', channels)}>
             <FormLabel color="gray.500" fontSize="sm">
               Analytics 12-Month Value
             </FormLabel>

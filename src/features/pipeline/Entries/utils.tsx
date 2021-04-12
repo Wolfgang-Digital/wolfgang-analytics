@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Cell } from 'react-table';
-import { format } from 'date-fns';
+import { format, differenceInDays } from 'date-fns';
 import { Badge } from '@chakra-ui/core';
 
 import { formatCurrency } from 'utils/format';
@@ -95,37 +95,24 @@ export const propsalColumns = [
   { Header: 'Company', accessor: 'company_name' },
   { Header: 'Details & Progress Update', accessor: 'details' },
   {
-    Header: 'Date Contacted',
-    accessor: 'date_contacted',
-    Cell: (props: Cell) => formatDate(props.value),
-  },
-  {
-    Header: 'Proposal Issue Date',
-    accessor: 'proposal_issue_date',
-    Cell: (props: Cell) => formatDate(props.value),
-  },
-  {
-    Header: 'Meeting Date',
-    accessor: 'meeting_date',
-    Cell: (props: Cell) => formatDate(props.value),
-  },
-  {
-    Header: 'Follow Up Dates',
-    accessor: 'follow_up_dates',
-    Cell: (props: Cell) => props.value?.map(formatDate).join(', ') || '',
-  },
-  {
     Header: 'Chance to Win',
     accessor: 'success_probability',
     Cell: (props: Cell) => (props.value ? `${props.value}%` : ''),
   },
-  { Header: 'COVID-19 Impact', accessor: 'covid_impact' },
   { Header: 'Reason if Lost', accessor: 'loss_reason' },
   { Header: 'Reason if Won', accessor: 'win_reason' },
   {
     Header: 'Date Closed',
     accessor: 'date_closed',
     Cell: (props: Cell) => formatDate(props.value),
+  },
+  {
+    Header: 'Time in Pipe',
+    accessor: 'date_added',
+    Cell: (props: Cell) => {
+      const numDays = differenceInDays(new Date(), new Date(props.value));
+      return `${numDays} days`;
+    }
   },
 ];
 

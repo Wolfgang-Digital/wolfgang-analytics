@@ -11,7 +11,7 @@ export const PercentSlider: React.FC<Props> = ({ value, setValue, colour = 'gree
   const _colour = !!value ? (value >= 66 ? 'green' : value >= 33 ? 'orange' : 'red') : colour;
   return (
     <Grid templateColumns="1fr auto" alignItems="center" columnGap={4}>
-      <Slider color={_colour} value={value} onChange={setValue} min={0} max={100}>
+      <Slider color={_colour} value={value} onChange={setValue} min={0} max={90} step={25}>
         <SliderTrack />
         <SliderFilledTrack />
         <SliderThumb />

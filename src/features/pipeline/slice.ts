@@ -74,7 +74,11 @@ export const updateEntry = createAsyncThunk<PipelineEntry, {
 export const initialState: PipelineState = {
   isLoading: false,
   data: [],
-  filters: [],
+  filters: [{
+    column: 'Status',
+    operator: 'is',
+    value: 'Open'
+  }],
   currentTab: 'ENQUIRY',
   offset: 0,
   limit: 20,
@@ -264,13 +268,13 @@ export const getQueryString = createSelector(
   }
 );
 
-export const { 
-  addFilter, 
-  removeFilter, 
-  clearFilters, 
-  setTab,  
-  setQuery, 
-  setIsLoading, 
+export const {
+  addFilter,
+  removeFilter,
+  clearFilters,
+  setTab,
+  setQuery,
+  setIsLoading,
   setCurrentEntry,
   incrementOffset,
   decrementOffset

@@ -54,51 +54,9 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
         <Divider />
         <FormControl pb={1}>
           <FormLabel color="gray.500" fontSize="sm">
-            Date Contacted
-          </FormLabel>
-          <CalendarPicker
-            date={state.date_contacted}
-            setDate={(value) => updateForm({ key: 'date_contacted', value })}
-          />
-        </FormControl>
-        <Divider />
-        <FormControl pb={1}>
-          <FormLabel color="gray.500" fontSize="sm">
-            Proposal Issue Date
-          </FormLabel>
-          <CalendarPicker
-            date={state.proposal_issue_date}
-            setDate={(value) => updateForm({ key: 'proposal_issue_date', value })}
-          />
-        </FormControl>
-        <Divider />
-        <FormControl pb={1}>
-          <FormLabel color="gray.500" fontSize="sm">
-            Meeting Date
-          </FormLabel>
-          <CalendarPicker
-            date={state.meeting_date}
-            setDate={(value) => updateForm({ key: 'meeting_date', value })}
-          />
-        </FormControl>
-        <Divider />
-        <FormControl pb={1}>
-          <FormLabel color="gray.500" fontSize="sm">
             Chance to Win
           </FormLabel>
           <PercentSlider value={percent} setValue={handleSliderUpdate} />
-        </FormControl>
-        <Divider />
-        <FormControl pb={1}>
-          <FormLabel color="gray.500" fontSize="sm">
-            COVID-19 Impact
-          </FormLabel>
-          <Input
-            name="covid_impact"
-            value={state.covid_impact}
-            onChange={(e: any) => updateForm({ key: 'covid_impact', value: e.target.value })}
-            isFullWidth
-          />
         </FormControl>
         {!isEditPage && (
           <>

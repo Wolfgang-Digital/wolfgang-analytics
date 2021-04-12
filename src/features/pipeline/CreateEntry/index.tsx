@@ -108,6 +108,7 @@ const CreateEntry: React.FC = () => {
           state={money.form}
           updateForm={money.updateForm}
           boxProps={{ marginX: 1, mb: 'auto', mt: 2, minWidth: '400px' }}
+          channels={enquiry.form.channels}
         />
       </Flex>
     </Box>
