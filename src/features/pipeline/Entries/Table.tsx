@@ -87,7 +87,7 @@ const Table: React.FC = () => {
               {row.cells.map((cell) => {
                 const colour =
                   cell.column.Header === 'Total FmV' || cell.column.Header === 'Total 12mV'
-                    ? 'teal.500'
+                    ? 'red.600'
                     : undefined;
                 return (
                   <Box
@@ -120,7 +120,7 @@ const Table: React.FC = () => {
             {group.headers.map((column) => {
               const colour =
                 column.Header === 'Total FmV' || column.Header === 'Total 12mV'
-                  ? 'teal.500'
+                  ? 'red.600'
                   : undefined;
               return (
                 <Text minWidth="50px" {...column.getFooterProps()} color={colour}>

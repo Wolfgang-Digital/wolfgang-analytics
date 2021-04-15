@@ -5,6 +5,7 @@ import {
   Menu,
   MenuButton,
   MenuList,
+  MenuGroup,
   MenuItem,
   Text,
 } from '@chakra-ui/core';
@@ -12,7 +13,10 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 
 import { useClickOutside } from 'hooks/useClickOutside';
+import { useCurrentUser } from 'hooks/users';
 import { getControls } from './FilterControls';
+import { useDispatch } from 'react-redux';
+import { setFilters } from '../slice';
 
 const enquiryFilters = [
   'Date',
@@ -20,9 +24,11 @@ const enquiryFilters = [
   'Duration',
   'Channels',
   'Source',
+  'Proposal Leads',
   'Status',
   'Outcome',
-  'Updated'
+  'Updated',
+  'Date Closed',
 ];
 // const proposalFilters = ['Date Contacted', 'Proposal Date', 'Meeting Date'];
 
@@ -52,6 +58,100 @@ const FilterMenuItem: React.FC<MenuItemProps> = ({ label, current, setCurrent, c
         )}
       </MenuItem>
     </>
+  );
+};
+
+export const PresetFilterMenu: React.FC = () => {
+  const dispatch = useDispatch();
+  const user = useCurrentUser();
+
+  const setPreset = (preset: string) => {
+    switch (preset) {
+      case 'my_clients':
+        if (user) {
+          dispatch(
+            setFilters([
+              {
+                column: 'Proposal Leads',
+                operator: 'contains',
+                value: user.user_id,
+                displayValue: user.username,
+              },
+            ])
+          );
+        }
+        break;
+
+      case 'pending':
+        dispatch(
+          setFilters([
+            {
+              column: 'Status',
+              operator: 'is',
+              value: 'Open',
+            },
+          ])
+        );
+        break;
+
+      case 'won':
+        dispatch(
+          setFilters([
+            {
+              column: 'Status',
+              operator: 'is',
+              value: 'Closed',
+            },
+            {
+              column: 'Outcome',
+              operator: 'is',
+              value: 'Won',
+            },
+          ])
+        );
+        break;
+
+      case 'lost':
+        dispatch(
+          setFilters([
+            {
+              column: 'Status',
+              operator: 'is',
+              value: 'Closed',
+            },
+            {
+              column: 'Outcome',
+              operator: 'is',
+              value: 'Lost',
+            },
+          ])
+        );
+        break;
+
+      default:
+        break;
+    }
+  };
+
+  return (
+    <Menu>
+      <MenuButton
+        as={IconButton}
+        //@ts-ignore
+        icon="star"
+        size="sm"
+        mr={2}
+        mb={2}
+      />
+      <MenuList fontSize="0.85em" placement="bottom-start" id="menu">
+        <MenuGroup title="Filter Presets">
+          <MenuItem onClick={() => setPreset('my_clients')}>My Clients</MenuItem>
+          <MenuItem onClick={() => setPreset('pending')}>Pending</MenuItem>
+          <MenuItem onClick={() => setPreset('won')}>Won</MenuItem>
+          <MenuItem onClick={() => setPreset('lost')}>Lost</MenuItem>
+        </MenuGroup>
+      </MenuList>
+    </Menu>
   );
 };
 
@@ -86,15 +186,17 @@ const FilterMenu: React.FC = () => {
       />
       <div ref={ref}>
         <MenuList fontSize="0.85em" placement="bottom-start" id="menu">
-          {enquiryFilters.map((filter) => (
-            <FilterMenuItem
-              key={filter}
-              label={filter}
-              current={current}
-              setCurrent={setCurrent}
-              close={onClose}
-            />
-          ))}
+          <MenuGroup title="Filter Column">
+            {enquiryFilters.map((filter) => (
+              <FilterMenuItem
+                key={filter}
+                label={filter}
+                current={current}
+                setCurrent={setCurrent}
+                close={onClose}
+              />
+            ))}
+          </MenuGroup>
         </MenuList>
       </div>
     </Menu>

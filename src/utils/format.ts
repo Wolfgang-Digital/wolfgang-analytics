@@ -22,7 +22,9 @@ export const formatNumberString = (num: number) => {
 
 export const mapFormArrayValues = <T>(array: any[]) => array.map(item => item.value ?? item) as T[];
 
-export const getInitials = (name: string) => name.replace(/(\b[a-zA-Z])[a-zA-Z]* ?/g, '$1');
+export const getInitials = (name: string) => name.replace(/(\b[a-zA-Z])[a-zA-Z]* ?/g, '$1').replace(/(\[\w*\]|\s)/g, '');
+
+export const getFirstName = (name: string) => name.replace(/(\[\w*\]) (.*)/g, '$2').split(' ')[0];
 
 export const formatCurrency = (value?: number | string) => {
   if (!value) return '';
@@ -33,7 +35,7 @@ export const formatCurrency = (value?: number | string) => {
 export function toTitleCase(str: string) {
   return str.replace(
     /\w\S*/g,
-    function(txt) {
+    function (txt) {
       return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     }
   );

@@ -42,7 +42,8 @@ export const useProposalForm = (entry?: PipelineEntry) => {
     outcome,
     win_reason,
     loss_reason,
-    date_closed
+    date_closed,
+    proposal_leads
   } = data;
   // @ts-ignore
   const input: typeof initialFormState['proposal'] = {
@@ -57,6 +58,8 @@ export const useProposalForm = (entry?: PipelineEntry) => {
     win_reason: win_reason || '',
     loss_reason: loss_reason || '',
     date_closed: date_closed ? new Date(date_closed) : undefined,
+    // @ts-ignore
+    proposal_leads: proposal_leads?.map((user) => user ? ({ label: user.username, value: user.user_id }) : null).filter(x => !!x) || []
   };
 
   const { form, updateForm } = useForm(input, entry?.id.toString());

@@ -12,6 +12,8 @@ columnMap.set('Channels', 'channels');
 columnMap.set('Duration', 'is_ongoing');
 columnMap.set('Source', 'source');
 columnMap.set('Outcome', 'outcome');
+columnMap.set('Date Closed', 'date_closed');
+columnMap.set('Proposal Leads', 'leads');
 
 export const channels = [
   'GA',

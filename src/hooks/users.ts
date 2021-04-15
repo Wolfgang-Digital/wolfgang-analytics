@@ -22,7 +22,11 @@ export const useUserRoles = (roles: string | string[]) => {
   return profile.user.roles?.map(r => r.role_name).includes(roles);
 };
 
-export const useUserOptions = () => {
+interface UserOptionParams {
+  idAsValue?: boolean
+}
+
+export const useUserOptions = (params?: UserOptionParams) => {
   const { data, isLoading, error } = useAwsGet<User[]>('/users');
 
   return useMemo(() => {
@@ -32,11 +36,11 @@ export const useUserOptions = () => {
       userOptions: data
         ? data.map(user => ({
           label: user.username,
-          value: user
+          value: params?.idAsValue ? user.user_id : user
         }))
         : []
     };
-  }, [data, isLoading, error]);
+  }, [data, isLoading, error, params]);
 };
 
 export const useUserId = () => {

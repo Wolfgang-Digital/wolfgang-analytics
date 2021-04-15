@@ -74,11 +74,7 @@ export const updateEntry = createAsyncThunk<PipelineEntry, {
 export const initialState: PipelineState = {
   isLoading: false,
   data: [],
-  filters: [{
-    column: 'Status',
-    operator: 'is',
-    value: 'Open'
-  }],
+  filters: [],
   currentTab: 'ENQUIRY',
   offset: 0,
   limit: 20,
@@ -93,6 +89,10 @@ const slice = createSlice({
     addFilter: (state, { payload }: PayloadAction<PipelineFilter>) => {
       state.filters = state.filters.filter(filter => filter.column !== payload.column);
       state.filters.push(payload);
+    },
+
+    setFilters: (state, { payload }: PayloadAction<PipelineFilter[]>) => {
+      state.filters = payload;
     },
 
     removeFilter: (state, { payload }: PayloadAction<PipelineFilter>) => {
@@ -272,6 +272,7 @@ export const {
   addFilter,
   removeFilter,
   clearFilters,
+  setFilters,
   setTab,
   setQuery,
   setIsLoading,

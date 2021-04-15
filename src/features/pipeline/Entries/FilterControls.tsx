@@ -15,6 +15,7 @@ import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import Select from 'react-select';
 
+import { useUserOptions } from 'hooks/users';
 import { addFilter } from '../slice';
 import { channels, sources } from '../utils';
 import { formatDate } from './utils';
@@ -67,6 +68,65 @@ export const ChannelFilter: React.FC<FilterProps> = ({ isOpen, column, close }) 
             onChange={(selected: any) => setChannels(selected)}
             options={channelOptions}
             isMulti
+          />
+          <Button
+            size="sm"
+            isFullWidth
+            variantColor="blue"
+            variant="ghost"
+            fontWeight={400}
+            onClick={handleSubmit}
+            mt={2}
+          >
+            Apply Filter
+          </Button>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
+export const LeadsFilter: React.FC<FilterProps> = ({ isOpen, column, close }) => {
+  const { isLoading, userOptions } = useUserOptions({ idAsValue: true });
+  const dispatch = useDispatch();
+  const [leads, setLeads] = useState<typeof userOptions>();
+
+  const handleSubmit = () => {
+    if (leads && leads.length > 0) {
+      dispatch(
+        addFilter({
+          column,
+          operator: 'contains',
+          displayValue: leads.map((lead) => lead.label).join(','),
+          value: leads.map((lead) => lead.value).join(','),
+        })
+      );
+      close();
+    }
+  };
+
+  return (
+    <Popover placement="auto" isOpen={isOpen}>
+      <PopoverTrigger>
+        <div style={{ visibility: 'hidden', width: '100%', height: '100%' }}></div>
+      </PopoverTrigger>
+      <PopoverContent
+        zIndex={100}
+        _focus={{ outline: 'none' }}
+        position="absolute"
+        border={0}
+        minWidth={350}
+      >
+        <PopoverHeader textAlign="center" fontWeight={700} color="gray.600">
+          {column}
+        </PopoverHeader>
+        <PopoverBody onClick={(e) => e.stopPropagation()}>
+          <Select
+            value={leads}
+            onChange={(selected: any) => setLeads(selected)}
+            options={userOptions}
+            isMulti
+            isLoading={isLoading}
           />
           <Button
             size="sm"
@@ -428,6 +488,9 @@ export const getControls = (column: string) => {
 
       case 'Status':
         return StatusFilter;
+
+      case 'Proposal Leads':
+        return LeadsFilter;
 
       default:
         return null;

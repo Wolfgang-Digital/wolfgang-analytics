@@ -59,6 +59,8 @@ const CreateEntry: React.FC = () => {
       source: enquiry.form.source?.value,
     };
 
+    console.log(input);
+
     dispatch(setIsLoading(true));
     const res = await awsPost<PipelineEntry>('/pipeline', input);
     dispatch(setIsLoading(false));

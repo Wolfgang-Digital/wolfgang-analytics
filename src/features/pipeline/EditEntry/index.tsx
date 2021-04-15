@@ -31,6 +31,9 @@ const EditEntry: React.FC = () => {
     if (entry) {
       const input = tab === 'ENQUIRY' ? enquiryForm : tab === 'PROPOSAL' ? proposalForm : moneyForm;
       const formData = getFormData(input);
+      if (formData.proposal_leads) {
+        formData.proposal_leads = formData.proposal_leads.map((option: any) => option.value);
+      }
       dispatch(updateEntry({ id: entry.id, values: formData }));
     }
   };

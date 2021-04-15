@@ -3,7 +3,7 @@ import { Stack, Tag, TagLabel, TagCloseButton, Text } from '@chakra-ui/core';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { getFilters, removeFilter } from '../slice';
-import FilterMenu from './FilterMenu';
+import FilterMenu, { PresetFilterMenu } from './FilterMenu';
 import { PipelineFilter } from '../types';
 
 const renderDate = (filter: PipelineFilter) => {
@@ -34,17 +34,17 @@ const renderDate = (filter: PipelineFilter) => {
   );
 };
 
-const renderChannels = (filter: PipelineFilter) => {
-  const channels = filter.value.toString().split(',');
+const renderContains = (filter: PipelineFilter) => {
+  const values = filter.displayValue?.toString().split(',') || filter.value.toString().split(',');
 
   return (
     <Text as="span" fontWeight={400}>
       {` ${filter.operator} `}
-      {channels.map((channel, i) => (
-        <span key={channel}>
+      {values.map((value, i) => (
+        <span key={value}>
           {i > 0 && ' or '}
           <Text as="span" fontWeight={700}>
-            {channel}
+            {value}
           </Text>
         </span>
       ))}
@@ -58,9 +58,10 @@ const FilterList: React.FC = () => {
 
   return (
     <Stack isInline mb={4} align="center" className="pipeline-filters" flexWrap="wrap">
+      <PresetFilterMenu />
       <FilterMenu />
       {filters.length === 0 && (
-        <Text fontSize="0.9em" fontWeight={500}>
+        <Text fontSize="0.9em" fontWeight={500} transform="translateY(-4px)">
           No Filters
         </Text>
       )}
@@ -72,13 +73,13 @@ const FilterList: React.FC = () => {
             </Text>
             {filter.column.toLowerCase().includes('date') ? (
               renderDate(filter)
-            ) : filter.column === 'Channels' ? (
-              renderChannels(filter)
+            ) : filter.operator === 'contains' ? (
+              renderContains(filter)
             ) : (
               <>
                 {` ${filter.operator} `}
                 <Text as="span" fontWeight={700}>
-                  {filter.value}
+                  {filter.displayValue || filter.value}
                 </Text>
               </>
             )}

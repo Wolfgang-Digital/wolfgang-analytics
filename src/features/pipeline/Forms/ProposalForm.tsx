@@ -10,7 +10,9 @@ import {
   BoxProps,
 } from '@chakra-ui/core';
 import { debounce } from 'lodash';
+import Select from 'react-select';
 
+import { useUserOptions } from 'hooks/users';
 import { CalendarPicker } from 'components/DatePicker';
 import { PercentSlider } from 'components/Sliders';
 import { initialFormState } from '../utils';
@@ -24,6 +26,7 @@ interface Props {
 
 const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
   const [percent, setPercent] = useState<number | undefined>(state.success_probability);
+  const { isLoading, userOptions } = useUserOptions({ idAsValue: true });
 
   const updateSlider = debounce((value: number) => {
     updateForm({ key: 'success_probability', value });
@@ -35,7 +38,14 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
   };
 
   return (
-    <Box background="white" borderRadius={4} border="1px solid #E2E8F0" flexGrow={1} {...boxProps}>
+    <Box
+      background="white"
+      borderRadius={4}
+      border="1px solid #E2E8F0"
+      flexGrow={1}
+      mb="auto"
+      {...boxProps}
+    >
       <Heading color="blue.500" size="md" borderBottom="1px solid #E2E8F0" textAlign="center" p={2}>
         The Proposal
       </Heading>
@@ -87,15 +97,17 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
           />
         </FormControl>
         <Divider />
-        <FormControl pb={1}>
+        <FormControl pb={1} isRequired>
           <FormLabel color="gray.500" fontSize="sm">
-            Reason If Won
+            Proposal Leads
           </FormLabel>
-          <Input
-            name="win_reason"
-            value={state.win_reason}
-            onChange={(e: any) => updateForm({ key: 'win_reason', value: e.target.value })}
-            isFullWidth
+          <Select
+            value={state.proposal_leads}
+            onChange={(value: any) => updateForm({ key: 'proposal_leads', value })}
+            // @ts-ignore
+            options={userOptions}
+            isLoading={isLoading}
+            isMulti
           />
         </FormControl>
         {!isEditPage && (

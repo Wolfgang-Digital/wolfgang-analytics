@@ -46,12 +46,24 @@ const Entries: React.FC = () => {
       <Flex align="flex-end" justify="space-between">
         <TabControls />
         <Grid templateColumns="auto auto" columnGap={2} alignItems="flex-end">
-          <Text fontSize="0.9em" color="gray.600">{`Showing ${offset + 1} to ${
-            offset + current
-          } of ${total}`}</Text>
+          <Text fontSize="0.9em" color="gray.600">
+            {current > 0
+              ? `Showing ${offset + 1} to ${offset + current} of ${total}`
+              : 'No results'}
+          </Text>
           <ButtonGroup size="xs">
-            <IconButton icon="arrow-left" aria-label="Previous page" onClick={decrement} isDisabled={offset === 0} />
-            <IconButton icon="arrow-right" aria-label="Next page" onClick={increment} isDisabled={current < limit} />
+            <IconButton
+              icon="arrow-left"
+              aria-label="Previous page"
+              onClick={decrement}
+              isDisabled={offset === 0}
+            />
+            <IconButton
+              icon="arrow-right"
+              aria-label="Next page"
+              onClick={increment}
+              isDisabled={current < limit}
+            />
           </ButtonGroup>
         </Grid>
       </Flex>

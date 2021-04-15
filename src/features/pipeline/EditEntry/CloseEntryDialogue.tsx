@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, FormControl, Divider, FormLabel, Button, Input } from '@chakra-ui/core';
+import { Box, FormControl, Divider, FormLabel, Button } from '@chakra-ui/core';
 import Select from 'react-select';
 import { useDispatch } from 'react-redux';
 import { updateEntry } from '../slice';
@@ -26,18 +26,16 @@ interface Props {
 const CloseEntryDialogue: React.FC<Props> = ({ id, isClosed }) => {
   const dispatch = useDispatch();
   const [outcome, setOutcome] = useState<typeof outcomeOptions[number]>();
-  const [winReason, setWinReason] = useState('');
   const [lossReason, setLossReason] = useState<typeof lossReasonOptions[number]>();
 
   const handleCloseEntry = () => {
     if (id && outcome?.value) {
-      const values = {
+      const values: Record<string, any> = {
         status: 'Closed',
         outcome: outcome.value,
-        [outcome.value === 'Won' ? 'win_reason' : 'loss_reason']:
-          outcome.value === 'Won' ? winReason : lossReason?.value,
         date_closed: new Date(),
       };
+      if (outcome.value === 'Lost') values.loss_reason = lossReason;
       dispatch(updateEntry({ id, values }));
     }
   };
@@ -47,7 +45,6 @@ const CloseEntryDialogue: React.FC<Props> = ({ id, isClosed }) => {
       const values = {
         status: 'Open',
         outcome: null,
-        win_reason: null,
         loss_reason: null,
         date_closed: null,
       };
@@ -81,24 +78,16 @@ const CloseEntryDialogue: React.FC<Props> = ({ id, isClosed }) => {
               options={outcomeOptions}
             />
           </FormControl>
-          {!!outcome && (
+          {outcome?.value === 'Lost' && (
             <FormControl mt={2}>
               <FormLabel color="gray.500" fontSize="sm">
-                {outcome.value === 'Lost' ? 'Loss' : 'Win'} Reason
+                Loss Reason
               </FormLabel>
-              {outcome.value === 'Lost' ? (
-                <Select
-                  value={lossReason}
-                  onChange={(value: any) => setLossReason(value)}
-                  options={lossReasonOptions}
-                />
-              ) : (
-                <Input
-                  value={winReason}
-                  isFullWidth
-                  onChange={(e: any) => setWinReason(e.target.value)}
-                />
-              )}
+              <Select
+                value={lossReason}
+                onChange={(value: any) => setLossReason(value)}
+                options={lossReasonOptions}
+              />
             </FormControl>
           )}
           <Button
@@ -108,6 +97,7 @@ const CloseEntryDialogue: React.FC<Props> = ({ id, isClosed }) => {
             fontWeight={400}
             isFullWidth
             onClick={handleCloseEntry}
+            isDisabled={!outcome || (outcome?.value === 'Lost' && !lossReason)}
           >
             Close Entry
           </Button>

@@ -3,7 +3,7 @@ import { Cell } from 'react-table';
 import { format, differenceInDays } from 'date-fns';
 import { Badge } from '@chakra-ui/core';
 
-import { formatCurrency } from 'utils/format';
+import { formatCurrency, getFirstName } from 'utils/format';
 
 export const formatDate = (str?: any) => {
   return str ? format(new Date(str), 'dd MMM yy') : '';
@@ -53,14 +53,12 @@ export const enquiryColumns = [
     },
     sortType: sortBool,
   },
-  { Header: 'Scope', accessor: 'scope' },
   {
     Header: 'Channels',
     accessor: 'channels',
     Cell: (props: Cell) => props.value.join(' / '),
   },
   { Header: 'Source', accessor: 'source' },
-  { Header: 'Leads', accessor: 'leads' },
   {
     Header: 'Status',
     accessor: 'status',
@@ -93,6 +91,20 @@ export const enquiryColumns = [
 
 export const propsalColumns = [
   { Header: 'Company', accessor: 'company_name' },
+  {
+    Header: 'Proposal Leads',
+    accessor: 'proposal_leads',
+    Cell: (props: Cell) => {
+      if (Array.isArray(props.value) && !!props.value[0]) {
+        return props.value.map((user: any) => getFirstName(user.username)).join('/');
+      }
+      return (
+        <Badge variantColor="orange" mr="auto">
+          Not Set
+        </Badge>
+      );
+    },
+  },
   { Header: 'Details & Progress Update', accessor: 'details' },
   {
     Header: 'Chance to Win',
@@ -100,7 +112,6 @@ export const propsalColumns = [
     Cell: (props: Cell) => (props.value ? `${props.value}%` : ''),
   },
   { Header: 'Reason if Lost', accessor: 'loss_reason' },
-  { Header: 'Reason if Won', accessor: 'win_reason' },
   {
     Header: 'Date Closed',
     accessor: 'date_closed',
@@ -112,7 +123,7 @@ export const propsalColumns = [
     Cell: (props: Cell) => {
       const numDays = differenceInDays(new Date(), new Date(props.value));
       return `${numDays} days`;
-    }
+    },
   },
 ];
 
@@ -124,7 +135,10 @@ export const moneyColumns = [
     Cell: (props: Cell) => formatCurrency(props.value),
     Footer: (info: any) => {
       const total = useMemo(() => {
-        return info.rows.reduce((sum: number, row: any) => (parseFloat(row.values.ppc_fmv) || 0) + sum, 0);
+        return info.rows.reduce(
+          (sum: number, row: any) => (parseFloat(row.values.ppc_fmv) || 0) + sum,
+          0
+        );
       }, [info.rows]);
       return formatCurrency(total);
     },
@@ -135,7 +149,10 @@ export const moneyColumns = [
     Cell: (props: Cell) => formatCurrency(props.value),
     Footer: (info: any) => {
       const total = useMemo(() => {
-        return info.rows.reduce((sum: number, row: any) => (parseFloat(row.values.seo_fmv) || 0) + sum, 0);
+        return info.rows.reduce(
+          (sum: number, row: any) => (parseFloat(row.values.seo_fmv) || 0) + sum,
+          0
+        );
       }, [info.rows]);
       return formatCurrency(total);
     },
@@ -202,7 +219,10 @@ export const moneyColumns = [
     Cell: (props: Cell) => formatCurrency(props.value),
     Footer: (info: any) => {
       const total = useMemo(() => {
-        return info.rows.reduce((sum: number, row: any) => (parseFloat(row.values.cro_fmv) || 0) + sum, 0);
+        return info.rows.reduce(
+          (sum: number, row: any) => (parseFloat(row.values.cro_fmv) || 0) + sum,
+          0
+        );
       }, [info.rows]);
       return formatCurrency(total);
     },

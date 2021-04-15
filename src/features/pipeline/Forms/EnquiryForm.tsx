@@ -28,7 +28,7 @@ interface Props {
 
 const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
   return (
-    <Box background="white" borderRadius={4} border="1px solid #E2E8F0" flexGrow={1} {...boxProps}>
+    <Box background="white" borderRadius={4} border="1px solid #E2E8F0" flexGrow={1} {...boxProps} mb="auto">
       <Heading color="red.500" size="md" borderBottom="1px solid #E2E8F0" textAlign="center" p={2}>
         The Enquiry
       </Heading>
@@ -99,21 +99,6 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
         <Divider />
         <FormControl pb={1} isRequired>
           <FormLabel color="gray.500" fontSize="sm">
-            Scope
-          </FormLabel>
-          <RadioGroup
-            isInline
-            spacing={6}
-            value={state.scope}
-            onChange={(e, value) => updateForm({ key: 'scope', value })}
-          >
-            <Radio value="National">National</Radio>
-            <Radio value="International">International</Radio>
-          </RadioGroup>
-        </FormControl>
-        <Divider />
-        <FormControl pb={1} isRequired>
-          <FormLabel color="gray.500" fontSize="sm">
             Channels
           </FormLabel>
           <Select
@@ -145,18 +130,6 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
             value={state.source_comment}
             isFullWidth
             onChange={(e: any) => updateForm({ key: 'source_comment', value: e.target.value })}
-          />
-        </FormControl>
-        <Divider />
-        <FormControl pb={1} isRequired>
-          <FormLabel color="gray.500" fontSize="sm">
-            Leads
-          </FormLabel>
-          <Input
-            name="leads"
-            value={state.leads}
-            isFullWidth
-            onChange={(e: any) => updateForm({ key: 'leads', value: e.target.value })}
           />
         </FormControl>
         {!isEditPage && (

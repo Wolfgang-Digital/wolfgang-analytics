@@ -42,12 +42,18 @@ export interface PipelineEntry {
   cro_12mv?: number
   analytics_12mv?: number
   total_12mv?: number
+  proposal_leads?: {
+    user_id: string
+    username: string
+    email: string
+  }[]
 }
 
 export interface PipelineFilter {
   column: string
   operator: string
   value: string | number
+  displayValue?: string | number
 }
 
 export interface EnquirySnippet {
@@ -76,6 +82,11 @@ export interface ProposalSnippet {
   loss_reason?: string
   win_reason?: string
   date_closed?: Date
+  proposal_leads?: {
+    user_id: string
+    username: string
+    email: string
+  }[]
 }
 
 export interface MoneySnippet {
