@@ -26,8 +26,8 @@ export const getInitials = (name: string) => name.replace(/(\b[a-zA-Z])[a-zA-Z]*
 
 export const getFirstName = (name: string) => name.replace(/(\[\w*\]) (.*)/g, '$2').split(' ')[0];
 
-export const formatCurrency = (value?: number | string) => {
-  if (!value) return '';
+export const formatCurrency = (value?: number | string, defaultValue?: string) => {
+  if (!value) return defaultValue || '';
   let num = typeof value === 'string' ? parseFloat(value) : value;
   return num.toLocaleString('en-GB', { style: 'currency', currency: 'EUR' }).replace(/\.0*$/, '');
 }

@@ -92,6 +92,11 @@ export const enquiryColumns = [
 export const propsalColumns = [
   { Header: 'Company', accessor: 'company_name' },
   {
+    Header: 'Contact Email',
+    accessor: 'contact_email',
+    Cell: (props: Cell) => props.value || '-',
+  },
+  {
     Header: 'Proposal Leads',
     accessor: 'proposal_leads',
     Cell: (props: Cell) => {
@@ -105,17 +110,21 @@ export const propsalColumns = [
       );
     },
   },
-  { Header: 'Details & Progress Update', accessor: 'details' },
+  {
+    Header: 'Details & Progress Update',
+    accessor: 'details',
+    Cell: (props: Cell) => props.value || '-',
+  },
   {
     Header: 'Chance to Win',
     accessor: 'success_probability',
     Cell: (props: Cell) => (props.value ? `${props.value}%` : ''),
   },
-  { Header: 'Reason if Lost', accessor: 'loss_reason' },
+  { Header: 'Reason if Lost', accessor: 'loss_reason',Cell: (props: Cell) => props.value || '-' },
   {
     Header: 'Date Closed',
     accessor: 'date_closed',
-    Cell: (props: Cell) => formatDate(props.value),
+    Cell: (props: Cell) => props.value ? formatDate(props.value) : '-',
   },
   {
     Header: 'Time in Pipe',
@@ -132,7 +141,7 @@ export const moneyColumns = [
   {
     Header: 'PPC FmV',
     accessor: 'ppc_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -146,7 +155,7 @@ export const moneyColumns = [
   {
     Header: 'SEO FmV',
     accessor: 'seo_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -160,7 +169,7 @@ export const moneyColumns = [
   {
     Header: 'Content FmV',
     accessor: 'content_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -174,7 +183,7 @@ export const moneyColumns = [
   {
     Header: 'Email FmV',
     accessor: 'email_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -188,7 +197,7 @@ export const moneyColumns = [
   {
     Header: 'Social FmV',
     accessor: 'social_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -202,7 +211,7 @@ export const moneyColumns = [
   {
     Header: 'Creative FmV',
     accessor: 'creative_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -216,7 +225,7 @@ export const moneyColumns = [
   {
     Header: 'CRO FmV',
     accessor: 'cro_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -230,7 +239,7 @@ export const moneyColumns = [
   {
     Header: 'Analytics FmV',
     accessor: 'analytics_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -244,7 +253,7 @@ export const moneyColumns = [
   {
     Header: 'Total FmV',
     accessor: 'total_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -258,7 +267,7 @@ export const moneyColumns = [
   {
     Header: 'PPC 12mV',
     accessor: 'ppc_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -272,7 +281,7 @@ export const moneyColumns = [
   {
     Header: 'SEO 12mV',
     accessor: 'seo_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -286,7 +295,7 @@ export const moneyColumns = [
   {
     Header: 'Content 12mV',
     accessor: 'content_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -300,7 +309,7 @@ export const moneyColumns = [
   {
     Header: 'Email 12mV',
     accessor: 'email_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -314,7 +323,7 @@ export const moneyColumns = [
   {
     Header: 'Social 12mV',
     accessor: 'social_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -328,7 +337,7 @@ export const moneyColumns = [
   {
     Header: 'Creative 12mV',
     accessor: 'creative_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -342,7 +351,7 @@ export const moneyColumns = [
   {
     Header: 'CRO 12mV',
     accessor: 'cro_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -356,7 +365,7 @@ export const moneyColumns = [
   {
     Header: 'Analytics 12mV',
     accessor: 'analytics_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -370,7 +379,7 @@ export const moneyColumns = [
   {
     Header: 'Total 12mV',
     accessor: 'total_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(

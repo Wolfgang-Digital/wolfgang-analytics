@@ -125,6 +125,10 @@ const slice = createSlice({
 
     setCurrentEntry: (state, { payload }: PayloadAction<number>) => {
       state.current = state.data.find(e => e.id === payload);
+    },
+
+    clearMessage: state => {
+      state.message = undefined;
     }
   },
   extraReducers: {
@@ -278,6 +282,7 @@ export const {
   setIsLoading,
   setCurrentEntry,
   incrementOffset,
-  decrementOffset
+  decrementOffset,
+  clearMessage
 } = slice.actions;
 export default slice.reducer;

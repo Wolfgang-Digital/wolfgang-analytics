@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { useToast } from '@chakra-ui/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import BusyIndicator from 'components/BusyIndicator';
 import ErrorBoundary from 'components/ErrorBoundary';
-import { getStatus } from 'features/pipeline/slice';
+import { getStatus, clearMessage } from 'features/pipeline/slice';
 import Navigation from 'features/pipeline/Navigation';
 import Entries from 'features/pipeline/Entries';
 import CreateEntry from 'features/pipeline/CreateEntry';
@@ -14,6 +14,7 @@ import EditEntry from 'features/pipeline/EditEntry';
 const Pipeline: React.FC = () => {
   const toast = useToast();
   const status = useSelector(getStatus);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (status.error) {
@@ -24,6 +25,7 @@ const Pipeline: React.FC = () => {
         position: 'bottom-left',
         isClosable: true,
       });
+      dispatch(clearMessage());
     } else if (status.message) {
       toast({
         variant: 'left-accent',
@@ -33,7 +35,7 @@ const Pipeline: React.FC = () => {
         isClosable: true,
       });
     }
-  }, [toast, status]);
+  }, [toast, status, dispatch]);
 
   return (
     <>

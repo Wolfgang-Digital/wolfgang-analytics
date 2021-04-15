@@ -50,13 +50,26 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
         The Proposal
       </Heading>
       <Box as="form" p={4}>
+        <Divider />
+        <FormControl pb={1}>
+          <FormLabel color="gray.500" fontSize="sm">
+            Contact Email
+          </FormLabel>
+          <Input
+            name="outcome"
+            type="email"
+            value={state.contact_email || ''}
+            onChange={(e: any) => updateForm({ key: 'contact_email', value: e.target.value })}
+            isFullWidth
+          />
+        </FormControl>
         <FormControl pb={1}>
           <FormLabel color="gray.500" fontSize="sm">
             Details & Progess Update
           </FormLabel>
           <Textarea
             name="details"
-            value={state.details}
+            value={state.details || ''}
             isFullWidth
             onChange={(e: any) => updateForm({ key: 'details', value: e.target.value })}
           />
@@ -77,7 +90,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
               </FormLabel>
               <Input
                 name="outcome"
-                value={state.outcome}
+                value={state.outcome || ''}
                 onChange={(e: any) => updateForm({ key: 'outcome', value: e.target.value })}
                 isFullWidth
               />
@@ -91,7 +104,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
           </FormLabel>
           <Input
             name="loss_reason"
-            value={state.loss_reason}
+            value={state.loss_reason || ''}
             onChange={(e: any) => updateForm({ key: 'loss_reason', value: e.target.value })}
             isFullWidth
           />

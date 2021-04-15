@@ -43,7 +43,8 @@ export const useProposalForm = (entry?: PipelineEntry) => {
     win_reason,
     loss_reason,
     date_closed,
-    proposal_leads
+    proposal_leads,
+    contact_email
   } = data;
   // @ts-ignore
   const input: typeof initialFormState['proposal'] = {
@@ -53,7 +54,7 @@ export const useProposalForm = (entry?: PipelineEntry) => {
     meeting_date: meeting_date ? new Date(meeting_date) : undefined,
     //      follow_up_dates, 
     success_probability,
-    covid_impact: covid_impact || '',
+    contact_email: contact_email || '',
     outcome: outcome || '',
     win_reason: win_reason || '',
     loss_reason: loss_reason || '',
