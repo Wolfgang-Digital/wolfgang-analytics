@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import routes from './routes';
 import store from './store';
 import theme from './theme';
-import Navigation from './components/Navigation';
+import Layout from './components/Layout';
 import Authenticator from './features/profile/Authenticator';
 import { Routes } from './components/Routes';
 import BusyIndicator from './components/BusyIndicator';
@@ -19,13 +19,13 @@ const App: React.FC = () => {
           <CSSReset />
           <Box width="100vw">
             <Router>
-              <Navigation>
+              <Layout>
                 <Switch>
                   <Suspense fallback={<BusyIndicator isBusy color="#4FD1C5" />}>
                     <Routes routes={routes} />
                   </Suspense>
                 </Switch>
-              </Navigation>
+              </Layout>
             </Router>
           </Box>
         </ThemeProvider>

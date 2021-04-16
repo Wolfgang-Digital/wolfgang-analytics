@@ -38,7 +38,6 @@ export const useProposalForm = (entry?: PipelineEntry) => {
     meeting_date,
     //      follow_up_dates, 
     success_probability,
-    covid_impact,
     outcome,
     win_reason,
     loss_reason,
