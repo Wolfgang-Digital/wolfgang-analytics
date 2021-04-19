@@ -22,6 +22,7 @@ export interface Notification {
   icon?: string
   text: string
   actionUrl?: string
+  iconColour?: string
 }
 
 export interface ProfileState {
@@ -136,7 +137,7 @@ const slice = createSlice({
       // Check for user based notifications
       if (state.user && !state.user.departments) {
         state.notifications.unshift({
-          icon: 'info-outline',
+          icon: 'info',
           text: 'Your department has not been set',
           actionUrl: '/user/profile'
         });
