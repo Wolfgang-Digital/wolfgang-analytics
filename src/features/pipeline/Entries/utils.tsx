@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Cell } from 'react-table';
 import { format, differenceInDays } from 'date-fns';
-import { Badge } from '@chakra-ui/core';
+import { Badge, Tooltip } from '@chakra-ui/core';
 
 import { formatCurrency, getFirstName } from 'utils/format';
 
@@ -94,7 +94,11 @@ export const propsalColumns = [
   {
     Header: 'Contact Email',
     accessor: 'contact_email',
-    Cell: (props: Cell) => props.value || '-',
+    Cell: (props: Cell) => (
+      <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        {props.value || '-'}
+      </div>
+    ),
   },
   {
     Header: 'Proposal Leads',
@@ -120,11 +124,11 @@ export const propsalColumns = [
     accessor: 'success_probability',
     Cell: (props: Cell) => (props.value ? `${props.value}%` : ''),
   },
-  { Header: 'Reason if Lost', accessor: 'loss_reason',Cell: (props: Cell) => props.value || '-' },
+  { Header: 'Reason if Lost', accessor: 'loss_reason', Cell: (props: Cell) => props.value || '-' },
   {
     Header: 'Date Closed',
     accessor: 'date_closed',
-    Cell: (props: Cell) => props.value ? formatDate(props.value) : '-',
+    Cell: (props: Cell) => (props.value ? formatDate(props.value) : '-'),
   },
   {
     Header: 'Time in Pipe',
@@ -141,7 +145,16 @@ export const moneyColumns = [
   {
     Header: 'PPC FmV',
     accessor: 'ppc_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -155,7 +168,16 @@ export const moneyColumns = [
   {
     Header: 'SEO FmV',
     accessor: 'seo_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -169,7 +191,16 @@ export const moneyColumns = [
   {
     Header: 'Content FmV',
     accessor: 'content_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -183,7 +214,16 @@ export const moneyColumns = [
   {
     Header: 'Email FmV',
     accessor: 'email_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -197,7 +237,16 @@ export const moneyColumns = [
   {
     Header: 'Social FmV',
     accessor: 'social_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -211,7 +260,16 @@ export const moneyColumns = [
   {
     Header: 'Creative FmV',
     accessor: 'creative_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -225,7 +283,16 @@ export const moneyColumns = [
   {
     Header: 'CRO FmV',
     accessor: 'cro_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -239,7 +306,16 @@ export const moneyColumns = [
   {
     Header: 'Analytics FmV',
     accessor: 'analytics_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -253,7 +329,16 @@ export const moneyColumns = [
   {
     Header: 'Total FmV',
     accessor: 'total_fmv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -267,7 +352,16 @@ export const moneyColumns = [
   {
     Header: 'PPC 12mV',
     accessor: 'ppc_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -281,7 +375,16 @@ export const moneyColumns = [
   {
     Header: 'SEO 12mV',
     accessor: 'seo_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -295,7 +398,16 @@ export const moneyColumns = [
   {
     Header: 'Content 12mV',
     accessor: 'content_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -309,7 +421,16 @@ export const moneyColumns = [
   {
     Header: 'Email 12mV',
     accessor: 'email_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -323,7 +444,16 @@ export const moneyColumns = [
   {
     Header: 'Social 12mV',
     accessor: 'social_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -337,7 +467,16 @@ export const moneyColumns = [
   {
     Header: 'Creative 12mV',
     accessor: 'creative_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -351,7 +490,16 @@ export const moneyColumns = [
   {
     Header: 'CRO 12mV',
     accessor: 'cro_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -365,7 +513,16 @@ export const moneyColumns = [
   {
     Header: 'Analytics 12mV',
     accessor: 'analytics_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
@@ -379,7 +536,16 @@ export const moneyColumns = [
   {
     Header: 'Total 12mV',
     accessor: 'total_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Cell: (props: Cell) => (
+      <Tooltip
+        label={props.column.Header?.toString()}
+        aria-label={props.column.Header?.toString() || ''}
+        showDelay={250}
+        hasArrow
+      >
+        {formatCurrency(props.value, '-')}
+      </Tooltip>
+    ),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(

@@ -55,7 +55,6 @@ const Sidebar: React.FC<{ username?: string; isLoading?: boolean }> = ({
     to: {
       transform: isOpen ? 'rotate(0deg)' : 'rotate(-180deg)',
       position: 'relative',
-      top: '2px',
       right: isOpen ? '0px' : '10px',
     },
     config: {
