@@ -13,16 +13,21 @@ type ApiResponse<T> = {
   error: string
 };
 
+export let cancelToken = axios.CancelToken.source();
+
 export const awsGet = async <T>(endpoint: string, params?: Record<string, any>): Promise<ApiResponse<T>> => {
   try {
     const session = await Auth.currentSession();
     const auth = session.getIdToken().getJwtToken();
-
+    
+    cancelToken = axios.CancelToken.source();
+    
     const res = await axios.get(`${BASE_URL}${endpoint}`, {
       headers: {
         'Authorization': auth
       },
-      params
+      params,
+      cancelToken: cancelToken.token
     });
 
     return { success: true, data: res.data as T };

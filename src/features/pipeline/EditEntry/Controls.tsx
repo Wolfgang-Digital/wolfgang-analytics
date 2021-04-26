@@ -18,13 +18,15 @@ import { toTitleCase } from 'utils/format';
 import { getOutcomeColour } from '../Entries/utils';
 import { getStatus } from '../slice';
 import CloseEntryDialogue from './CloseEntryDialogue';
+import { ChannelData } from '../types';
+import { getOutcome } from '../utils';
 
 interface Props {
   tab: 'ENQUIRY' | 'PROPOSAL' | 'MONEY';
   setTab: (tab: Props['tab']) => void;
   name?: string;
   status?: string;
-  outcome?: string;
+  channelData?: ChannelData
   onUpdate: () => void;
   dateClosed?: string;
   dateAdded?: string;
@@ -37,7 +39,7 @@ const Controls: React.FC<Props> = ({
   tab,
   setTab,
   name,
-  outcome,
+  channelData,
   status,
   onUpdate,
   dateClosed,
@@ -46,6 +48,11 @@ const Controls: React.FC<Props> = ({
 }) => {
   const { isOpen, onToggle } = useDisclosure();
   const { isLoading } = useSelector(getStatus);
+
+  const lastDay = dateClosed ? new Date(dateClosed) : new Date();
+  const timeInPipe = dateAdded ? differenceInDays(lastDay, new Date(dateAdded)) : '--';
+
+  const outcome = getOutcome(channelData);
 
   return (
     <Box
@@ -88,7 +95,18 @@ const Controls: React.FC<Props> = ({
       </ButtonGroup>
       <Divider />
       <Box>
-        <Text color="gray.500" fontSize="sm" fontWeight={500}>
+        <Text color="gray.500" fontSize="xs" fontWeight={500}>
+          Date Added
+        </Text>
+        {dateAdded && (
+          <Text mb={0} fontSize="0.9em">
+            {format(new Date(dateAdded), 'dd MMM yyyy')}
+          </Text>
+        )}
+      </Box>
+      <Divider />
+      <Box>
+        <Text color="gray.500" fontSize="xs" fontWeight={500}>
           Last Updated
         </Text>
         {lastUpdated && (
@@ -99,19 +117,18 @@ const Controls: React.FC<Props> = ({
       </Box>
       <Divider />
       <Box>
-        <Text color="gray.500" fontSize="sm" fontWeight={500}>
+        <Text color="gray.500" fontSize="xs" fontWeight={500}>
           Time in Pipe
         </Text>
         {dateAdded && (
-          <Text mb={0} fontSize="0.9em">{`${differenceInDays(
-            new Date(),
-            new Date(dateAdded)
-          )} days`}</Text>
+          <Text mb={0} fontSize="0.9em">
+            {timeInPipe} days
+          </Text>
         )}
       </Box>
       <Divider />
       <Box>
-        <Text color="gray.500" fontSize="sm" fontWeight={500}>
+        <Text color="gray.500" fontSize="xs" fontWeight={500}>
           Status
         </Text>
         <Flex align="center" justify="space-between">
@@ -141,7 +158,7 @@ const Controls: React.FC<Props> = ({
       </Collapse>
       <Divider />
       <Box>
-        <Text color="gray.500" fontSize="sm" fontWeight={500}>
+        <Text color="gray.500" fontSize="xs" fontWeight={500}>
           Outcome
         </Text>
         <Badge variantColor={getOutcomeColour(outcome)} mr="auto">

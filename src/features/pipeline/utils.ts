@@ -1,15 +1,15 @@
 import { format } from 'date-fns';
 
-import { PipelineFilter, EnquirySnippet, ProposalSnippet, MoneySnippet } from './types';
+import { PipelineFilter, EnquirySnippet, ProposalSnippet, MoneySnippet, ChannelData } from './types';
 
 export const columnMap = new Map();
 columnMap.set('Date', 'date_added');
-columnMap.set('Type', 'is_new');
+columnMap.set('Client Type', 'is_new');
 columnMap.set('Date Contacted', 'date_contacted');
 columnMap.set('Updated', 'last_updated');
 columnMap.set('Status', 'status');
 columnMap.set('Channels', 'channels');
-columnMap.set('Duration', 'is_ongoing');
+columnMap.set('Duration', 'duration');
 columnMap.set('Source', 'source');
 columnMap.set('Outcome', 'outcome');
 columnMap.set('Date Closed', 'date_closed');
@@ -47,11 +47,8 @@ export const getFilterQuery = (filter: PipelineFilter) => {
     return `${columnMap.get(filter.column)}=${format(new Date(dates[0]), 'yyyy-MM-dd')}AND${format(new Date(dates[1]), 'yyyy-MM-dd')}`;
   } else {
     switch (filter.column) {
-      case 'Type':
+      case 'Client Type':
         return `is_new=${filter.value === 'New' ? 'true' : 'false'}`;
-
-      case 'Duration':
-        return `is_ongoing=${filter.value === 'Ongoing' ? 'true' : 'false'}`;
 
       default:
         if (columnMap.has(filter.column)) {
@@ -86,9 +83,6 @@ export const initialFormState: FormState = {
   proposal: {
     details: '',
     date_contacted: undefined,
-    proposal_issue_date: undefined,
-    meeting_date: undefined,
-    follow_up_dates: [],
     success_probability: undefined,
     covid_impact: '',
     outcome: '',
@@ -97,15 +91,6 @@ export const initialFormState: FormState = {
     date_closed: undefined
   },
   money: {
-    ppc_fmv: '',
-    seo_fmv: '',
-    content_fmv: '',
-    email_fmv: '',
-    social_fmv: '',
-    creative_fmv: '',
-    cro_fmv: '',
-    analytics_fmv: '',
-    total_fmv: '',
     ppc_12mv: '',
     seo_12mv: '',
     content_12mv: '',
@@ -116,4 +101,32 @@ export const initialFormState: FormState = {
     analytics_12mv: '',
     total_12mv: ''
   }
+};
+
+export const getOutcome = (data?: ChannelData) => {
+  if (!data) return 'Pending';
+  let losses = 0;
+  let wins = 0;
+  const numKeys = Object.keys(data).length;
+  for (const channel of Object.values(data)) {
+    if (channel.outcome === 'Won') {
+      wins++;
+    } else if (channel.outcome === 'Lost') {
+      losses++;
+    }
+  }
+  if (wins > 0) {
+    return wins === numKeys ? 'Won' : `Won ${wins}/${numKeys}`;
+  }
+  return losses === numKeys ? 'Lost' : 'Pending';
+};
+
+export const getDuration = (data?: ChannelData) => {
+  if (!data) return 'Once Off';
+  for (const channel of Object.values(data)) {
+    if (channel.duration === 'Ongoing') {
+      return 'Ongoing';
+    }
+  }
+  return 'Once Off';
 };

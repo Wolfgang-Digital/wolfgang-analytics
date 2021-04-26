@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { awsGet } from 'utils/api';
+import { awsGet, cancelToken } from 'utils/api';
 
 export const useAwsGet = <T>(path: string, params?: Record<string, string | number>) => {
   const [data, setData] = useState<any>();
@@ -27,6 +27,10 @@ export const useAwsGet = <T>(path: string, params?: Record<string, string | numb
       }
     };
     fetchData();
+
+    return () => {
+      cancelToken.cancel();
+    };
   }, [path, params]);
 
   return {

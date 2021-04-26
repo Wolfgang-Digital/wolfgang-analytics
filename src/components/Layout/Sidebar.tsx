@@ -126,7 +126,7 @@ const Sidebar: React.FC<{ username?: string; isLoading?: boolean }> = ({
       </Box>
       {isAdmin && (
         <Box borderBottom="1px solid #2a4865" pb={2}>
-          <SidebarHeading>{isOpen ? 'Tools' : null}</SidebarHeading>
+          <SidebarHeading>{isOpen ? 'Admin' : null}</SidebarHeading>
           {adminMenuItems.map((item) => (
             <SidebarLink key={item.label} isOpen={isOpen} {...item} />
           ))}

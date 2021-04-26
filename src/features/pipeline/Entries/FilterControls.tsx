@@ -471,7 +471,7 @@ export const getControls = (column: string) => {
     return DateFilter;
   } else {
     switch (column) {
-      case 'Type':
+      case 'Client Type':
         return TypeFilter;
 
       case 'Channels':

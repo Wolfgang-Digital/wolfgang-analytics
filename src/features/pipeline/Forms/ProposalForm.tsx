@@ -13,7 +13,6 @@ import { debounce } from 'lodash';
 import Select from 'react-select';
 
 import { useUserOptions } from 'hooks/users';
-import { CalendarPicker } from 'components/DatePicker';
 import { PercentSlider } from 'components/Sliders';
 import { initialFormState } from '../utils';
 
@@ -50,8 +49,21 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
         The Proposal
       </Heading>
       <Box as="form" p={4}>
-        <Divider />
         <FormControl pb={1}>
+          <FormControl pb={1} isRequired>
+            <FormLabel color="gray.500" fontSize="sm">
+              Proposal Leads
+            </FormLabel>
+            <Select
+              value={state.proposal_leads}
+              onChange={(value: any) => updateForm({ key: 'proposal_leads', value })}
+              // @ts-ignore
+              options={userOptions}
+              isLoading={isLoading}
+              isMulti
+            />
+          </FormControl>
+          <Divider />
           <FormLabel color="gray.500" fontSize="sm">
             Contact Email
           </FormLabel>
@@ -63,6 +75,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
             isFullWidth
           />
         </FormControl>
+        <Divider />
         <FormControl pb={1}>
           <FormLabel color="gray.500" fontSize="sm">
             Details & Progess Update
@@ -81,58 +94,18 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
           </FormLabel>
           <PercentSlider value={percent} setValue={handleSliderUpdate} />
         </FormControl>
-        {!isEditPage && (
+        {isEditPage && (
           <>
             <Divider />
             <FormControl pb={1}>
               <FormLabel color="gray.500" fontSize="sm">
-                Outcome
+                Reason If Lost
               </FormLabel>
               <Input
-                name="outcome"
-                value={state.outcome || ''}
-                onChange={(e: any) => updateForm({ key: 'outcome', value: e.target.value })}
+                name="loss_reason"
+                value={state.loss_reason || ''}
+                onChange={(e: any) => updateForm({ key: 'loss_reason', value: e.target.value })}
                 isFullWidth
-              />
-            </FormControl>
-          </>
-        )}
-        <Divider />
-        <FormControl pb={1}>
-          <FormLabel color="gray.500" fontSize="sm">
-            Reason If Lost
-          </FormLabel>
-          <Input
-            name="loss_reason"
-            value={state.loss_reason || ''}
-            onChange={(e: any) => updateForm({ key: 'loss_reason', value: e.target.value })}
-            isFullWidth
-          />
-        </FormControl>
-        <Divider />
-        <FormControl pb={1} isRequired>
-          <FormLabel color="gray.500" fontSize="sm">
-            Proposal Leads
-          </FormLabel>
-          <Select
-            value={state.proposal_leads}
-            onChange={(value: any) => updateForm({ key: 'proposal_leads', value })}
-            // @ts-ignore
-            options={userOptions}
-            isLoading={isLoading}
-            isMulti
-          />
-        </FormControl>
-        {!isEditPage && (
-          <>
-            <Divider />
-            <FormControl pb={1}>
-              <FormLabel color="gray.500" fontSize="sm">
-                Date Closed
-              </FormLabel>
-              <CalendarPicker
-                date={state.date_closed}
-                setDate={(value) => updateForm({ key: 'date_closed', value })}
               />
             </FormControl>
           </>

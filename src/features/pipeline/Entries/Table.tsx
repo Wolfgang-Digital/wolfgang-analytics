@@ -85,17 +85,9 @@ const Table: React.FC = () => {
               {...row.getRowProps()}
             >
               {row.cells.map((cell) => {
-                const colour =
-                  cell.column.Header === 'Total FmV' || cell.column.Header === 'Total 12mV'
-                    ? 'red.600'
-                    : undefined;
+                const weight = cell.column.Header?.toString().includes('Total') ? 500 : 400;
                 return (
-                  <Box
-                    minWidth="50px"
-                    {...cell.getCellProps()}
-                    color={colour}
-                    fontWeight={colour ? 500 : 400}
-                  >
+                  <Box minWidth="50px" {...cell.getCellProps()} fontWeight={weight}>
                     {cell.render('Cell')}
                   </Box>
                 );

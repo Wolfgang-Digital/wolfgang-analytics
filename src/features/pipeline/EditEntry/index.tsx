@@ -44,8 +44,8 @@ const EditEntry: React.FC = () => {
         Edit Pipeline Entry
       </Heading>
       <Grid
-        templateColumns="minmax(350px, 1fr) minmax(200px, 350px)"
-        columnGap={16}
+        templateColumns="minmax(350px, 1024px) minmax(200px, 350px)"
+        columnGap={8}
         justifyContent="space-between"
       >
         {tab === 'ENQUIRY' ? (
@@ -64,7 +64,7 @@ const EditEntry: React.FC = () => {
           onUpdate={handleUpdate}
           name={entry?.company_name}
           status={entry?.status}
-          outcome={entry?.outcome}
+          channelData={entry?.channel_data}
           dateClosed={entry?.date_closed}
         />
       </Grid>

@@ -13,38 +13,65 @@ import {
   Stat,
   StatLabel,
   StatNumber,
+  RadioGroup,
+  Radio,
+  Flex,
 } from '@chakra-ui/core';
 
 import { initialFormState } from '../utils';
+import { ChannelData } from '../types';
+import { clone } from 'lodash';
 
 interface Props {
   state: typeof initialFormState['money'];
   updateForm: (args: { key: keyof typeof initialFormState['money']; value: any }) => void;
   boxProps?: BoxProps;
-  channels?: string[] | { label: string, value: string }[] 
+  channels?: string[] | { label: string; value: string }[];
 }
-
-const getIsRequired = (col: string, channels: Props['channels']) => {
-  if (!channels) return false;
-  if (typeof channels[0] === 'string') return (channels as string[]).includes(col);
-  // @ts-ignore
-  return channels.find(x => x.value === col);
-};
 
 const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels }) => {
   const totals = useMemo(() => {
     return Object.entries(state).reduce(
       (result, [key, value]: [string, string | undefined]) => {
-        if (key.includes('fmv') && key !== 'total_fmv' && !!value) result.monthOne += parseFloat(value);
-        else if (key.includes('12mv') && key !== 'total_12mv' && !!value) result.monthTwelve += parseFloat(value);
+        if (key.includes('12mv') && key !== 'total_12mv' && !!value) {
+          result.monthTwelve += parseFloat(value);
+        }
         return result;
       },
       { monthOne: 0, monthTwelve: 0 }
     );
   }, [state]);
 
+  const handleChannelDataChange = (
+    channel: string,
+    key: 'duration' | 'outcome',
+    value?: string | number
+  ) => {
+    let values: ChannelData = state.channel_data ? clone(state.channel_data) : {};
+    if (values[channel]) {
+      values[channel] = {
+        ...values[channel],
+        [key]: value,
+      };
+    } else {
+      values[channel] = {
+        name: channel,
+        duration: 'Ongoing',
+        [key]: value,
+      };
+    }
+    updateForm({ key: 'channel_data', value: values });
+  };
+
   return (
-    <Box background="white" borderRadius={4} border="1px solid #E2E8F0" flexGrow={1} {...boxProps}>
+    <Box
+      background="white"
+      borderRadius={4}
+      border="1px solid #E2E8F0"
+      flexGrow={1}
+      mb="auto"
+      {...boxProps}
+    >
       <Heading
         color="orange.500"
         size="md"
@@ -55,280 +82,80 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels }) => {
         The Money
       </Heading>
       <Box as="form" p={4}>
-        <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1} isRequired={getIsRequired('PPC', channels)} isDisabled={!getIsRequired('PPC', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              PPC First-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="ppc_fmv"
-                type="number"
-                value={state.ppc_fmv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'ppc_fmv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-          <FormControl pb={1} isRequired={getIsRequired('PPC', channels)} isDisabled={!getIsRequired('PPC', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              PPC 12-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="ppc_12mv"
-                type="number"
-                value={state.ppc_12mv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'ppc_12mv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-        </Grid>
-        <Divider />
-        <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1} isRequired={getIsRequired('SEO', channels)} isDisabled={!getIsRequired('SEO', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              SEO First-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="seo_fmv"
-                type="number"
-                value={state.seo_fmv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'seo_fmv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-          <FormControl pb={1} isRequired={getIsRequired('SEO', channels)} isDisabled={!getIsRequired('SEO', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              SEO 12-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="seo_12mv"
-                type="number"
-                value={state.seo_12mv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'seo_12mv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-        </Grid>
-        <Divider />
-        <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1} isRequired={getIsRequired('Content', channels)} isDisabled={!getIsRequired('Content', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              Content First-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="content_fmv"
-                type="number"
-                value={state.content_fmv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'content_fmv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-          <FormControl pb={1} isRequired={getIsRequired('Content', channels)} isDisabled={!getIsRequired('Content', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              Content 12-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="content_12mv"
-                type="number"
-                value={state.content_12mv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'content_12mv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-        </Grid>
-        <Divider />
-        <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1} isRequired={getIsRequired('Email', channels)} isDisabled={!getIsRequired('Email', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              Email First-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="email_fmv"
-                type="number"
-                value={state.email_fmv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'email_fmv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-          <FormControl pb={1} isRequired={getIsRequired('Email', channels)} isDisabled={!getIsRequired('Email', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              Email 12-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="email_12mv"
-                type="number"
-                value={state.email_12mv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'email_12mv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-        </Grid>
-        <Divider />
-        <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1} isRequired={getIsRequired('Social', channels)} isDisabled={!getIsRequired('Social', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              Social First-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="social_fmv"
-                type="number"
-                value={state.social_fmv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'social_fmv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-          <FormControl pb={1} isRequired={getIsRequired('Social', channels)} isDisabled={!getIsRequired('Social', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              Social 12-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="social_12mv"
-                type="number"
-                value={state.social_12mv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'social_12mv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-        </Grid>
-        <Divider />
-        <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1} isRequired={getIsRequired('Creative', channels)} isDisabled={!getIsRequired('Creative', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              Creative First-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="creative_fmv"
-                type="number"
-                value={state.creative_fmv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'creative_fmv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-          <FormControl pb={1} isRequired={getIsRequired('Creative', channels)} isDisabled={!getIsRequired('Creative', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              Creative 12-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="creative_12mv"
-                type="number"
-                value={state.creative_12mv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'creative_12mv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-        </Grid>
-        <Divider />
-        <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1} isRequired={getIsRequired('CRO', channels)} isDisabled={!getIsRequired('CRO', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              CRO First-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="cro_fmv"
-                type="number"
-                value={state.cro_fmv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'cro_fmv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-          <FormControl pb={1}  isRequired={getIsRequired('CRO', channels)} isDisabled={!getIsRequired('CRO', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              CRO 12-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="cro_12mv"
-                type="number"
-                value={state.cro_12mv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'cro_12mv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-        </Grid>
-        <Divider />
-        <Grid templateColumns="1fr 1fr" columnGap={4}>
-          <FormControl pb={1} isRequired={getIsRequired('Analytics', channels)} isDisabled={!getIsRequired('Analytics', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              Analytics First-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="analytics_fmv"
-                type="number"
-                value={state.analytics_fmv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'analytics_fmv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-          <FormControl pb={1} isRequired={getIsRequired('Analytics', channels)} isDisabled={!getIsRequired('Analytics', channels)}>
-            <FormLabel color="gray.500" fontSize="sm">
-              Analytics 12-Month Value
-            </FormLabel>
-            <InputGroup>
-              <InputLeftAddon children="€" />
-              <Input
-                name="analytics_12mv"
-                type="number"
-                value={state.analytics_12mv}
-                isFullWidth
-                onChange={(e: any) => updateForm({ key: 'analytics_12mv', value: e.target.value })}
-              />
-            </InputGroup>
-          </FormControl>
-        </Grid>
-        <Divider />
-        <Grid templateColumns="1fr 1fr" columnGap={4}>
+        {(channels as any)?.map((channel: string | { label: string; value: string }) => {
+          const name = typeof channel === 'string' ? channel : channel.value;
+          const data = state.channel_data?.[name];
+          return (
+            <div key={name}>
+              <Grid templateColumns="repeat(3, 1fr)" columnGap={4} alignItems="center">
+                <FormControl pb={1} isRequired>
+                  <FormLabel color="gray.500" fontSize="sm">
+                    {name} 12M Value
+                  </FormLabel>
+                  <InputGroup>
+                    <InputLeftAddon children="€" />
+                    <Input
+                      name={`${name}_12mv`}
+                      type="number"
+                      // @ts-ignore
+                      value={state[`${name}_12mv`]}
+                      isFullWidth
+                      onChange={(e: any) =>
+                        // @ts-ignore
+                        updateForm({ key: `${name}_12mv`, value: e.target.value })
+                      }
+                    />
+                  </InputGroup>
+                </FormControl>
+                <Flex justify="center">
+                  <FormControl isRequired>
+                    <FormLabel color="gray.500" fontSize="sm">
+                      Duration
+                    </FormLabel>
+                    <RadioGroup
+                      isInline
+                      spacing={6}
+                      size="sm"
+                      value={data?.duration}
+                      onChange={(e, value) => handleChannelDataChange(name, 'duration', value)}
+                    >
+                      <Radio value="Once Off">Once Off</Radio>
+                      <Radio value="Ongoing">Ongoing</Radio>
+                    </RadioGroup>
+                  </FormControl>
+                </Flex>
+                <Flex justify="center">
+                  <FormControl pb={1}>
+                    <FormLabel color="gray.500" fontSize="sm">
+                      Outcome
+                    </FormLabel>
+                    <RadioGroup
+                      isInline
+                      spacing={6}
+                      size="sm"
+                      value={data?.outcome}
+                      onChange={(e, value) => handleChannelDataChange(name, 'outcome', value)}
+                    >
+                      <Radio value="Won" variantColor="teal">
+                        Won
+                      </Radio>
+                      <Radio value="Lost" variantColor="red">
+                        Lost
+                      </Radio>
+                    </RadioGroup>
+                  </FormControl>
+                </Flex>
+              </Grid>
+              <Divider />
+            </div>
+          );
+        })}
+        <Flex>
           <Stat>
-            <StatLabel color="gray.500">Total First-Month Value</StatLabel>
-            <StatNumber color="gray.600">€{totals.monthOne.toLocaleString('en-GB')}</StatNumber>
-          </Stat>
-          <Stat>
-            <StatLabel color="gray.500">Total 12-Month Value</StatLabel>
+            <StatLabel color="gray.500">Total 12M Value</StatLabel>
             <StatNumber color="gray.600">€{totals.monthTwelve.toLocaleString('en-GB')}</StatNumber>
           </Stat>
-        </Grid>
+        </Flex>
       </Box>
     </Box>
   );

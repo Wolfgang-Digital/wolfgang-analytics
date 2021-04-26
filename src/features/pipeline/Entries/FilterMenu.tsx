@@ -20,7 +20,7 @@ import { setFilters } from '../slice';
 
 const enquiryFilters = [
   'Date',
-  'Type',
+  'Client Type',
   'Duration',
   'Channels',
   'Source',

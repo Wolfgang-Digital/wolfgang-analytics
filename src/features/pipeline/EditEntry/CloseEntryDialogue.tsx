@@ -3,6 +3,7 @@ import { Box, FormControl, Divider, FormLabel, Button } from '@chakra-ui/core';
 import Select from 'react-select';
 import { useDispatch } from 'react-redux';
 import { updateEntry } from '../slice';
+import { ChannelData } from '../types';
 
 const outcomeOptions = [
   { label: 'Won', value: 'Won' },
@@ -21,6 +22,7 @@ const lossReasonOptions = [
 interface Props {
   id?: number | string;
   isClosed?: boolean;
+  data?: ChannelData
 }
 
 const CloseEntryDialogue: React.FC<Props> = ({ id, isClosed }) => {
@@ -35,7 +37,6 @@ const CloseEntryDialogue: React.FC<Props> = ({ id, isClosed }) => {
         outcome: outcome.value,
         date_closed: new Date(),
       };
-      if (outcome.value === 'Lost') values.loss_reason = lossReason;
       dispatch(updateEntry({ id, values }));
     }
   };

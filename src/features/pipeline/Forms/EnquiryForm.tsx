@@ -24,25 +24,43 @@ interface Props {
   updateForm: (args: { key: keyof typeof initialFormState['enquiry']; value: any }) => void;
   boxProps?: BoxProps;
   isEditPage?: boolean;
+  // Means to retro actively add entries with commputed values (e.g. date added) - may be temporary
+  retroactiveMode?: boolean;
 }
 
-const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
+const Form: React.FC<Props> = ({
+  state,
+  updateForm,
+  boxProps,
+  retroactiveMode = false,
+}) => {
   return (
-    <Box background="white" borderRadius={4} border="1px solid #E2E8F0" flexGrow={1} {...boxProps} mb="auto">
+    <Box
+      background="white"
+      borderRadius={4}
+      border="1px solid #E2E8F0"
+      flexGrow={1}
+      {...boxProps}
+      mb="auto"
+    >
       <Heading color="red.500" size="md" borderBottom="1px solid #E2E8F0" textAlign="center" p={2}>
         The Enquiry
       </Heading>
       <Box as="form" p={4}>
-        <FormControl pb={1} isRequired>
-          <FormLabel color="gray.500" fontSize="sm">
-            Date Added
-          </FormLabel>
-          <CalendarPicker
-            date={state.date_added}
-            setDate={(value) => updateForm({ key: 'date_added', value })}
-          />
-        </FormControl>
-        <Divider />
+        {retroactiveMode && (
+          <>
+            <FormControl pb={1} isRequired>
+              <FormLabel color="gray.500" fontSize="sm">
+                Date Added
+              </FormLabel>
+              <CalendarPicker
+                date={state.date_added}
+                setDate={(value) => updateForm({ key: 'date_added', value })}
+              />
+            </FormControl>
+            <Divider />
+          </>
+        )}
         <FormControl pb={1} isRequired>
           <FormLabel color="gray.500" fontSize="sm">
             Company Name
@@ -84,21 +102,6 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
         <Divider />
         <FormControl pb={1} isRequired>
           <FormLabel color="gray.500" fontSize="sm">
-            Duration
-          </FormLabel>
-          <RadioGroup
-            isInline
-            spacing={6}
-            value={state.is_ongoing ? 'Ongoing' : 'Once Off'}
-            onChange={(e, value) => updateForm({ key: 'is_ongoing', value: value === 'Ongoing' })}
-          >
-            <Radio value="Once Off">Once Off</Radio>
-            <Radio value="Ongoing">Ongoing</Radio>
-          </RadioGroup>
-        </FormControl>
-        <Divider />
-        <FormControl pb={1} isRequired>
-          <FormLabel color="gray.500" fontSize="sm">
             Channels
           </FormLabel>
           <Select
@@ -132,29 +135,6 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
             onChange={(e: any) => updateForm({ key: 'source_comment', value: e.target.value })}
           />
         </FormControl>
-        {!isEditPage && (
-          <>
-            <Divider />
-            <FormControl pb={1} isRequired>
-              <FormLabel color="gray.500" fontSize="sm">
-                Status
-              </FormLabel>
-              <RadioGroup
-                isInline
-                spacing={6}
-                value={state.status}
-                onChange={(e, value) => updateForm({ key: 'status', value })}
-              >
-                <Radio value="Open" variantColor="teal">
-                  Open
-                </Radio>
-                <Radio value="Closed" variantColor="red">
-                  Closed
-                </Radio>
-              </RadioGroup>
-            </FormControl>
-          </>
-        )}
       </Box>
     </Box>
   );
