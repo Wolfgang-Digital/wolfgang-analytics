@@ -154,7 +154,7 @@ const Controls: React.FC<Props> = ({
         )}
       </Box>
       <Collapse isOpen={isOpen}>
-        <CloseEntryDialogue id={id} isClosed={status === 'Closed'} />
+        <CloseEntryDialogue />
       </Collapse>
       <Divider />
       <Box>
@@ -172,7 +172,7 @@ const Controls: React.FC<Props> = ({
         size="sm"
         fontWeight={400}
         onClick={onUpdate}
-        isDisabled={isLoading}
+        isDisabled={isLoading || status === 'Closed'}
       >
         Update {toTitleCase(tab)}
       </Button>

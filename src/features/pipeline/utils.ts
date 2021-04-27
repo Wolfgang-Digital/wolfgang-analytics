@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 
-import { PipelineFilter, EnquirySnippet, ProposalSnippet, MoneySnippet, ChannelData } from './types';
+import { PipelineFilter, EnquirySnippet, ProposalSnippet, MoneySnippet, ChannelData, PipelineEntry } from './types';
 
 export const columnMap = new Map();
 columnMap.set('Date', 'date_added');
@@ -16,7 +16,7 @@ columnMap.set('Date Closed', 'date_closed');
 columnMap.set('Proposal Leads', 'leads');
 
 export const channels = [
-  'GA',
+  'Analytics',
   'PPC',
   'SEO',
   'Social',
@@ -119,6 +119,17 @@ export const getOutcome = (data?: ChannelData) => {
     return wins === numKeys ? 'Won' : `Won ${wins}/${numKeys}`;
   }
   return losses === numKeys ? 'Lost' : 'Pending';
+};
+
+export const isCloseable = (entry?: PipelineEntry) => {
+  if (!entry || !entry.channel_data) return false;
+  for (const channel of Object.values(entry.channel_data)) {
+    const moneyKey = `${channel.name.toLocaleLowerCase()}_12mv`;
+    if (!channel.outcome || !(entry as Record<string, any>)[moneyKey]) {
+      return false;
+    }
+  }
+  return true;
 };
 
 export const getDuration = (data?: ChannelData) => {

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Heading, Box, Flex, Button, useToast } from '@chakra-ui/core';
+import React, { useState } from 'react';
+import { Heading, Box, Grid, useToast, Tabs, TabPanel, TabPanels } from '@chakra-ui/core';
 import { format, isDate } from 'date-fns';
 import { useDispatch } from 'react-redux';
 
@@ -12,15 +12,25 @@ import { setIsLoading } from '../slice';
 import EnquiryForm from '../Forms/EnquiryForm';
 import ProposalForm from '../Forms/ProposalForm';
 import MoneyForm from '../Forms/MoneyForm';
+import Controls from './Controls';
+import { useFormValidation } from './hooks';
 
 const CreateEntry: React.FC = () => {
   const toast = useToast();
   const navigate = useLinkHandler();
   const dispatch = useDispatch();
 
+  const [step, setStep] = useState(0);
+
   const enquiry = useForm(initialFormState.enquiry);
   const proposal = useForm(initialFormState.proposal);
   const money = useForm(initialFormState.money);
+
+  const isValid = useFormValidation(
+    step === 0 ? enquiry.form : step === 1 ? proposal.form : money.form,
+    step,
+    enquiry.form.channels as any
+  );
 
   const handleSubmit = async () => {
     const input: Partial<PipelineEntry> = {
@@ -57,9 +67,8 @@ const CreateEntry: React.FC = () => {
           : undefined,
       // @ts-ignore
       source: enquiry.form.source?.value,
+      channel_data: money.form.channel_data
     };
-
-    console.log(input);
 
     dispatch(setIsLoading(true));
     const res = await awsPost<PipelineEntry>('/pipeline', input);
@@ -92,27 +101,30 @@ const CreateEntry: React.FC = () => {
       <Heading mb={6} size="lg">
         Create Pipeline Entry
       </Heading>
-      <Button variantColor="teal" width="150px" ml={1} fontWeight={400} onClick={handleSubmit}>
-        Submit
-      </Button>
-      <Flex flexWrap="wrap" justify="space-between">
-        <EnquiryForm
-          state={enquiry.form}
-          updateForm={enquiry.updateForm}
-          boxProps={{ marginX: 1, mb: 'auto', mt: 2, minWidth: '400px' }}
-        />
-        <ProposalForm
-          state={proposal.form}
-          updateForm={proposal.updateForm}
-          boxProps={{ marginX: 1, mb: 'auto', mt: 2, minWidth: '400px' }}
-        />
-        <MoneyForm
-          state={money.form}
-          updateForm={money.updateForm}
-          boxProps={{ marginX: 1, mb: 'auto', mt: 2, minWidth: '400px' }}
-          channels={enquiry.form.channels}
-        />
-      </Flex>
+      <Grid
+        templateColumns="minmax(350px, 1024px) minmax(200px, 350px)"
+        columnGap={8}
+        justifyContent="space-between"
+      >
+        <Tabs index={step}>
+          <TabPanels>
+            <TabPanel>
+              <EnquiryForm state={enquiry.form} updateForm={enquiry.updateForm} />
+            </TabPanel>
+            <TabPanel>
+              <ProposalForm state={proposal.form} updateForm={proposal.updateForm} />
+            </TabPanel>
+            <TabPanel>
+              <MoneyForm
+                state={money.form}
+                updateForm={money.updateForm}
+                channels={enquiry.form.channels}
+              />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+        <Controls step={step} setStep={setStep} handleSubmit={handleSubmit} isValid={isValid} />
+      </Grid>
     </Box>
   );
 };

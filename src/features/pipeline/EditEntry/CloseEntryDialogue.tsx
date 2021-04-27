@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { Box, FormControl, Divider, FormLabel, Button } from '@chakra-ui/core';
+import { Box, FormControl, FormLabel, Button, Text } from '@chakra-ui/core';
 import Select from 'react-select';
-import { useDispatch } from 'react-redux';
-import { updateEntry } from '../slice';
-import { ChannelData } from '../types';
+import { useDispatch, useSelector } from 'react-redux';
 
-const outcomeOptions = [
-  { label: 'Won', value: 'Won' },
-  { label: 'Lost', value: 'Lost' },
-];
+import { updateEntry, getCurrentEntry } from '../slice';
+import { isCloseable, getOutcome } from '../utils';
 
 const lossReasonOptions = [
   { label: 'Price', value: 'Price' },
@@ -19,44 +15,39 @@ const lossReasonOptions = [
   { label: 'Other', value: 'Other' },
 ];
 
-interface Props {
-  id?: number | string;
-  isClosed?: boolean;
-  data?: ChannelData
-}
-
-const CloseEntryDialogue: React.FC<Props> = ({ id, isClosed }) => {
+const CloseEntryDialogue: React.FC = () => {
   const dispatch = useDispatch();
-  const [outcome, setOutcome] = useState<typeof outcomeOptions[number]>();
+  const entry = useSelector(getCurrentEntry);
   const [lossReason, setLossReason] = useState<typeof lossReasonOptions[number]>();
 
   const handleCloseEntry = () => {
-    if (id && outcome?.value) {
+    if (entry) {
       const values: Record<string, any> = {
         status: 'Closed',
-        outcome: outcome.value,
+        loss_reason: lossReason?.value,
         date_closed: new Date(),
       };
-      dispatch(updateEntry({ id, values }));
+      dispatch(updateEntry({ id: entry.id, values }));
     }
   };
 
   const handleOpenEntry = () => {
-    if (id) {
+    if (entry) {
       const values = {
         status: 'Open',
-        outcome: null,
         loss_reason: null,
         date_closed: null,
       };
-      dispatch(updateEntry({ id, values }));
+      dispatch(updateEntry({ id: entry.id, values }));
     }
   };
 
+  const closeable = isCloseable(entry);
+  const outcome = getOutcome(entry?.channel_data);
+
   return (
     <Box>
-      <Divider />
-      {isClosed ? (
+      {entry?.status === 'Closed' && (
         <Button
           mt={2}
           variantColor="red"
@@ -67,42 +58,36 @@ const CloseEntryDialogue: React.FC<Props> = ({ id, isClosed }) => {
         >
           Re-Open Entry
         </Button>
-      ) : (
-        <>
-          <FormControl isRequired>
-            <FormLabel color="gray.500" fontSize="sm">
-              Outcome
-            </FormLabel>
-            <Select
-              value={outcome}
-              onChange={(value: any) => setOutcome(value)}
-              options={outcomeOptions}
-            />
-          </FormControl>
-          {outcome?.value === 'Lost' && (
-            <FormControl mt={2}>
-              <FormLabel color="gray.500" fontSize="sm">
-                Loss Reason
-              </FormLabel>
-              <Select
-                value={lossReason}
-                onChange={(value: any) => setLossReason(value)}
-                options={lossReasonOptions}
-              />
-            </FormControl>
-          )}
-          <Button
-            mt={2}
-            variantColor="red"
-            size="sm"
-            fontWeight={400}
-            isFullWidth
-            onClick={handleCloseEntry}
-            isDisabled={!outcome || (outcome?.value === 'Lost' && !lossReason)}
-          >
-            Close Entry
-          </Button>
-        </>
+      )}
+      {entry?.status === 'Open' && !closeable && (
+        <Text color="orange.500" fontSize="sm" pt={1}>
+          Please ensure all monetary values and outcomes are filled in before closing
+        </Text>
+      )}
+      {entry?.status === 'Open' && closeable && outcome === 'Lost' && (
+        <FormControl mt={2}>
+          <FormLabel color="gray.500" fontSize="sm">
+            Loss Reason
+          </FormLabel>
+          <Select
+            value={lossReason}
+            onChange={(value: any) => setLossReason(value)}
+            options={lossReasonOptions}
+          />
+        </FormControl>
+      )}
+      {entry?.status === 'Open' && closeable && (
+        <Button
+          mt={2}
+          variantColor="red"
+          size="sm"
+          fontWeight={400}
+          isFullWidth
+          onClick={handleCloseEntry}
+          isDisabled={false}
+        >
+          Close Entry
+        </Button>
       )}
     </Box>
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Heading, Box, Grid } from '@chakra-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { pick } from 'lodash';
 
 import { getCurrentEntry, fetchEntry, updateEntry } from '../slice';
 import { useEnquiryForm, useProposalForm, useMoneyForm } from './hooks';
@@ -34,6 +35,9 @@ const EditEntry: React.FC = () => {
       if (formData.proposal_leads) {
         formData.proposal_leads = formData.proposal_leads.map((option: any) => option.value);
       }
+      if (tab === 'ENQUIRY') {
+        formData.channel_data = pick(moneyForm.channel_data, formData.channels);
+      }
       dispatch(updateEntry({ id: entry.id, values: formData }));
     }
   };
@@ -53,7 +57,7 @@ const EditEntry: React.FC = () => {
         ) : tab === 'PROPOSAL' ? (
           <ProposalForm state={proposalForm} updateForm={updateProposal} isEditPage />
         ) : (
-          <MoneyForm state={moneyForm} updateForm={updateMoney} channels={entry?.channels} />
+          <MoneyForm state={moneyForm} updateForm={updateMoney} channels={entry?.channels} isEditPage />
         )}
         <Contols
           id={entry?.id}

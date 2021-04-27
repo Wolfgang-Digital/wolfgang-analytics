@@ -43,7 +43,11 @@ const Form: React.FC<Props> = ({
       {...boxProps}
       mb="auto"
     >
-      <Heading color="red.500" size="md" borderBottom="1px solid #E2E8F0" textAlign="center" p={2}>
+      <Heading
+        size="md"
+        borderBottom="1px solid #E2E8F0"
+        p={3}
+      >
         The Enquiry
       </Heading>
       <Box as="form" p={4}>

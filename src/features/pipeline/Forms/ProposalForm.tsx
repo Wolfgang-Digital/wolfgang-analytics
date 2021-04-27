@@ -45,7 +45,11 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
       mb="auto"
       {...boxProps}
     >
-      <Heading color="blue.500" size="md" borderBottom="1px solid #E2E8F0" textAlign="center" p={2}>
+      <Heading
+        size="md"
+        borderBottom="1px solid #E2E8F0"
+        p={3}
+      >
         The Proposal
       </Heading>
       <Box as="form" p={4}>

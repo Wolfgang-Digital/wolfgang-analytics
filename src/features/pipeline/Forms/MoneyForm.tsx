@@ -27,9 +27,10 @@ interface Props {
   updateForm: (args: { key: keyof typeof initialFormState['money']; value: any }) => void;
   boxProps?: BoxProps;
   channels?: string[] | { label: string; value: string }[];
+  isEditPage?: boolean;
 }
 
-const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels }) => {
+const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPage }) => {
   const totals = useMemo(() => {
     return Object.entries(state).reduce(
       (result, [key, value]: [string, string | undefined]) => {
@@ -73,17 +74,16 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels }) => {
       {...boxProps}
     >
       <Heading
-        color="orange.500"
         size="md"
         borderBottom="1px solid #E2E8F0"
-        textAlign="center"
-        p={2}
+        p={3}
       >
         The Money
       </Heading>
       <Box as="form" p={4}>
         {(channels as any)?.map((channel: string | { label: string; value: string }) => {
           const name = typeof channel === 'string' ? channel : channel.value;
+          const key = `${name.toLowerCase()}_12mv`;
           const data = state.channel_data?.[name];
           return (
             <div key={name}>
@@ -95,14 +95,14 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels }) => {
                   <InputGroup>
                     <InputLeftAddon children="€" />
                     <Input
-                      name={`${name}_12mv`}
+                      name={key}
                       type="number"
                       // @ts-ignore
-                      value={state[`${name}_12mv`]}
+                      value={state[key]}
                       isFullWidth
                       onChange={(e: any) =>
                         // @ts-ignore
-                        updateForm({ key: `${name}_12mv`, value: e.target.value })
+                        updateForm({ key, value: e.target.value })
                       }
                     />
                   </InputGroup>
