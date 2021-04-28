@@ -8,7 +8,7 @@ const enquirySchema = yup.object().shape({
   channels: yup.array().of(yup.object().shape({
     label: yup.string().required(),
     value: yup.string().required()
-  })).min(1),
+  })).required().min(1),
   source: yup.object().shape({
     label: yup.string().required(),
     value: yup.string().required()
@@ -20,7 +20,7 @@ const proposalSchema = yup.object().shape({
   proposal_leads: yup.array().of(yup.object().shape({
     label: yup.string().required(),
     value: yup.string().required()
-  })).min(1),
+  })).required().min(1),
   contact_email: yup.string().email(),
   details: yup.string(),
   success_probability: yup.number()
