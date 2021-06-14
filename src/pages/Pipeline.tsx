@@ -10,6 +10,7 @@ import Navigation from 'features/pipeline/Navigation';
 import Entries from 'features/pipeline/Entries';
 import CreateEntry from 'features/pipeline/CreateEntry';
 import EditEntry from 'features/pipeline/EditEntry';
+import Dashboard from 'features/pipeline/Dashboard';
 
 const Pipeline: React.FC = () => {
   const toast = useToast();
@@ -46,6 +47,7 @@ const Pipeline: React.FC = () => {
           <Route exact path="/pipeline" component={Entries} />
           <Route exact path="/pipeline/create" component={CreateEntry} />
           <Route exact path="/pipeline/e/:id" component={EditEntry} />
+          <Route exact path="/pipeline/dashboard" component={Dashboard} />
         </Switch>
       </ErrorBoundary>
     </>

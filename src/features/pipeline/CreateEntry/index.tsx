@@ -99,7 +99,7 @@ const CreateEntry: React.FC = () => {
   return (
     <Box pb={6}>
       <Heading mb={6} size="lg">
-        Create Pipeline Entry
+        New Enquiry
       </Heading>
       <Grid
         templateColumns="minmax(350px, 1024px) minmax(200px, 350px)"
