@@ -5,13 +5,14 @@ import { DateRangePicker, DateRange, Calendar } from 'react-date-range';
 import {
   Popover,
   PopoverTrigger,
-  Box,
+  PseudoBox,
   PopoverContent,
   PopoverArrow,
   PopoverBody,
   Grid,
   Text,
   IconButton,
+  Icon,
 } from '@chakra-ui/core';
 import { format } from 'date-fns';
 
@@ -45,11 +46,32 @@ export const DatePopover: React.FC<Props> = ({
   handleChange,
 }) => {
   return (
-    <Popover usePortal gutter={0}>
+    <Popover usePortal gutter={0} placement="bottom-start">
       <PopoverTrigger>
-        <Box cursor="pointer">
-          Between {format(startDate, 'dd MMM yy')} and {format(endDate, 'dd MMM yy')}
-        </Box>
+        <PseudoBox
+          display="flex"
+          alignItems="center"
+          cursor="pointer"
+          borderRadius={4}
+          border="1px solid #E2E8F0"
+          px={4}
+          py={2}
+          transition="all 200ms ease-out"
+          _hover={{
+            background: 'white',
+          }}
+        >
+          <Icon name="calendar" color="teal.500" />
+          <Text as="span" transform="translateY(1px)" ml={2}>
+            <Text as="span" fontWeight={500}>
+              {format(startDate, 'dd MMMM yy')}
+            </Text>{' '}
+            to{' '}
+            <Text as="span" fontWeight={500}>
+              {format(endDate, 'dd MMMM yy')}
+            </Text>
+          </Text>
+        </PseudoBox>
       </PopoverTrigger>
       <PopoverContent zIndex={100} _focus={{ outline: 'none' }} minWidth={350} border={0}>
         <PopoverArrow border={0} />
