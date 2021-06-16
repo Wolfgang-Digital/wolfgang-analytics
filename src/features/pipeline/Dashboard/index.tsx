@@ -20,7 +20,7 @@ const Dashboard: React.FC = () => {
   const { isLoading, data, error } = useDashboard(dates);
 
   const handeDateChange = (values: any) => {
-    setDates({ start: values.range1.startDate, end: values.range1.endDate });
+    setDates(values);
   };
 
   return (
@@ -113,7 +113,9 @@ const Dashboard: React.FC = () => {
             />
             <StatCard
               label="Average Velocity"
-              value={data.velocity ? data.velocity.toString().replace(/\.0$/, '') + ' days' : '-'}
+              value={
+                data.velocity != null ? data.velocity.toString().replace(/\.0$/, '') + ' days' : '-'
+              }
               subLabel="Avg. time taken to close"
             />
           </Grid>
@@ -226,8 +228,10 @@ const Dashboard: React.FC = () => {
             <Heading {...headingProps}>Velocity</Heading>
             {channels.map((channel) => (
               <Text key={channel + '_velocity'}>
-                {(data as any)[`${channel.toLowerCase()}_velocity`] || '-'}
-                {(data as any)[`${channel.toLowerCase()}_velocity`] && ' days'}
+                {(data as any)[`${channel.toLowerCase()}_velocity`] != null
+                  ? (data as any)[`${channel.toLowerCase()}_velocity`]
+                  : '-'}
+                {(data as any)[`${channel.toLowerCase()}_velocity`] !== null && ' days'}
               </Text>
             ))}
           </Grid>

@@ -73,11 +73,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
       mb="auto"
       {...boxProps}
     >
-      <Heading
-        size="md"
-        borderBottom="1px solid #E2E8F0"
-        p={3}
-      >
+      <Heading size="md" borderBottom="1px solid #E2E8F0" p={3}>
         The Money
       </Heading>
       <Box as="form" p={4}>
@@ -124,27 +120,29 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
                     </RadioGroup>
                   </FormControl>
                 </Flex>
-                <Flex justify="center">
-                  <FormControl pb={1}>
-                    <FormLabel color="gray.500" fontSize="sm">
-                      Outcome
-                    </FormLabel>
-                    <RadioGroup
-                      isInline
-                      spacing={6}
-                      size="sm"
-                      value={data?.outcome}
-                      onChange={(e, value) => handleChannelDataChange(name, 'outcome', value)}
-                    >
-                      <Radio value="Won" variantColor="teal">
-                        Won
-                      </Radio>
-                      <Radio value="Lost" variantColor="red">
-                        Lost
-                      </Radio>
-                    </RadioGroup>
-                  </FormControl>
-                </Flex>
+                {isEditPage && (
+                  <Flex justify="center">
+                    <FormControl pb={1}>
+                      <FormLabel color="gray.500" fontSize="sm">
+                        Outcome
+                      </FormLabel>
+                      <RadioGroup
+                        isInline
+                        spacing={6}
+                        size="sm"
+                        value={data?.outcome}
+                        onChange={(e, value) => handleChannelDataChange(name, 'outcome', value)}
+                      >
+                        <Radio value="Won" variantColor="teal">
+                          Won
+                        </Radio>
+                        <Radio value="Lost" variantColor="red">
+                          Lost
+                        </Radio>
+                      </RadioGroup>
+                    </FormControl>
+                  </Flex>
+                )}
               </Grid>
               <Divider />
             </div>

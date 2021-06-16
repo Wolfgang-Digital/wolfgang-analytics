@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { DateRangePicker, DateRange, Calendar } from 'react-date-range';
@@ -13,6 +13,7 @@ import {
   Text,
   IconButton,
   Icon,
+  Button,
 } from '@chakra-ui/core';
 import { format } from 'date-fns';
 
@@ -45,6 +46,14 @@ export const DatePopover: React.FC<Props> = ({
   endDate = new Date(),
   handleChange,
 }) => {
+  const [start, setStart] = useState<any>(startDate);
+  const [end, setEnd] = useState<any>(endDate);
+
+  const handleInnerChange = (range: any) => {
+    setStart(range.range1.startDate);
+    setEnd(range.range1.endDate);
+  };
+
   return (
     <Popover usePortal gutter={0} placement="bottom-start">
       <PopoverTrigger>
@@ -64,11 +73,11 @@ export const DatePopover: React.FC<Props> = ({
           <Icon name="calendar" color="teal.500" />
           <Text as="span" transform="translateY(1px)" ml={2}>
             <Text as="span" fontWeight={500}>
-              {format(startDate, 'dd MMMM yy')}
+              {format(start, 'dd MMMM yy')}
             </Text>{' '}
             to{' '}
             <Text as="span" fontWeight={500}>
-              {format(endDate, 'dd MMMM yy')}
+              {format(end, 'dd MMMM yy')}
             </Text>
           </Text>
         </PseudoBox>
@@ -79,12 +88,22 @@ export const DatePopover: React.FC<Props> = ({
           <DateRange
             ranges={[
               {
-                startDate,
-                endDate,
+                startDate: start,
+                endDate: end,
               },
             ]}
-            onChange={handleChange}
+            onChange={handleInnerChange}
           />
+          <Button
+            size="sm"
+            isFullWidth
+            variantColor="blue"
+            variant="ghost"
+            fontWeight={400}
+            onClick={() => handleChange({ start, end })}
+          >
+            Apply Filter
+          </Button>
         </PopoverBody>
       </PopoverContent>
     </Popover>
