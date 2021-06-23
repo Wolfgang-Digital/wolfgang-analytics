@@ -116,7 +116,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
                       onChange={(e, value) => handleChannelDataChange(name, 'duration', value)}
                     >
                       <Radio value="Once Off">Once Off</Radio>
-                      <Radio value="Ongoing">Ongoing</Radio>
+                      <Radio value="Ongoing">Recurring</Radio>
                     </RadioGroup>
                   </FormControl>
                 </Flex>

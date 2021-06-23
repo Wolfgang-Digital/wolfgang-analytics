@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useToast } from '@chakra-ui/core';
-import { format } from 'date-fns';
+import { format, setDate } from 'date-fns';
 
 import { useAwsGet } from 'hooks/aws';
+import { PipelineFilter } from '../types';
 
 export interface PipelineReport {
   total: number;
@@ -59,15 +60,15 @@ export interface PipelineReport {
   email_total_12mv: number;
   creative_total_12mv: number;
   analytics_total_12mv: number;
-  total_once_off_value: number;
-  ppc_once_off_value: number;
-  seo_once_off_value: number;
-  social_once_off_value: number;
-  content_once_off_value: number;
-  cro_once_off_value: number;
-  email_once_off_value: number;
-  creative_once_off_value: number;
-  analytics_once_off_value: number;
+  total_new_12mv: number;
+  ppc_new_12mv: number;
+  seo_new_12mv: number;
+  social_new_12mv: number;
+  content_new_12mv: number;
+  cro_new_12mv: number;
+  email_new_12mv: number;
+  creative_new_12mv: number;
+  analytics_new_12mv: number;
   velocity: number;
   ppc_velocity: number;
   seo_velocity: number;
@@ -86,32 +87,60 @@ export interface PipelineReport {
   email_close_rate: number;
   creative_close_rate: number;
   analytics_close_rate: number;
-  total_ongoing_percent: number;
-  ppc_ongoing_percent: number;
-  seo_ongoing_percent: number;
-  social_ongoing_percent: number;
-  content_ongoing_percent: number;
-  cro_ongoing_percent: number;
-  email_ongoing_percent: number;
-  creative_ongoing_percent: number;
-  analytics_ongoing_percent: number;
-  total_new_percent: number;
-  ppc_new_percent: number;
-  seo_new_percent: number;
-  social_new_percent: number;
-  content_new_percent: number;
-  cro_new_percent: number;
-  email_new_percent: number;
-  creative_new_percent: number;
-  analytics_new_percent: number;
+  total_ongoing_12mv: number;
+  ppc_ongoing_12mv: number;
+  seo_ongoing_12mv: number;
+  social_ongoing_12mv: number;
+  content_ongoing_12mv: number;
+  cro_ongoing_12mv: number;
+  email_ongoing_12mv: number;
+  creative_ongoing_12mv: number;
+  analytics_ongoing_12mv: number;
 }
 
-export const useDashboard = ({ start, end }: { start: Date; end: Date }) => {
+export const useDashboard = () => {
   const toast = useToast();
 
-  const res = useAwsGet<PipelineReport>(
-    `/pipeline/report?start=${format(start, 'yyyy-MM-dd')}&end=${format(end, 'yyyy-MM-dd')}`
-  );
+  const [filters, setFilters] = useState<PipelineFilter[]>([
+    {
+      column: 'Date',
+      operator: 'between',
+      value: `${format(setDate(new Date(), 1), 'dd MMMM yy')} and ${format(
+        new Date(),
+        'dd MMMM yy'
+      )}`,
+    },
+  ]);
+
+  const query = useMemo(() => {
+    const date = filters.find((x) => x.column === 'Date');
+    const status = filters.find((x) => x.column === 'Status');
+    //const time = filters.find((x) => x.column === 'Time in Pipe');
+
+    let query = '';
+
+    if (date) {
+      const dates = (date.value as string).split(' and ');
+      query += `?start=${format(new Date(dates[0]), 'yyyy-MM-dd')}&end=${format(new Date(dates[1]), 'yyyy-MM-dd')}`;
+    }
+    if (status) {
+      const char = query.length === 0 ? '?' : '&';
+      query += `${char}status=${status.value}`;
+    }
+    /*
+    if (time) {
+
+      const char = query.length === 0 ? '?' : '&';
+      const times = time.value.toString().split(' and ');
+      const max = times.length > 1 ? `&timeMax=${times[1]}` : '';
+      query += `${char}timeOperator=${time.operator}&timeMin=${times[0]}${max}`;
+    }
+    */
+
+    return query;
+  }, [filters]);
+
+  const res = useAwsGet<PipelineReport>(`/pipeline/report${query}`);
 
   useEffect(() => {
     if (res.error) {
@@ -125,5 +154,9 @@ export const useDashboard = ({ start, end }: { start: Date; end: Date }) => {
     }
   }, [toast, res]);
 
-  return res;
+  return {
+    res,
+    filters,
+    setFilters,
+  };
 };

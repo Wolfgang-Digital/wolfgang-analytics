@@ -339,7 +339,7 @@ export const DurationFilter: React.FC<FilterProps> = ({ column, isOpen, close })
             onChange={(e, val) => setDuration(val as string)}
           >
             <Radio value="Once Off">Once Off</Radio>
-            <Radio value="Ongoing">Ongoing</Radio>
+            <Radio value="Ongoing">Recurring</Radio>
           </RadioGroup>
           <Button
             size="sm"

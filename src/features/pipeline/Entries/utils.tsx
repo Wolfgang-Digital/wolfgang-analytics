@@ -50,7 +50,7 @@ export const enquiryColumns = [
       const duration = getDuration(props.value);
       return (
         <Badge variantColor={duration === 'Ongoing' ? 'teal' : undefined} mr="auto">
-          {duration}
+          {duration.replace('Ongoing', 'Recurring')}
         </Badge>
       );
     },
