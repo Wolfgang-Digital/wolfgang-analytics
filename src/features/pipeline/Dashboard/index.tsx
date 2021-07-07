@@ -47,7 +47,9 @@ const Dashboard: React.FC = () => {
             <StatCard
               label="Average Velocity"
               value={
-                res.data.velocity != null ? res.data.velocity.toString().replace(/\.0$/, '') + ' days' : '-'
+                res.data.velocity != null
+                  ? res.data.velocity.toString().replace(/\.0$/, '') + ' days'
+                  : '-'
               }
               subLabel="Avg. time taken to close"
             />
@@ -122,11 +124,15 @@ const Dashboard: React.FC = () => {
             ))}
             <Heading {...headingProps}>Open Enquiries</Heading>
             {channels.map((channel) => (
-              <Text key={channel + '_open'}>{(res.data as any)[`${channel.toLowerCase()}_open`]}</Text>
+              <Text key={channel + '_open'}>
+                {(res.data as any)[`${channel.toLowerCase()}_open`]}
+              </Text>
             ))}
             <Heading {...headingProps}>New Clients</Heading>
             {channels.map((channel) => (
-              <Text key={channel + '_new'}>{(res.data as any)[`${channel.toLowerCase()}_new`]}</Text>
+              <Text key={channel + '_new'}>
+                {(res.data as any)[`${channel.toLowerCase()}_new`]}
+              </Text>
             ))}
             <Heading {...headingProps}>Existing Clients</Heading>
             {channels.map((channel) => (
@@ -139,6 +145,12 @@ const Dashboard: React.FC = () => {
             {channels.map((channel) => (
               <Text key={channel + '_ongoing'}>
                 {(res.data as any)[`${channel.toLowerCase()}_ongoing`]}
+              </Text>
+            ))}
+            <Heading {...headingProps}>Wins</Heading>
+            {channels.map((channel) => (
+              <Text key={channel + '_won'}>
+                {(res.data as any)[`${channel.toLowerCase()}_won`]}
               </Text>
             ))}
             <Heading {...headingProps}>Pipeline Turnover</Heading>

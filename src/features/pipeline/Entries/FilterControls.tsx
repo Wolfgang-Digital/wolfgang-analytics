@@ -318,6 +318,7 @@ export const DurationFilter: React.FC<FilterProps> = ({ column, isOpen, close })
         column,
         operator: 'is',
         value: duration,
+        displayValue: duration === 'Ongoing' ? 'Recurring' : duration
       })
     );
     close();

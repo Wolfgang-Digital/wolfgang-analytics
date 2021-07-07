@@ -115,6 +115,7 @@ export const useDashboard = () => {
   const query = useMemo(() => {
     const date = filters.find((x) => x.column === 'Date');
     const status = filters.find((x) => x.column === 'Status');
+    const duration = filters.find((x) => x.column === 'Duration');
     //const time = filters.find((x) => x.column === 'Time in Pipe');
 
     let query = '';
@@ -127,6 +128,10 @@ export const useDashboard = () => {
       const char = query.length === 0 ? '?' : '&';
       query += `${char}status=${status.value}`;
     }
+    if (duration) {
+      const char = query.length === 0 ? '?' : '&';
+      query += `${char}duration=${duration.value}`;
+    }
     /*
     if (time) {
 
@@ -136,7 +141,6 @@ export const useDashboard = () => {
       query += `${char}timeOperator=${time.operator}&timeMin=${times[0]}${max}`;
     }
     */
-
     return query;
   }, [filters]);
 

@@ -15,6 +15,7 @@ export const useAwsGet = <T>(path: string, params?: Record<string, string | numb
 
       try {
         const res = await awsGet<T>(path, params);
+
         if (res.success) {
           setData(res.data);
         } else {

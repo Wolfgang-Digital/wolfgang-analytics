@@ -17,8 +17,9 @@ const Navigation: React.FC = () => {
         onClick={() => history.goBack()}
       />
       <NavItem text="Pipeline" to="/pipeline" />
-      <NavItem text="Dashboard" to="/pipeline/dashboard" />
       <NavItem text="New Enquiry" to="/pipeline/create" />
+      <NavItem text="Dashboard" to="/pipeline/dashboard" />
+      <NavItem text="Department Targets" to="/pipeline/targets" />
     </Flex>
   );
 };

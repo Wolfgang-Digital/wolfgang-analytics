@@ -30,7 +30,7 @@ import { useClickOutside } from 'hooks/useClickOutside';
 import { formatDate } from '../Entries/utils';
 import { PipelineFilter } from '../types';
 
-const enquiryFilters = ['Date', 'Status'];
+const enquiryFilters = ['Date', 'Status', 'Duration'];
 
 interface FilterProps {
   isOpen: boolean;
@@ -80,7 +80,11 @@ const TimeFilter: React.FC<FilterProps> = ({ isOpen, close, filter, handleSubmit
             options={operatorOptions}
             onChange={(selected) => setOperator(selected as any)}
           />
-          <Grid templateColumns={operator.value === 'between' ? '1fr auto 1fr' : '1fr'} alignItems="center" columnGap={3}>
+          <Grid
+            templateColumns={operator.value === 'between' ? '1fr auto 1fr' : '1fr'}
+            alignItems="center"
+            columnGap={3}
+          >
             <InputGroup size="md" my={2}>
               <Input
                 type="number"
@@ -94,7 +98,9 @@ const TimeFilter: React.FC<FilterProps> = ({ isOpen, close, filter, handleSubmit
             </InputGroup>
             {operator.value === 'between' && (
               <>
-                <Text textAlign="center" fontWeight={500}>and</Text>
+                <Text textAlign="center" fontWeight={500}>
+                  and
+                </Text>
                 <InputGroup size="md" my={2}>
                   <Input
                     type="number"
@@ -233,6 +239,54 @@ const StatusFilter: React.FC<FilterProps> = ({ filter, handleSubmit, isOpen, clo
   );
 };
 
+const DurationFilter: React.FC<FilterProps> = ({ filter, handleSubmit, isOpen, close }) => {
+  const [duration, setDuration] = useState('Open');
+
+  const onSubmit = () => {
+    handleSubmit({
+      column: 'Duration',
+      operator: 'is',
+      value: duration,
+      displayValue: duration === 'Ongoing' ? 'Recurring' : duration,
+    });
+    close();
+  };
+
+  return (
+    <Popover placement="auto" isOpen={isOpen}>
+      <PopoverTrigger>
+        <div style={{ visibility: 'hidden', width: '100%', height: '100%' }}></div>
+      </PopoverTrigger>
+      <PopoverContent zIndex={100} _focus={{ outline: 'none' }} position="absolute" border={0}>
+        <PopoverHeader textAlign="center" fontWeight={700} color="gray.600">
+          Status
+        </PopoverHeader>
+        <PopoverBody onClick={(e) => e.stopPropagation()}>
+          <RadioGroup
+            defaultValue={duration}
+            size="sm"
+            onChange={(e, val) => setDuration(val as string)}
+          >
+            <Radio value="Once Off">Once Off</Radio>
+            <Radio value="Ongoing">Recurring</Radio>
+          </RadioGroup>
+          <Button
+            size="sm"
+            isFullWidth
+            variantColor="blue"
+            variant="ghost"
+            fontWeight={400}
+            onClick={onSubmit}
+            mt={2}
+          >
+            Apply Filter
+          </Button>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
 interface MenuItemProps {
   label: string;
   current?: string;
@@ -277,6 +331,14 @@ const FilterMenuItem: React.FC<MenuItemProps> = ({
             filter={filter}
           />
         )}
+        {label === 'Duration' && (
+          <DurationFilter
+            isOpen={current === 'Duration'}
+            close={onClose}
+            handleSubmit={handleSubmit}
+            filter={filter}
+          />
+        )}
         {label === 'Time in Pipe' && (
           <TimeFilter
             isOpen={current === 'Time in Pipe'}
@@ -307,23 +369,15 @@ const FilterMenu: React.FC<Props> = ({ filters, setFilters }) => {
     }
   };
 
-  const dateFilter = filters.find((x) => x.column === 'Date');
-  const statusFilter = filters.find((x) => x.column === 'Date');
-
   const ref = useClickOutside(handleClick, isOpen);
 
   useEffect(() => {
     if (!current) onClose();
   }, [current, onClose]);
 
-  const handleDateSubmit = (date: PipelineFilter) => {
-    const current = filters.filter((x) => x.column !== 'Date');
-    setFilters([...current, date]);
-  };
-
-  const handleStatusSubmit = (status: PipelineFilter) => {
-    const current = filters.filter((x) => x.column !== 'Status');
-    setFilters([...current, status]);
+  const handleSubmit = (filter: PipelineFilter) => {
+    const current = filters.filter((x) => x.column !== filter.column);
+    setFilters([...current, filter]);
   };
 
   return (
@@ -347,8 +401,7 @@ const FilterMenu: React.FC<Props> = ({ filters, setFilters }) => {
                 current={current}
                 setCurrent={setCurrent}
                 close={onClose}
-                handleSubmit={filter === 'Date' ? handleDateSubmit : handleStatusSubmit}
-                filter={filter === 'Date' ? dateFilter : statusFilter}
+                handleSubmit={handleSubmit}
               />
             ))}
           </MenuGroup>
