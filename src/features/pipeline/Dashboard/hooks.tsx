@@ -1,104 +1,12 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useToast } from '@chakra-ui/core';
 import { format, setDate } from 'date-fns';
+import { sumBy, meanBy } from 'lodash';
 
 import { useAwsGet } from 'hooks/aws';
-import { PipelineFilter } from '../types';
+import { PipelineFilter, ChannelReport, PipelineOverview } from '../types';
 
-export interface PipelineReport {
-  total: number;
-  ppc_total: number;
-  seo_total: number;
-  social_total: number;
-  content_total: number;
-  cro_total: number;
-  email_total: number;
-  creative_total: number;
-  analytics_total: number;
-  total_open: number;
-  ppc_open: number;
-  seo_open: number;
-  social_open: number;
-  content_open: number;
-  cro_open: number;
-  email_open: number;
-  creative_open: number;
-  analytics_open: number;
-  total_won: number;
-  ppc_won: number;
-  seo_won: number;
-  social_won: number;
-  content_won: number;
-  cro_won: number;
-  email_won: number;
-  creative_won: number;
-  analytics_won: number;
-  total_ongoing: number;
-  ppc_ongoing: number;
-  seo_ongoing: number;
-  social_ongoing: number;
-  content_ongoing: number;
-  cro_ongoing: number;
-  email_ongoing: number;
-  creative_ongoing: number;
-  analytics_ongoing: number;
-  total_new: number;
-  ppc_new: number;
-  seo_new: number;
-  social_new: number;
-  content_new: number;
-  cro_new: number;
-  email_new: number;
-  creative_new: number;
-  analytics_new: number;
-  total_12mv: number;
-  ppc_total_12mv: number;
-  seo_total_12mv: number;
-  social_total_12mv: number;
-  content_total_12mv: number;
-  cro_total_12mv: number;
-  email_total_12mv: number;
-  creative_total_12mv: number;
-  analytics_total_12mv: number;
-  total_new_12mv: number;
-  ppc_new_12mv: number;
-  seo_new_12mv: number;
-  social_new_12mv: number;
-  content_new_12mv: number;
-  cro_new_12mv: number;
-  email_new_12mv: number;
-  creative_new_12mv: number;
-  analytics_new_12mv: number;
-  velocity: number;
-  ppc_velocity: number;
-  seo_velocity: number;
-  social_velocity: number;
-  content_velocity: number;
-  cro_velocity: number;
-  email_velocity: number;
-  creative_velocity: number;
-  analytics_velocity: number;
-  close_rate: number;
-  ppc_close_rate: number;
-  seo_close_rate: number;
-  social_close_rate: number;
-  content_close_rate: number;
-  cro_close_rate: number;
-  email_close_rate: number;
-  creative_close_rate: number;
-  analytics_close_rate: number;
-  total_ongoing_12mv: number;
-  ppc_ongoing_12mv: number;
-  seo_ongoing_12mv: number;
-  social_ongoing_12mv: number;
-  content_ongoing_12mv: number;
-  cro_ongoing_12mv: number;
-  email_ongoing_12mv: number;
-  creative_ongoing_12mv: number;
-  analytics_ongoing_12mv: number;
-}
-
-export const useDashboard = () => {
+export const useChannelReports = () => {
   const toast = useToast();
 
   const [filters, setFilters] = useState<PipelineFilter[]>([
@@ -115,36 +23,23 @@ export const useDashboard = () => {
   const query = useMemo(() => {
     const date = filters.find((x) => x.column === 'Date');
     const status = filters.find((x) => x.column === 'Status');
-    const duration = filters.find((x) => x.column === 'Duration');
-    //const time = filters.find((x) => x.column === 'Time in Pipe');
 
     let query = '';
-
     if (date) {
       const dates = (date.value as string).split(' and ');
-      query += `?start=${format(new Date(dates[0]), 'yyyy-MM-dd')}&end=${format(new Date(dates[1]), 'yyyy-MM-dd')}`;
+      query += `?start=${format(new Date(dates[0]), 'yyyy-MM-dd')}&end=${format(
+        new Date(dates[1]),
+        'yyyy-MM-dd'
+      )}`;
     }
     if (status) {
-      const char = query.length === 0 ? '?' : '&';
-      query += `${char}status=${status.value}`;
+      query += `${query.length === 0 ? '?' : '&'}status=${status.value}`;
     }
-    if (duration) {
-      const char = query.length === 0 ? '?' : '&';
-      query += `${char}duration=${duration.value}`;
-    }
-    /*
-    if (time) {
 
-      const char = query.length === 0 ? '?' : '&';
-      const times = time.value.toString().split(' and ');
-      const max = times.length > 1 ? `&timeMax=${times[1]}` : '';
-      query += `${char}timeOperator=${time.operator}&timeMin=${times[0]}${max}`;
-    }
-    */
     return query;
   }, [filters]);
 
-  const res = useAwsGet<PipelineReport>(`/pipeline/report${query}`);
+  const res = useAwsGet<ChannelReport[]>(`/pipeline/dashboard/channels${query}`);
 
   useEffect(() => {
     if (res.error) {
@@ -159,8 +54,58 @@ export const useDashboard = () => {
   }, [toast, res]);
 
   return {
-    res,
+    channelReports: res,
     filters,
     setFilters,
+  };
+};
+
+export const useOverview = (filters: PipelineFilter[], reports: ChannelReport[]) => {
+  const toast = useToast();
+
+  const query = useMemo(() => {
+    const date = filters.find((x) => x.column === 'Date');
+    const status = filters.find((x) => x.column === 'Status');
+
+    let query = '';
+    if (date) {
+      const dates = (date.value as string).split(' and ');
+      query += `?start=${format(new Date(dates[0]), 'yyyy-MM-dd')}&end=${format(
+        new Date(dates[1]),
+        'yyyy-MM-dd'
+      )}`;
+    }
+    if (status) {
+      query += `${query.length === 0 ? '?' : '&'}status=${status.value}`;
+    }
+
+    return query;
+  }, [filters]);
+
+  const res = useAwsGet<PipelineOverview>(`/pipeline/dashboard/overview${query}`);
+
+  useEffect(() => {
+    if (res.error) {
+      toast({
+        variant: 'left-accent',
+        status: 'error',
+        description: res.error,
+        position: 'bottom-left',
+        isClosable: true,
+      });
+    }
+  }, [toast, res]);
+
+  return {
+    ...res,
+    data: {
+      ...res.data,
+      total_won_revenue: sumBy(reports, 'total_won_revenue'),
+      total_new_revenue: sumBy(reports, 'total_new_revenue'),
+      total_recurring_revenue: sumBy(reports, 'total_recurring_revenue'),
+      avg_recurring_velocity: meanBy(reports, 'avg_recurring_velocity').toFixed(1),
+      avg_win_velocity: meanBy(reports, 'avg_win_velocity').toFixed(1),
+      avg_loss_velocity: meanBy(reports, 'avg_loss_velocity').toFixed(1)
+    },
   };
 };

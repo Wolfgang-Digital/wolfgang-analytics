@@ -30,7 +30,7 @@ import { useClickOutside } from 'hooks/useClickOutside';
 import { formatDate } from '../Entries/utils';
 import { PipelineFilter } from '../types';
 
-const enquiryFilters = ['Date', 'Status', 'Duration'];
+const enquiryFilters = ['Date', 'Status'];
 
 interface FilterProps {
   isOpen: boolean;

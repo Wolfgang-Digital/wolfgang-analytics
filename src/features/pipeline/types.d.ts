@@ -91,3 +91,25 @@ export interface MoneySnippet {
   total_12mv?: number | string
   channel_data?: ChannelData
 }
+
+export interface PipelineOverview {
+  total: number
+  total_open: number
+  total_new: number
+  total_won: number
+  total_recurring: number
+  recurring_won: number
+  new_won: number 
+  total_revenue: number
+  avg_velocity?: number
+}
+
+export interface ChannelReport extends PipelineOverview {
+  channel: string
+  total_won_revenue: number
+  total_new_revenue: number
+  total_recurring_revenue: number
+  avg_recurring_velocity?: number
+  avg_win_velocity?: number
+  avg_loss_velocity?: number
+}
