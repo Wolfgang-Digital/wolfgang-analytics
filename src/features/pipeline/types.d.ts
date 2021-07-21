@@ -109,6 +109,8 @@ export interface ChannelReport extends PipelineOverview {
   total_won_revenue: number
   total_new_revenue: number
   total_recurring_revenue: number
+  recurring_new_revenue: number
+  recurring_won_revenue: number
   avg_recurring_velocity?: number
   avg_win_velocity?: number
   avg_loss_velocity?: number

@@ -103,6 +103,8 @@ export const useOverview = (filters: PipelineFilter[], reports: ChannelReport[])
       total_won_revenue: sumBy(reports, 'total_won_revenue'),
       total_new_revenue: sumBy(reports, 'total_new_revenue'),
       total_recurring_revenue: sumBy(reports, 'total_recurring_revenue'),
+      recurring_won_revenue: sumBy(reports, 'recurring_won_revenue'),
+      recurring_new_revenue: sumBy(reports, 'recurring_new_revenue'),
       avg_recurring_velocity: meanBy(reports, 'avg_recurring_velocity').toFixed(1),
       avg_win_velocity: meanBy(reports, 'avg_win_velocity').toFixed(1),
       avg_loss_velocity: meanBy(reports, 'avg_loss_velocity').toFixed(1)

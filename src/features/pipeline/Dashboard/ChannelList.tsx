@@ -9,6 +9,7 @@ import {
   StatNumber,
   Flex,
   Input,
+  Text,
 } from '@chakra-ui/core';
 
 import { formatNumberString } from 'utils/format';
@@ -20,6 +21,7 @@ interface ChannelListProps {
 
 interface MetricProps {
   label: string;
+  subLabel?: string;
   value?: string | number;
   secondaryValue?: string | number;
   text?: string | number;
@@ -40,20 +42,22 @@ export const getVelocityText = (num?: number) => {
 };
 
 interface VelocityData {
-  avg_win_velocity?: number | string
-  avg_loss_velocity?: number | string
-  avg_recurring_velocity?: number | string
+  avg_win_velocity?: number | string;
+  avg_loss_velocity?: number | string;
+  avg_recurring_velocity?: number | string;
 }
 
 export const getVelocityBreakdown = ({
   avg_win_velocity,
-  avg_loss_velocity,
   avg_recurring_velocity,
 }: Partial<VelocityData>) => {
-  const win = avg_win_velocity === undefined ? 'N/A' : avg_win_velocity;
-  const loss = avg_loss_velocity === undefined ? 'N/A' : avg_loss_velocity;
-  const recurring = avg_recurring_velocity === undefined ? 'N/A' : avg_recurring_velocity;
-  return `${win} | ${loss} | ${recurring}`;
+  const win =
+    avg_win_velocity === undefined || avg_win_velocity === null ? 'N/A' : avg_win_velocity;
+  const recurring =
+    avg_recurring_velocity === undefined || avg_recurring_velocity === null
+      ? 'N/A'
+      : avg_recurring_velocity;
+  return `${win} | ${recurring}`;
 };
 
 export const getRate = (a: number, b: number) => {
@@ -62,6 +66,7 @@ export const getRate = (a: number, b: number) => {
 
 export const Metric: React.FC<MetricProps> = ({
   label,
+  subLabel,
   value = '-',
   secondaryValue,
   text,
@@ -69,7 +74,14 @@ export const Metric: React.FC<MetricProps> = ({
 }) => {
   return (
     <Stat p={0} {...(asCard ? cardProps : {})}>
-      <StatLabel>{label}</StatLabel>
+      <StatLabel>
+        {label}
+        {subLabel && (
+          <Text as="span" fontWeight={400}>
+            {subLabel}
+          </Text>
+        )}
+      </StatLabel>
       <StatNumber>{value}</StatNumber>
       <StatHelpText m={0}>{secondaryValue}</StatHelpText>
       <StatHelpText m={0}>{text}</StatHelpText>
@@ -100,55 +112,68 @@ const ChannelList: React.FC<ChannelListProps> = ({ reports }) => {
         />
       </Flex>
       {list.map((report) => (
-        <Flex key={report.channel} justifyContent="space-between" {...cardProps}>
-          <Stat p={0} maxW="140px">
-            <StatLabel>Channel</StatLabel>
-            <StatNumber>{report.channel}</StatNumber>
-          </Stat>
+        <Flex
+          key={report.channel}
+          display="grid"
+          gridTemplateColumns="repeat(7, 1fr)"
+          gridColumnGap={2}
+          justifyContent="space-between"
+          {...cardProps}
+        >
+          <Metric
+            label="Channel"
+            value={report.channel}
+            secondaryValue={`Open Enquiries: ${report.total_open}`}
+          />
           <Metric
             label="Enquiries"
             value={report.total}
-            secondaryValue={`${report.total_open} | ${report.total_new} | ${report.total_recurring}`}
-            text="Open | New | Recurring"
+            secondaryValue={`${report.total_new} | ${report.total - report.total_new} | ${
+              report.total_recurring
+            }`}
+            text="New | Existing | Recurring"
           />
           <Metric
             label="Wins"
             value={report.total_won}
-            secondaryValue={`${report.new_won} | ${report.recurring_won}`}
-            text="New | Recurring"
+            secondaryValue={`${report.new_won} | ${report.total_won - report.new_won} | ${
+              report.recurring_won
+            }`}
+            text="New | Existing | Recurring"
           />
           <Metric
             label="Pipeline Turnover"
+            subLabel=" (12 Month Value)"
             value={formatNumberString(report.total_revenue, '€')}
             secondaryValue={`${formatNumberString(report.total_new_revenue)} | ${formatNumberString(
-              report.total_won_revenue
+              report.total_revenue - report.total_new_revenue
             )} | ${formatNumberString(report.total_recurring_revenue)}`}
-            text="New | Won | Recurring"
+            text="New | Existing | Recurring"
           />
           <Metric
-            label="Value per Month"
-            value={formatNumberString(report.total_revenue / 12, '€')}
+            label="Monthly Recurring Revenue"
+            value={formatNumberString(report.total_recurring_revenue / 12, '€')}
             secondaryValue={`${formatNumberString(
-              report.total_new_revenue / 12
-            )} | ${formatNumberString(report.total_won_revenue / 12)} | ${formatNumberString(
-              report.total_recurring_revenue / 12
-            )}`}
-            text="New | Won | Recurring"
+              report.recurring_new_revenue / 12
+            )} | ${formatNumberString(
+              (report.total_recurring_revenue - report.recurring_new_revenue) / 12
+            )} | ${formatNumberString(report.recurring_won_revenue / 12)}`}
+            text="New | Existing | Won"
           />
           <Metric
             label="Avg. Velocity"
             value={getVelocityText(report.avg_velocity)}
             secondaryValue={getVelocityBreakdown(report)}
-            text="Won | Lost | Recurring"
+            text="Won | Recurring"
           />
           <Metric
             label="Close Rate"
             value={getRate(report.total_won, report.total)}
             secondaryValue={`${getRate(report.new_won, report.total_new)} | ${getRate(
-              report.recurring_won,
-              report.total_recurring
-            )}`}
-            text="New | Recurring"
+              report.total_won - report.new_won,
+              report.total - report.total_new
+            )} | ${getRate(report.recurring_won, report.total_recurring)}`}
+            text="New | Existing | Recurring"
           />
         </Flex>
       ))}

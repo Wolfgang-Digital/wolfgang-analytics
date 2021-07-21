@@ -19,7 +19,7 @@ const Navigation: React.FC = () => {
       <NavItem text="Pipeline" to="/pipeline" />
       <NavItem text="New Enquiry" to="/pipeline/create" />
       <NavItem text="Dashboard" to="/pipeline/dashboard" />
-      <NavItem text="Department Targets" to="/pipeline/targets" />
+      <NavItem text="Targets" to="/pipeline/targets" />
     </Flex>
   );
 };

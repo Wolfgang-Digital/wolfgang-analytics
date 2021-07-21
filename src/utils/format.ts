@@ -17,7 +17,7 @@ export const formatNumberString = (num: number, prefix = '') => {
       break;
     }
   }
-  return prefix + (num / symbols[i].value).toFixed(2).replace(regex, "$1") + symbols[i].symbol;
+  return prefix + (num / symbols[i].value).toFixed(1).replace(regex, "$1") + symbols[i].symbol;
 };
 
 export const mapFormArrayValues = <T>(array: any[]) => array.map(item => item.value ?? item) as T[];
