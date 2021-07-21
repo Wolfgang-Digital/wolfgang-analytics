@@ -39,6 +39,23 @@ export const getVelocityText = (num?: number) => {
   return `${num.toFixed(1)} days`;
 };
 
+interface VelocityData {
+  avg_win_velocity?: number | string
+  avg_loss_velocity?: number | string
+  avg_recurring_velocity?: number | string
+}
+
+export const getVelocityBreakdown = ({
+  avg_win_velocity,
+  avg_loss_velocity,
+  avg_recurring_velocity,
+}: Partial<VelocityData>) => {
+  const win = avg_win_velocity === undefined ? 'N/A' : avg_win_velocity;
+  const loss = avg_loss_velocity === undefined ? 'N/A' : avg_loss_velocity;
+  const recurring = avg_recurring_velocity === undefined ? 'N/A' : avg_recurring_velocity;
+  return `${win} | ${loss} | ${recurring}`;
+};
+
 export const getRate = (a: number, b: number) => {
   return (a / (b === 0 ? 1 : b)).toLocaleString('en-GB', { style: 'percent' }).replace(/\.0+$/, '');
 };
@@ -121,9 +138,7 @@ const ChannelList: React.FC<ChannelListProps> = ({ reports }) => {
           <Metric
             label="Avg. Velocity"
             value={getVelocityText(report.avg_velocity)}
-            secondaryValue={`${report.avg_win_velocity || 'N/A'} | ${
-              report.avg_loss_velocity || 'N/A'
-            } | ${report.avg_recurring_velocity || 'N/A'}`}
+            secondaryValue={getVelocityBreakdown(report)}
             text="Won | Lost | Recurring"
           />
           <Metric

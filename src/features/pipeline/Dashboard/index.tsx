@@ -4,7 +4,7 @@ import { Heading, Box, Grid, Divider } from '@chakra-ui/core';
 import BusyIndicator from 'components/BusyIndicator';
 import { useChannelReports, useOverview } from './hooks';
 import { FilterList } from './Filters';
-import ChannelList, { Metric, getRate, getVelocityText } from './ChannelList';
+import ChannelList, { Metric, getRate, getVelocityText, getVelocityBreakdown } from './ChannelList';
 import { formatNumberString } from 'utils/format';
 
 const Dashboard: React.FC = () => {
@@ -61,9 +61,7 @@ const Dashboard: React.FC = () => {
         <Metric
           label="Avg. Velocity"
           value={getVelocityText(overview.data.avg_velocity)}
-          secondaryValue={`${overview.data.avg_win_velocity || 'N/A'} | ${
-            overview.data.avg_loss_velocity || 'N/A'
-          } | ${overview.data.avg_recurring_velocity || 'N/A'}`}
+          secondaryValue={getVelocityBreakdown(overview.data)}
           text="Won | Lost | Recurring"
           asCard
         />
