@@ -12,6 +12,7 @@ import CreateEntry from 'features/pipeline/CreateEntry';
 import EditEntry from 'features/pipeline/EditEntry';
 import Dashboard from 'features/pipeline/Dashboard';
 import Targets from 'features/pipeline/Targets';
+import { TargetForm } from 'features/pipeline/Targets/TargetForm';
 
 const Pipeline: React.FC = () => {
   const toast = useToast();
@@ -50,6 +51,7 @@ const Pipeline: React.FC = () => {
           <Route exact path="/pipeline/e/:id" component={EditEntry} />
           <Route exact path="/pipeline/dashboard" component={Dashboard} />
           <Route exact path="/pipeline/targets" component={Targets} />
+          <Route exact path="/pipeline/targets/:channel" component={TargetForm} />
         </Switch>
       </ErrorBoundary>
     </>

@@ -15,3 +15,16 @@ export const useMonths = (numMonths = 6) => {
     return months;
   }, [numMonths]);
 };
+
+export const useNearbyMonths = (numMonths = 2) => {
+  return useMemo(() => {
+    const months = [];
+    const today = new Date();
+
+    for (let i = numMonths; i >= -numMonths; i--) {
+      const date = subMonths(today, i);
+      months.push({ label: format(date, 'MMMM yyyy'), value: date });
+    }
+    return months;
+  }, [numMonths]);
+};

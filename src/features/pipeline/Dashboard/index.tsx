@@ -25,7 +25,7 @@ const Dashboard: React.FC = () => {
         </Text>
       </Heading>
       <Text fontSize="0.9em" fontWeight={300} mb={4}>
-        *Not filtered by date added
+        *Unfiltered
       </Text>
       <Heading size="sm" fontWeight={500} mb={2}>
         Overview

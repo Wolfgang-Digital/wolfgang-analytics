@@ -69,7 +69,7 @@ export const ListItem: React.FC<Props> = ({ report, previousReport }) => {
   } = report;
 
   return (
-    <Grid templateColumns="repeat(5, 1fr)" gridColumnGap={4} {...cardProps}>
+    <Grid templateColumns="repeat(5, 1fr) auto" gridColumnGap={4} {...cardProps}>
       <Stat p={0}>
         <StatLabel>Target Date</StatLabel>
         <StatNumber as="div">{format(new Date(target_date), 'MMMM yyyy')}</StatNumber>

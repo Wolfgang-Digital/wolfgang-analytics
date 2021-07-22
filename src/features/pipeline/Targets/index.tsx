@@ -17,7 +17,7 @@ const Targets: React.FC = () => {
     <Box pb={6}>
       <BusyIndicator color="#4FD1C5" isBusy={isLoading} />
       <Heading mb={6} size="lg">
-        Department Targets
+        Targets
       </Heading>
       <Grid templateColumns="180px 180px 1fr" alignItems="center" mb={6}>
         <Heading as="h3" size="md">
@@ -30,7 +30,7 @@ const Targets: React.FC = () => {
         />
         <Flex justifyContent="flex-end">
           <ButtonLink
-            text="Edit Targets"
+            text="New Target"
             buttonProps={{
               fontWeight: 500
             }}
