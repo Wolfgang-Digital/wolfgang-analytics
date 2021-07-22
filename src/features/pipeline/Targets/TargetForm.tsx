@@ -54,7 +54,7 @@ export const TargetForm: React.FC = () => {
     setIsLoading(true);
     const res = await awsPost<TargetReport>('/pipeline/targets', {
       ...form,
-      target_date: format(date.value, 'yyyy-MM-dd'),
+      target_date: format(date.value, 'yyyy-MM-01'),
       channel,
     });
     setIsLoading(false);
