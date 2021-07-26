@@ -57,6 +57,7 @@ export interface EnquirySnippet {
   source_comment?: string
   leads: string
   status: string
+  date_closed?: Date
 }
 
 export interface ProposalSnippet {

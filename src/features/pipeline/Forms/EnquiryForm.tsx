@@ -9,6 +9,7 @@ import {
   RadioGroup,
   Radio,
   BoxProps,
+  FormHelperText,
 } from '@chakra-ui/core';
 import Select from 'react-select';
 
@@ -28,12 +29,7 @@ interface Props {
   retroactiveMode?: boolean;
 }
 
-const Form: React.FC<Props> = ({
-  state,
-  updateForm,
-  boxProps,
-  retroactiveMode = false,
-}) => {
+const Form: React.FC<Props> = ({ state, updateForm, boxProps, retroactiveMode = false }) => {
   return (
     <Box
       background="white"
@@ -43,17 +39,13 @@ const Form: React.FC<Props> = ({
       {...boxProps}
       mb="auto"
     >
-      <Heading
-        size="md"
-        borderBottom="1px solid #E2E8F0"
-        p={3}
-      >
+      <Heading size="md" borderBottom="1px solid #E2E8F0" p={3}>
         The Enquiry
       </Heading>
       <Box as="form" p={4}>
         {retroactiveMode && (
           <>
-            <FormControl pb={1} isRequired>
+            <FormControl>
               <FormLabel color="gray.500" fontSize="sm">
                 Date Added
               </FormLabel>
@@ -61,6 +53,9 @@ const Form: React.FC<Props> = ({
                 date={state.date_added}
                 setDate={(value) => updateForm({ key: 'date_added', value })}
               />
+              <FormHelperText>
+                Leave as default unless retroactively adding an enquiry
+              </FormHelperText>
             </FormControl>
             <Divider />
           </>

@@ -109,7 +109,7 @@ const CreateEntry: React.FC = () => {
         <Tabs index={step}>
           <TabPanels>
             <TabPanel>
-              <EnquiryForm state={enquiry.form} updateForm={enquiry.updateForm} />
+              <EnquiryForm state={enquiry.form} updateForm={enquiry.updateForm} retroactiveMode />
             </TabPanel>
             <TabPanel>
               <ProposalForm state={proposal.form} updateForm={proposal.updateForm} />

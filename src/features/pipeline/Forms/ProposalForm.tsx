@@ -8,13 +8,20 @@ import {
   Divider,
   Textarea,
   BoxProps,
+  FormHelperText,
+  Button,
 } from '@chakra-ui/core';
 import { debounce } from 'lodash';
 import Select from 'react-select';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 import { useUserOptions } from 'hooks/users';
 import { PercentSlider } from 'components/Sliders';
 import { initialFormState } from '../utils';
+import { updateEntry } from '../slice';
+import { CalendarPicker } from 'components/DatePicker';
+import { format } from 'date-fns';
 
 interface Props {
   state: typeof initialFormState['proposal'];
@@ -24,6 +31,9 @@ interface Props {
 }
 
 const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+
   const [percent, setPercent] = useState<number | undefined>(state.success_probability);
   const { isLoading, userOptions } = useUserOptions({ idAsValue: true });
 
@@ -36,6 +46,12 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
     updateSlider(value);
   };
 
+  const updateDateClosed = () => {
+    if (state.date_closed) {
+      dispatch(updateEntry({ id, values: { date_closed: format(state.date_closed, 'yyyy-MM-dd') } }));
+    }
+  };
+
   return (
     <Box
       background="white"
@@ -45,11 +61,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
       mb="auto"
       {...boxProps}
     >
-      <Heading
-        size="md"
-        borderBottom="1px solid #E2E8F0"
-        p={3}
-      >
+      <Heading size="md" borderBottom="1px solid #E2E8F0" p={3}>
         The Proposal
       </Heading>
       <Box as="form" p={4}>
@@ -111,6 +123,31 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
                 onChange={(e: any) => updateForm({ key: 'loss_reason', value: e.target.value })}
                 isFullWidth
               />
+            </FormControl>
+          </>
+        )}
+        {state.date_closed && (
+          <>
+            <Divider />
+            <FormControl>
+              <FormLabel color="gray.500" fontSize="sm">
+                Date Closed
+              </FormLabel>
+              <CalendarPicker
+                date={state.date_closed}
+                setDate={(value) => updateForm({ key: 'date_closed', value })}
+              />
+              <FormHelperText
+                as="div"
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+              >
+                Leave as default unless retoractively editing an enquiry
+                <Button size="xs" onClick={updateDateClosed}>
+                  Update Date Closed
+                </Button>
+              </FormHelperText>
             </FormControl>
           </>
         )}
