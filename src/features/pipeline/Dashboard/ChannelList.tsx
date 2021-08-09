@@ -37,8 +37,8 @@ const cardProps: BoxProps = {
 };
 
 export const getVelocityText = (num?: number) => {
-  if (!num) return 'N/A';
-  return `${num.toFixed(1)} days`;
+  if (!num && num !== 0) return 'N/A';
+  return `${num.toFixed(0)} days`;
 };
 
 interface VelocityData {
@@ -57,7 +57,7 @@ export const getVelocityBreakdown = ({
     avg_recurring_velocity === undefined || avg_recurring_velocity === null
       ? 'N/A'
       : avg_recurring_velocity;
-  return `${win} | ${recurring}`;
+  return `${win.toString().replace(/\.0*$/, '')} | ${recurring.toString().replace(/\.0*$/, '')}`;
 };
 
 export const getRate = (a: number, b: number) => {
