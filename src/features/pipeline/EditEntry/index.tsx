@@ -53,7 +53,7 @@ const EditEntry: React.FC = () => {
         justifyContent="space-between"
       >
         {tab === 'ENQUIRY' ? (
-          <EnquiryForm state={enquiryForm} updateForm={updateEnquiry} isEditPage />
+          <EnquiryForm state={enquiryForm} updateForm={updateEnquiry} isEditPage retroactiveMode />
         ) : tab === 'PROPOSAL' ? (
           <ProposalForm state={proposalForm} updateForm={updateProposal} isEditPage />
         ) : (

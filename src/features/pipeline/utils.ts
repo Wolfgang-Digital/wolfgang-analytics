@@ -125,7 +125,7 @@ export const isCloseable = (entry?: PipelineEntry) => {
   if (!entry || !entry.channel_data) return false;
   for (const channel of Object.values(entry.channel_data)) {
     const moneyKey = `${channel.name.toLocaleLowerCase()}_12mv`;
-    if (!channel.outcome || !(entry as Record<string, any>)[moneyKey]) {
+    if (!channel.outcome || channel.outcome === 'Pending' || !(entry as Record<string, any>)[moneyKey]) {
       return false;
     }
   }

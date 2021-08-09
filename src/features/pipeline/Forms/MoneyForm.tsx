@@ -136,6 +136,9 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
                         <Radio value="Won" variantColor="teal">
                           Won
                         </Radio>
+                        <Radio value="Pending" variantColor="orange">
+                          Pending
+                        </Radio>
                         <Radio value="Lost" variantColor="red">
                           Lost
                         </Radio>

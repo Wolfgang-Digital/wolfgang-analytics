@@ -1,3 +1,5 @@
+import { format } from 'date-fns';
+
 import { EnquirySnippet, ProposalSnippet, MoneySnippet } from '../types';
 
 export const getFormData = (input: EnquirySnippet | ProposalSnippet | MoneySnippet) => {
@@ -9,6 +11,10 @@ export const getFormData = (input: EnquirySnippet | ProposalSnippet | MoneySnipp
 
       case 'source':
         result.source = value.value;
+        break;
+
+      case 'date_added':
+        result[key] = format(value, 'yyyy-MM-dd');
         break;
 
       default:
