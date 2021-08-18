@@ -26,13 +26,23 @@ interface Props {
   setTab: (tab: Props['tab']) => void;
   name?: string;
   status?: string;
-  channelData?: ChannelData
+  channelData?: ChannelData;
   onUpdate: () => void;
   dateClosed?: string;
   dateAdded?: string;
   id?: string | number;
   lastUpdated?: string;
+  enquiryChanged: boolean;
+  proposalChanged: boolean;
+  moneyChanged: boolean;
 }
+
+const shouldComfirm = (tab: string, nextTab: string, e: boolean, p: boolean, m: boolean) => {
+  if (tab === 'ENQUIRY' && nextTab !== 'ENQUIRY' && e) return true;
+  if (tab === 'PROPOSAL' && nextTab !== 'PROPOSAL' && p) return true;
+  if (tab === 'MONEY' && nextTab !== 'MONEY' && m) return true;
+  return false;
+};
 
 const Controls: React.FC<Props> = ({
   id,
@@ -45,6 +55,9 @@ const Controls: React.FC<Props> = ({
   dateClosed,
   dateAdded,
   lastUpdated,
+  enquiryChanged,
+  proposalChanged,
+  moneyChanged,
 }) => {
   const { isOpen, onToggle } = useDisclosure();
   const { isLoading } = useSelector(getStatus);
@@ -53,6 +66,22 @@ const Controls: React.FC<Props> = ({
   const timeInPipe = dateAdded ? differenceInDays(lastDay, new Date(dateAdded)) : '--';
 
   const outcome = getOutcome(channelData);
+
+  const changeTab = (nextTab: 'ENQUIRY' | 'PROPOSAL' | 'MONEY') => {
+    if (shouldComfirm(tab, nextTab, enquiryChanged, proposalChanged, moneyChanged)) {
+      if (
+        window.confirm(
+          `You have unsaved changes in The ${
+            tab.charAt(0) + tab.slice(1).toLowerCase()
+          }.\nAre you sure you want to leave without saving?`
+        )
+      ) {
+        setTab(nextTab);
+      }
+    } else {
+      setTab(nextTab);
+    }
+  };
 
   return (
     <Box
@@ -73,14 +102,14 @@ const Controls: React.FC<Props> = ({
         <Button
           fontWeight={400}
           variantColor={tab === 'ENQUIRY' ? 'purple' : undefined}
-          onClick={() => setTab('ENQUIRY')}
+          onClick={() => changeTab('ENQUIRY')}
         >
           The Enquiry
         </Button>
         <Button
           fontWeight={400}
           variantColor={tab === 'PROPOSAL' ? 'purple' : undefined}
-          onClick={() => setTab('PROPOSAL')}
+          onClick={() => changeTab('PROPOSAL')}
         >
           The Proposal
         </Button>
@@ -88,7 +117,7 @@ const Controls: React.FC<Props> = ({
           fontWeight={400}
           iconSpacing={4}
           variantColor={tab === 'MONEY' ? 'purple' : undefined}
-          onClick={() => setTab('MONEY')}
+          onClick={() => changeTab('MONEY')}
         >
           The Money
         </Button>

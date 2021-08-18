@@ -24,9 +24,24 @@ const EditEntry: React.FC = () => {
     }
   }, [id, entry, dispatch]);
 
-  const { enquiryForm, updateEnquiry } = useEnquiryForm(entry);
-  const { proposalForm, updateProposal } = useProposalForm(entry);
-  const { moneyForm, updateMoney } = useMoneyForm(entry);
+  const {
+    enquiryForm,
+    updateEnquiry,
+    hasChanged: enquiryHasChanged,
+    setHasChanged: setEC,
+  } = useEnquiryForm(entry);
+  const {
+    proposalForm,
+    updateProposal,
+    hasChanged: proposalHasChanged,
+    setHasChanged: setPC,
+  } = useProposalForm(entry);
+  const {
+    moneyForm,
+    updateMoney,
+    hasChanged: moneyHasChanged,
+    setHasChanged: setMC,
+  } = useMoneyForm(entry);
 
   const handleUpdate = () => {
     if (entry) {
@@ -39,7 +54,14 @@ const EditEntry: React.FC = () => {
         formData.channel_data = pick(moneyForm.channel_data, formData.channels);
       }
       dispatch(updateEntry({ id: entry.id, values: formData }));
+      setEC(false);
+      setPC(false);
+      setMC(false);
     }
+  };
+
+  const changeTab = (tab: 'ENQUIRY' | 'PROPOSAL' | 'MONEY') => {
+    setTab(tab);
   };
 
   return (
@@ -57,19 +79,27 @@ const EditEntry: React.FC = () => {
         ) : tab === 'PROPOSAL' ? (
           <ProposalForm state={proposalForm} updateForm={updateProposal} isEditPage />
         ) : (
-          <MoneyForm state={moneyForm} updateForm={updateMoney} channels={entry?.channels} isEditPage />
+          <MoneyForm
+            state={moneyForm}
+            updateForm={updateMoney}
+            channels={entry?.channels}
+            isEditPage
+          />
         )}
         <Contols
           id={entry?.id}
           dateAdded={entry?.date_added}
           lastUpdated={entry?.last_updated}
           tab={tab}
-          setTab={setTab}
+          setTab={changeTab}
           onUpdate={handleUpdate}
           name={entry?.company_name}
           status={entry?.status}
           channelData={entry?.channel_data}
           dateClosed={entry?.date_closed}
+          enquiryChanged={enquiryHasChanged}
+          proposalChanged={proposalHasChanged}
+          moneyChanged={moneyHasChanged}
         />
       </Grid>
     </Box>

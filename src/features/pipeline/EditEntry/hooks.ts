@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { useForm } from 'hooks/useForm';
 import { PipelineEntry } from '../types';
@@ -23,7 +23,15 @@ export const useEnquiryForm = (entry?: PipelineEntry) => {
   }, [entry]);
 
   const { form, updateForm } = useForm(input, entry?.id.toString());
-  return { enquiryForm: form, updateEnquiry: updateForm };
+
+  const [hasChanged, setHasChanged] = useState(false);
+
+  const update = (input: any) => {
+    setHasChanged(true);
+    updateForm(input);
+  };
+
+  return { enquiryForm: form, updateEnquiry: update, hasChanged, setHasChanged };
 };
 
 export const useProposalForm = (entry?: PipelineEntry) => {
@@ -44,11 +52,21 @@ export const useProposalForm = (entry?: PipelineEntry) => {
     loss_reason: loss_reason || '',
     date_closed: date_closed ? new Date(date_closed) : undefined,
     // @ts-ignore
-    proposal_leads: proposal_leads?.map((user) => user ? ({ label: user.username, value: user.user_id }) : null).filter(x => !!x) || []
+    proposal_leads: proposal_leads?.map((user) => user ? ({ label: user.username, value: user.user_id }) : null).filter(x => !!x) || [],
+    // @ts-ignore
+    proposal_doc_link: data.proposal_doc_link || ''
   };
 
   const { form, updateForm } = useForm(input, entry?.id.toString());
-  return { proposalForm: form, updateProposal: updateForm };
+  
+  const [hasChanged, setHasChanged] = useState(false);
+
+  const update = (input: any) => {
+    setHasChanged(true);
+    updateForm(input);
+  };
+
+  return { proposalForm: form, updateProposal: update, hasChanged, setHasChanged };
 };
 
 export const useMoneyForm = (entry?: PipelineEntry) => {
@@ -62,5 +80,13 @@ export const useMoneyForm = (entry?: PipelineEntry) => {
   }, {});
 
   const { form, updateForm } = useForm(input, entry?.id.toString());
-  return { moneyForm: form, updateMoney: updateForm };
+
+  const [hasChanged, setHasChanged] = useState(false);
+
+  const update = (input: any) => {
+    setHasChanged(true);
+    updateForm(input);
+  };
+
+  return { moneyForm: form, updateMoney: update, hasChanged, setHasChanged };
 };

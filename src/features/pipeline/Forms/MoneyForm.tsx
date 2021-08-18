@@ -30,18 +30,31 @@ interface Props {
   isEditPage?: boolean;
 }
 
+const isValidChannel = (key: string, channels?: string[]) => {
+  if (!channels) return false;
+  return channels.some(
+    (x: any) =>
+      (!!x.toLowerCase ? x.toLowerCase() : x.value.toLowerCase()) === key.replace('_12mv', '')
+  );
+};
+
 const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPage }) => {
   const totals = useMemo(() => {
     return Object.entries(state).reduce(
       (result, [key, value]: [string, string | undefined]) => {
-        if (key.includes('12mv') && key !== 'total_12mv' && !!value) {
+        if (
+          isValidChannel(key, channels as string[]) &&
+          key.includes('12mv') &&
+          key !== 'total_12mv' &&
+          !!value
+        ) {
           result.monthTwelve += parseFloat(value);
         }
         return result;
       },
       { monthOne: 0, monthTwelve: 0 }
     );
-  }, [state]);
+  }, [state, channels]);
 
   const handleChannelDataChange = (
     channel: string,

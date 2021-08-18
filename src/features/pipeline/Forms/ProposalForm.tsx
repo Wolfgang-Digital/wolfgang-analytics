@@ -48,7 +48,9 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
 
   const updateDateClosed = () => {
     if (state.date_closed) {
-      dispatch(updateEntry({ id, values: { date_closed: format(state.date_closed, 'yyyy-MM-dd') } }));
+      dispatch(
+        updateEntry({ id, values: { date_closed: format(state.date_closed, 'yyyy-MM-dd') } })
+      );
     }
   };
 
@@ -65,20 +67,20 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
         The Proposal
       </Heading>
       <Box as="form" p={4}>
+        <FormControl pb={1} isRequired>
+          <FormLabel color="gray.500" fontSize="sm">
+            Wolfgangers
+          </FormLabel>
+          <Select
+            value={state.proposal_leads}
+            onChange={(value: any) => updateForm({ key: 'proposal_leads', value })}
+            // @ts-ignore
+            options={userOptions}
+            isLoading={isLoading}
+            isMulti
+          />
+        </FormControl>
         <FormControl pb={1}>
-          <FormControl pb={1} isRequired>
-            <FormLabel color="gray.500" fontSize="sm">
-              Proposal Leads
-            </FormLabel>
-            <Select
-              value={state.proposal_leads}
-              onChange={(value: any) => updateForm({ key: 'proposal_leads', value })}
-              // @ts-ignore
-              options={userOptions}
-              isLoading={isLoading}
-              isMulti
-            />
-          </FormControl>
           <Divider />
           <FormLabel color="gray.500" fontSize="sm">
             Contact Email
@@ -88,6 +90,19 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, isEditPage }) => {
             type="email"
             value={state.contact_email || ''}
             onChange={(e: any) => updateForm({ key: 'contact_email', value: e.target.value })}
+            isFullWidth
+          />
+        </FormControl>
+        <Divider />
+        <FormControl pb={1}>
+          <FormLabel color="gray.500" fontSize="sm">
+            Proposal Doc
+          </FormLabel>
+          <Input
+            name="outcome"
+            type="link"
+            value={state.proposal_doc_link || ''}
+            onChange={(e: any) => updateForm({ key: 'proposal_doc_link', value: e.target.value })}
             isFullWidth
           />
         </FormControl>

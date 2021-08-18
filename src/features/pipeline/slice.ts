@@ -61,7 +61,14 @@ export const updateEntry = createAsyncThunk<PipelineEntry, {
   values: Record<string, any>
 }>(
   'pipline/entry/update',
-  async ({ id, values }, { rejectWithValue }) => {
+  async ({ id, values }, { rejectWithValue }) => {    
+    if (values.channels && values.channel_data) {
+      for (const c in values.channel_data) {
+        if (!values.channels.includes(c)) {
+          delete values.channel_data[c];
+        }
+      }
+    }
     const res = await awsPost<PipelineEntry>(`/pipeline/e/${id}`, values);
     if (res.success) {
       return res.data;

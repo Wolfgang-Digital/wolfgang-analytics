@@ -78,6 +78,7 @@ export interface ProposalSnippet {
     username: string
     email: string
   }[]
+  proposal_doc_link?: string
 }
 
 export interface MoneySnippet {

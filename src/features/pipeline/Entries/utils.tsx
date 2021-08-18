@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Cell } from 'react-table';
 import { format, differenceInDays } from 'date-fns';
-import { Badge, Tooltip } from '@chakra-ui/core';
+import { Badge, Tooltip, Link, Icon, Text } from '@chakra-ui/core';
 
 import { formatCurrency, getFirstName } from 'utils/format';
 import { PipelineEntry } from '../types';
@@ -13,6 +13,23 @@ export const formatDate = (str?: any) => {
 
 const sortBool = (a: any, b: any, id: any, desc: any) => {
   return a.original[id] && !b.original[id] ? -1 : !a.original[id] && b.original[id] ? 1 : 0;
+};
+
+const getColour = (channel: string, props: any) => {
+  if (!props.value || !props.row.original.channel_data?.[channel]) return undefined;
+  return props.row.original.channel_data[channel].outcome === 'Won'
+    ? 'green.500'
+    : props.row.original.channel_data[channel].outcome === 'Lost'
+    ? 'red.500'
+    : undefined;
+};
+
+const getReference = (props: any) => {
+  const name = props.row.original.company_name
+    .split(' ')
+    .map((x: string) => x.charAt(0).toUpperCase())
+    .join('');
+  return `${name}-${props.value}`;
 };
 
 export const getOutcomeColour = (outcome?: string) => {
@@ -30,6 +47,11 @@ export const enquiryColumns = [
     Cell: (props: Cell) => formatDate(props.value),
   },
   { Header: 'Company', accessor: 'company_name' },
+  {
+    Header: 'Reference',
+    accessor: 'id',
+    Cell: getReference,
+  },
   {
     Header: 'Client Type',
     accessor: 'is_new',
@@ -60,7 +82,6 @@ export const enquiryColumns = [
     accessor: 'channels',
     Cell: (props: Cell) => props.value.join(' / '),
   },
-  { Header: 'Source', accessor: 'source' },
   {
     Header: 'Status',
     accessor: 'status',
@@ -104,7 +125,7 @@ export const propsalColumns = [
     ),
   },
   {
-    Header: 'Proposal Leads',
+    Header: 'Wolfgangers',
     accessor: 'proposal_leads',
     Cell: (props: Cell) => {
       if (Array.isArray(props.value) && !!props.value[0]) {
@@ -114,6 +135,25 @@ export const propsalColumns = [
         <Badge variantColor="orange" mr="auto">
           Not Set
         </Badge>
+      );
+    },
+  },
+  {
+    Header: 'Proposal Doc',
+    accessor: 'proposal_doc_link',
+    Cell: (props: Cell) => {
+      if (!props.value) return '';
+      return (
+        <Link
+          href={props.value}
+          isExternal
+          onClick={(e: any) => e.stopPropagation()}
+          display="flex"
+          alignItems="center"
+        >
+          {props.value.match(/^(?:\/\/|[^/]+)*/gi)[0].replace(/(https:\/\/|http:\/\/|\.\w+$)/, '')}{' '}
+          <Icon name="external-link" ml={2} />
+        </Link>
       );
     },
   },
@@ -157,7 +197,9 @@ export const moneyColumns = [
         showDelay={250}
         hasArrow
       >
-        {formatCurrency(props.value, '-')}
+        <Text as="span" fontWeight={500} color={getColour('PPC', props)}>
+          {formatCurrency(props.value, '-')}
+        </Text>
       </Tooltip>
     ),
     Footer: (info: any) => {
@@ -180,7 +222,9 @@ export const moneyColumns = [
         showDelay={250}
         hasArrow
       >
-        {formatCurrency(props.value, '-')}
+        <Text as="span" fontWeight={500} color={getColour('SEO', props)}>
+          {formatCurrency(props.value, '-')}
+        </Text>
       </Tooltip>
     ),
     Footer: (info: any) => {
@@ -203,7 +247,9 @@ export const moneyColumns = [
         showDelay={250}
         hasArrow
       >
-        {formatCurrency(props.value, '-')}
+        <Text as="span" fontWeight={500} color={getColour('Content', props)}>
+          {formatCurrency(props.value, '-')}
+        </Text>
       </Tooltip>
     ),
     Footer: (info: any) => {
@@ -226,7 +272,9 @@ export const moneyColumns = [
         showDelay={250}
         hasArrow
       >
-        {formatCurrency(props.value, '-')}
+        <Text as="span" fontWeight={500} color={getColour('Email', props)}>
+          {formatCurrency(props.value, '-')}
+        </Text>
       </Tooltip>
     ),
     Footer: (info: any) => {
@@ -249,7 +297,9 @@ export const moneyColumns = [
         showDelay={250}
         hasArrow
       >
-        {formatCurrency(props.value, '-')}
+        <Text as="span" fontWeight={500} color={getColour('Social', props)}>
+          {formatCurrency(props.value, '-')}
+        </Text>
       </Tooltip>
     ),
     Footer: (info: any) => {
@@ -272,7 +322,9 @@ export const moneyColumns = [
         showDelay={250}
         hasArrow
       >
-        {formatCurrency(props.value, '-')}
+        <Text as="span" fontWeight={500} color={getColour('Creative', props)}>
+          {formatCurrency(props.value, '-')}
+        </Text>
       </Tooltip>
     ),
     Footer: (info: any) => {
@@ -295,7 +347,9 @@ export const moneyColumns = [
         showDelay={250}
         hasArrow
       >
-        {formatCurrency(props.value, '-')}
+        <Text as="span" fontWeight={500} color={getColour('CRO', props)}>
+          {formatCurrency(props.value, '-')}
+        </Text>
       </Tooltip>
     ),
     Footer: (info: any) => {
@@ -318,7 +372,9 @@ export const moneyColumns = [
         showDelay={250}
         hasArrow
       >
-        {formatCurrency(props.value, '-')}
+        <Text as="span" fontWeight={500} color={getColour('Analytics', props)}>
+          {formatCurrency(props.value, '-')}
+        </Text>
       </Tooltip>
     ),
     Footer: (info: any) => {
