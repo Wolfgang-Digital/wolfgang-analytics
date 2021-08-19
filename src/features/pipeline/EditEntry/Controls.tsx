@@ -10,13 +10,17 @@ import {
   IconButton,
   Collapse,
   useDisclosure,
+  useToast,
 } from '@chakra-ui/core';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { format, differenceInDays } from 'date-fns';
 
+import { useUserRoles, Roles } from 'hooks/users';
 import { toTitleCase } from 'utils/format';
+import { awsDelete } from 'utils/api';
+import { useLinkHandler } from 'hooks/useLinkHandler';
 import { getOutcomeColour } from '../Entries/utils';
-import { getStatus } from '../slice';
+import { getStatus, setIsLoading } from '../slice';
 import CloseEntryDialogue from './CloseEntryDialogue';
 import { ChannelData } from '../types';
 import { getOutcome } from '../utils';
@@ -62,6 +66,10 @@ const Controls: React.FC<Props> = ({
   const { isOpen, onToggle } = useDisclosure();
   const { isLoading } = useSelector(getStatus);
 
+  const navigate = useLinkHandler();
+
+  const dispatch = useDispatch();
+
   const lastDay = dateClosed ? new Date(dateClosed) : new Date();
   const timeInPipe = dateAdded ? differenceInDays(lastDay, new Date(dateAdded)) : '--';
 
@@ -80,6 +88,41 @@ const Controls: React.FC<Props> = ({
       }
     } else {
       setTab(nextTab);
+    }
+  };
+
+  const toast = useToast();
+  const isAuthorised = useUserRoles([Roles.ADMIN, Roles.DEPT_HEAD]);
+
+  const handleDelete = async () => {
+    if (
+      window.confirm(
+        'Are you sure you want to delete this enquiry?\nThis action cannot be undone.'
+      ) &&
+      isAuthorised
+    ) {
+      dispatch(setIsLoading(true));
+      const res = await awsDelete<{ message: string }>(`/pipeline/e/${id}`);
+
+      if (res.success) {
+        toast({
+          variant: 'left-accent',
+          status: 'success',
+          description: 'Delete successful',
+          position: 'bottom-left',
+          isClosable: true,
+        });
+        navigate('/pipeline');
+        dispatch(setIsLoading(false));
+      } else {
+        toast({
+          variant: 'left-accent',
+          status: 'error',
+          description: res.error,
+          position: 'bottom-left',
+          isClosable: true,
+        });
+      }
     }
   };
 
@@ -205,6 +248,20 @@ const Controls: React.FC<Props> = ({
       >
         Update {toTitleCase(tab)}
       </Button>
+      {isAuthorised && (
+        <Button
+          variantColor="red"
+          isFullWidth
+          size="sm"
+          fontWeight={400}
+          onClick={handleDelete}
+          isDisabled={isLoading}
+          variant="outline"
+          mt={4}
+        >
+          Delete Enquiry
+        </Button>
+      )}
     </Box>
   );
 };
