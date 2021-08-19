@@ -92,7 +92,7 @@ const Controls: React.FC<Props> = ({
   };
 
   const toast = useToast();
-  const isAuthorised = useUserRoles([Roles.ADMIN, Roles.DEPT_HEAD]);
+  const isAuthorised = useUserRoles([Roles.ADMIN, Roles.DEPT_HEAD, Roles.CLIENT_LEAD]);
 
   const handleDelete = async () => {
     if (
