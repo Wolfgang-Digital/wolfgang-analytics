@@ -144,16 +144,20 @@ export const propsalColumns = [
     Cell: (props: Cell) => {
       if (!props.value) return '';
       return (
-        <Link
-          href={props.value}
-          isExternal
-          onClick={(e: any) => e.stopPropagation()}
-          display="flex"
-          alignItems="center"
-        >
-          {props.value.match(/^(?:\/\/|[^/]+)*/gi)[0].replace(/(https:\/\/|http:\/\/|\.\w+$)/, '')}{' '}
-          <Icon name="external-link" ml={2} />
-        </Link>
+        <div style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <Link
+            href={props.value}
+            isExternal
+            onClick={(e: any) => e.stopPropagation()}
+            display="flex"
+            alignItems="center"
+          >
+            {props.value
+              .match(/^(?:\/\/|[^/]+)*/gi)[0]
+              .replace(/(https:\/\/|http:\/\/|\.\w+$)/, '')}{' '}
+            <Icon name="external-link" ml={1} />
+          </Link>
+        </div>
       );
     },
   },
