@@ -16,6 +16,8 @@ const colours: Record<string, string> = {
 interface Props  {
   department?: string;
   m?: string;
+  ml?: string
+  mr?: string
 }
 
 const DeptBadge: React.FC<Props> = ({ department, ...rest }) => {

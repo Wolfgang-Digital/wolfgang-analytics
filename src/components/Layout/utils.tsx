@@ -3,6 +3,7 @@ import { Box, Icon } from '@chakra-ui/core';
 import { FaRegUserCircle, FaRegFolderOpen } from 'react-icons/fa';
 import { MdTrendingUp } from 'react-icons/md';
 import { BsFileCode } from 'react-icons/bs';
+import { IoMdPeople } from 'react-icons/io';
 
 export const userMenuItems = [
   {
@@ -40,5 +41,10 @@ export const adminMenuItems = [
     label: 'Pipeline',
     link: '/pipeline',
     icon: <Box as={FaRegFolderOpen} size="20px" />,
+  },
+  {
+    label: 'Manage Users',
+    link: '/users',
+    icon: <Box as={IoMdPeople} size="22px" />,
   },
 ];

@@ -154,7 +154,7 @@ export const propsalColumns = [
           >
             {props.value
               .match(/^(?:\/\/|[^/]+)*/gi)[0]
-              .replace(/(https:\/\/|http:\/\/|\.\w+$)/, '')}{' '}
+              .replace(/(https:\/\/|http:\/\/|\.\w+$|www\.)/, '')}{' '}
             <Icon name="external-link" ml={1} />
           </Link>
         </div>

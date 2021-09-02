@@ -91,6 +91,11 @@ const routes: RouteWithSubrouteProps[] = [
     key: 'PIPELINE',
     component: lazy(() => import('./pages/Pipeline')),
   },
+  {
+    path: '/users',
+    key: 'USERS',
+    component: lazy(() => import('./pages/Users')),
+  },
 ];
 
 export default routes;
