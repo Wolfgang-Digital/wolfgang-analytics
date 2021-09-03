@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Stack, Grid, Text, Input, Flex } from '@chakra-ui/core';
+import React, { useState, useEffect } from 'react';
+import { Stack, Grid, Text, Input, Flex, useToast } from '@chakra-ui/core';
 import { sortBy } from 'lodash';
 
 import BusyIndicator from 'components/BusyIndicator';
@@ -8,9 +8,22 @@ import { User } from 'features/profile/slice';
 import { UserListItem } from './UserListItem';
 
 export const UserList: React.FC = () => {
+  const toast = useToast();
   const [filter, setFilter] = useState('');
 
-  const { data, isLoading } = useAwsGet<User[]>('/users/info');
+  const { data, isLoading, error } = useAwsGet<User[]>('/users/info');
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: 'left-accent',
+        status: 'error',
+        description: error,
+        position: 'bottom-left',
+        isClosable: true,
+      });
+    }
+  }, [error, toast]);
 
   const displayData = data
     ? filter.length > 0
