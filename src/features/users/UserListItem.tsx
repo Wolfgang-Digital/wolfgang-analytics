@@ -16,17 +16,9 @@ import {
 import Select from 'react-select';
 
 import { awsPost } from 'utils/api';
+import { departmentOptions } from 'utils/constants';
 import Badge from 'components/DeptBadge';
 import { User } from 'features/profile/slice';
-
-const DEPARTMENTS = [
-  { label: 'PPC', value: 3 },
-  { label: 'SEO', value: 4 },
-  { label: 'Content', value: 5 },
-  { label: 'Social', value: 6 },
-  { label: 'CRO', value: 7 },
-  { label: 'Dev', value: 1 },
-];
 
 const ROLES = [
   { label: 'Admin', value: 1 },
@@ -108,7 +100,7 @@ export const UserListItem: React.FC<User> = ({ user_id, username, email, departm
             <Select
               value={deptInput}
               defaultValue={userDept}
-              options={DEPARTMENTS}
+              options={departmentOptions}
               onChange={(e: any) => setDeptInput(e)}
             />
           </Box>
