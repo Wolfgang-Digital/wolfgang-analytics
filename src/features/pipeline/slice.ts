@@ -122,6 +122,11 @@ const slice = createSlice({
       state.offset = Math.max(0, state.offset - state.limit);
     },
 
+    setLimit: (state, { payload }: PayloadAction<number>) => {
+      state.limit = payload;
+      state.offset = 0;
+    },
+
     setQuery: (state, { payload }: PayloadAction<string>) => {
       state.query = payload;
     },
@@ -222,6 +227,11 @@ export const getStatus = createSelector(
   })
 );
 
+export const getLimit = createSelector(
+  getPipelineState,
+  state => state.limit
+);
+
 export const getEntries = createSelector(
   getPipelineState,
   state => state.data
@@ -290,6 +300,7 @@ export const {
   setCurrentEntry,
   incrementOffset,
   decrementOffset,
-  clearMessage
+  clearMessage,
+  setLimit
 } = slice.actions;
 export default slice.reducer;

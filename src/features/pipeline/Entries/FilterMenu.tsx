@@ -24,7 +24,7 @@ const enquiryFilters = [
   'Duration',
   'Channels',
   'Source',
-  'Proposal Leads',
+  'Wolfgangers',
   'Status',
   'Outcome',
   'Updated',
@@ -72,7 +72,7 @@ export const PresetFilterMenu: React.FC = () => {
           dispatch(
             setFilters([
               {
-                column: 'Proposal Leads',
+                column: 'Wolfgangers',
                 operator: 'contains',
                 value: user.user_id,
                 displayValue: user.username,
@@ -146,7 +146,7 @@ export const PresetFilterMenu: React.FC = () => {
       <MenuList fontSize="0.85em" placement="bottom-start" id="menu">
         <MenuGroup title="Filter Presets">
           <MenuItem onClick={() => setPreset('my_clients')}>My Clients</MenuItem>
-          <MenuItem onClick={() => setPreset('pending')}>Pending</MenuItem>
+          <MenuItem onClick={() => setPreset('pending')}>Open</MenuItem>
           <MenuItem onClick={() => setPreset('won')}>Won</MenuItem>
           <MenuItem onClick={() => setPreset('lost')}>Lost</MenuItem>
         </MenuGroup>

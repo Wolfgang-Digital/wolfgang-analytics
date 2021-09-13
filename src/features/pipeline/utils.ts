@@ -13,7 +13,7 @@ columnMap.set('Duration', 'duration');
 columnMap.set('Source', 'source');
 columnMap.set('Outcome', 'outcome');
 columnMap.set('Date Closed', 'date_closed');
-columnMap.set('Proposal Leads', 'leads');
+columnMap.set('Wolfgangers', 'leads');
 
 export const channels = [
   'Analytics',
@@ -27,6 +27,7 @@ export const channels = [
 ].sort();
 
 export const sources = [
+  'Existing Client',
   'Radio',
   'Print',
   'Podcast',

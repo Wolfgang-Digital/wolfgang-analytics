@@ -490,7 +490,7 @@ export const getControls = (column: string) => {
       case 'Status':
         return StatusFilter;
 
-      case 'Proposal Leads':
+      case 'Wolfgangers':
         return LeadsFilter;
 
       default:
