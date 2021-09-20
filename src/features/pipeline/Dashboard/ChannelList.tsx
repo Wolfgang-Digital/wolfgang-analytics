@@ -168,11 +168,11 @@ const ChannelList: React.FC<ChannelListProps> = ({ reports }) => {
           />
           <Metric
             label="Close Rate"
-            value={getRate(report.total_won, report.total)}
-            secondaryValue={`${getRate(report.new_won, report.total_new)} | ${getRate(
-              report.total_won - report.new_won,
+            value={getRate(report.closed_won, report.total)}
+            secondaryValue={`${getRate(report.new_closed_won, report.total_new)} | ${getRate(
+              report.existing_closed_won,
               report.total - report.total_new
-            )} | ${getRate(report.recurring_won, report.total_recurring)}`}
+            )} | ${getRate(report.recurring_closed_won, report.total_recurring)}`}
             text="New | Existing | Recurring"
           />
         </Flex>

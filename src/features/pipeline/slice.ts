@@ -94,20 +94,24 @@ const slice = createSlice({
   initialState,
   reducers: {
     addFilter: (state, { payload }: PayloadAction<PipelineFilter>) => {
+      state.offset = 0;
       state.filters = state.filters.filter(filter => filter.column !== payload.column);
       state.filters.push(payload);
     },
 
     setFilters: (state, { payload }: PayloadAction<PipelineFilter[]>) => {
+      state.offset = 0;
       state.filters = payload;
     },
 
     removeFilter: (state, { payload }: PayloadAction<PipelineFilter>) => {
-      state.filters = state.filters.filter(filter => filter.column !== payload.column)
+      state.filters = state.filters.filter(filter => filter.column !== payload.column);
+      state.offset = 0;
     },
 
     clearFilters: state => {
       state.filters = [];
+      state.offset = 0;
     },
 
     setTab: (state, { payload }: PayloadAction<PipelineState['currentTab']>) => {
@@ -129,6 +133,7 @@ const slice = createSlice({
 
     setQuery: (state, { payload }: PayloadAction<string>) => {
       state.query = payload;
+      state.offset = 0;
     },
 
     setIsLoading: (state, { payload }: PayloadAction<boolean>) => {

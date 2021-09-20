@@ -102,6 +102,10 @@ export interface PipelineOverview {
   total_recurring: number
   recurring_won: number
   new_won: number 
+  closed_won: number
+  new_closed_won: number
+  recurring_closed_won: number
+  existing_closed_won: number
   total_revenue: number
   avg_velocity?: number
 }

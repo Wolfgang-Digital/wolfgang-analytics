@@ -10,7 +10,7 @@ import { formatNumberString } from 'utils/format';
 const Dashboard: React.FC = () => {
   const { channelReports, filters, setFilters } = useChannelReports();
   const overview = useOverview(filters, channelReports.data || []);
-
+  console.log();
   return (
     <Box pb={6}>
       <BusyIndicator color="#4FD1C5" isBusy={channelReports.isLoading || overview.isLoading} />
@@ -81,11 +81,14 @@ const Dashboard: React.FC = () => {
         />
         <Metric
           label="Close Rate"
-          value={getRate(overview.data.total_won, overview.data.total)}
-          secondaryValue={`${getRate(overview.data.new_won, overview.data.total_new)} | ${getRate(
-            overview.data.total_won - overview.data.new_won,
+          value={getRate(overview.data.closed_won, overview.data.total)}
+          secondaryValue={`${getRate(
+            overview.data.new_closed_won,
+            overview.data.total_new
+          )} | ${getRate(
+            overview.data.existing_closed_won,
             overview.data.total - overview.data.total_new
-          )} | ${getRate(overview.data.recurring_won, overview.data.total_recurring)}`}
+          )} | ${getRate(overview.data.recurring_closed_won, overview.data.total_recurring)}`}
           text="New | Existing | Recurring"
           asCard
         />
