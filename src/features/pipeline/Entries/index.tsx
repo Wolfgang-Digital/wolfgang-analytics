@@ -25,6 +25,7 @@ import Table from './Table';
 import TabControls from './TabControls';
 import Searchbar from './Searchbar';
 import FilterList from './FilterList';
+import { DownloadButton } from './DownloadButton';
 
 const placeholder = new Array(6).fill(0);
 
@@ -60,7 +61,7 @@ const Entries: React.FC = () => {
       <FilterList />
       <Flex align="flex-end" justify="space-between">
         <TabControls />
-        <Grid templateColumns="auto auto auto" columnGap={2} alignItems="flex-end">
+        <Grid templateColumns="repeat(4, auto)" columnGap={2} alignItems="flex-end">
           <Text fontSize="0.9em" color="gray.600">
             {current > 0
               ? `Showing ${offset + 1} to ${offset + current} of ${total}`
@@ -92,6 +93,7 @@ const Entries: React.FC = () => {
               <option value={100}>100</option>
             </Select>
           </Box>
+          <DownloadButton />
         </Grid>
       </Flex>
       {isLoading ? (

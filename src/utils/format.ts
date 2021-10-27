@@ -1,3 +1,5 @@
+import { subDays, differenceInDays, subMonths, subYears, setDate } from 'date-fns';
+
 export const formatNumberString = (num: number, prefix = '') => {
   const symbols = [
     { value: 1, symbol: '' },
@@ -40,3 +42,47 @@ export function toTitleCase(str: string) {
     }
   );
 }
+
+export const extractDateFromString = (str: string) => {
+  const dates = str.split(' and ');
+  return [new Date(dates[0]), new Date(dates[1])];
+};
+
+export const getPreviousDateRange = (start: Date, end: Date, type: string) => {
+  switch (type) {
+    case 'off':
+      return undefined;
+
+    case 'range':
+      const duration = differenceInDays(end, start);
+      return {
+        range1: {
+          startDate: subDays(start, duration + 1),
+          endDate: subDays(end, duration + 1)
+        }
+      };
+
+    case 'month':
+      return {
+        range1: {
+          startDate: subMonths(setDate(start, 1), 1),
+          endDate: subMonths(end, 1)
+        }
+      };
+
+    case 'year':
+      return {
+        range1: {
+          startDate: subYears(start, 1),
+          endDate: subYears(end, 1)
+        }
+      };
+
+    default:
+      throw new Error(`Unknown date range type: ${type}`);
+  }
+};
+
+export const getPercentDiff = (a: number, b: number) => {
+  return (a - b) / b;
+};

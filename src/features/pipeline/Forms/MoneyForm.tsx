@@ -56,9 +56,19 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
     );
   }, [state, channels]);
 
+  const wonTotal = useMemo(() => {
+    if (!state.channel_data) return 0;
+    return Object.entries(state.channel_data).reduce((result, [channel, value]) => {
+      if (value.won_revenue) {
+        result += parseFloat(value.won_revenue);
+      }
+      return result;
+    }, 0);
+  }, [state.channel_data]);
+
   const handleChannelDataChange = (
     channel: string,
-    key: 'duration' | 'outcome',
+    key: 'duration' | 'outcome' | 'won_revenue',
     value?: string | number
   ) => {
     let values: ChannelData = state.channel_data ? clone(state.channel_data) : {};
@@ -70,6 +80,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
     } else {
       values[channel] = {
         name: channel,
+        won_revenue: '',
         duration: 'Ongoing',
         [key]: value,
       };
@@ -96,7 +107,11 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
           const data = state.channel_data?.[name];
           return (
             <div key={name}>
-              <Grid templateColumns="repeat(3, 1fr)" columnGap={4} alignItems="center">
+              <Grid
+                templateColumns={`repeat(${isEditPage ? '4' : '3'}, 1fr)`}
+                columnGap={4}
+                alignItems="center"
+              >
                 <FormControl pb={1} isRequired>
                   <FormLabel color="gray.500" fontSize="sm">
                     {name} 12M Value
@@ -111,11 +126,30 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
                       isFullWidth
                       onChange={(e: any) =>
                         // @ts-ignore
-                        updateForm({ key, value: e.target.value })
+                        updateForm({ key: key, value: e.target.value })
                       }
                     />
                   </InputGroup>
                 </FormControl>
+                {isEditPage && (
+                  <FormControl pb={1} isRequired>
+                    <FormLabel color="gray.500" fontSize="sm">
+                      {name} Revenue Won
+                    </FormLabel>
+                    <InputGroup>
+                      <InputLeftAddon children="€" />
+                      <Input
+                        name="won_revenue"
+                        type="number"
+                        value={data?.won_revenue || ''}
+                        isFullWidth
+                        onChange={(e: any) =>
+                          handleChannelDataChange(name, 'won_revenue', e.target.value)
+                        }
+                      />
+                    </InputGroup>
+                  </FormControl>
+                )}
                 <Flex justify="center">
                   <FormControl isRequired>
                     <FormLabel color="gray.500" fontSize="sm">
@@ -123,7 +157,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
                     </FormLabel>
                     <RadioGroup
                       isInline
-                      spacing={6}
+                      spacing={2}
                       size="sm"
                       value={data?.duration}
                       onChange={(e, value) => handleChannelDataChange(name, 'duration', value)}
@@ -141,7 +175,7 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
                       </FormLabel>
                       <RadioGroup
                         isInline
-                        spacing={6}
+                        spacing={2}
                         size="sm"
                         value={data?.outcome}
                         onChange={(e, value) => handleChannelDataChange(name, 'outcome', value)}
@@ -164,12 +198,24 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, channels, isEditPa
             </div>
           );
         })}
-        <Flex>
+        <Grid
+          templateColumns={`repeat(${isEditPage ? '4' : '3'}, 1fr)`}
+          columnGap={4}
+          alignItems="center"
+        >
           <Stat>
             <StatLabel color="gray.500">Total 12M Value</StatLabel>
             <StatNumber color="gray.600">€{totals.monthTwelve.toLocaleString('en-GB')}</StatNumber>
           </Stat>
-        </Flex>
+          {isEditPage && (
+            <Stat>
+              <StatLabel color="gray.500">Total Won Revenue</StatLabel>
+              <StatNumber color="gray.600">
+                €{wonTotal.toLocaleString('en-GB')}
+              </StatNumber>
+            </Stat>
+          )}
+        </Grid>
       </Box>
     </Box>
   );

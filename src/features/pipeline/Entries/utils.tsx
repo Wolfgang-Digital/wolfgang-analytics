@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { Cell } from 'react-table';
 import { format, differenceInDays } from 'date-fns';
-import { Badge, Tooltip, Link, Icon, Text } from '@chakra-ui/core';
+import { Badge, Link, Icon, Text } from '@chakra-ui/core';
 
 import { formatCurrency, getFirstName } from 'utils/format';
 import { PipelineEntry } from '../types';
@@ -24,14 +24,6 @@ const getColour = (channel: string, props: any) => {
     : undefined;
 };
 
-const getReference = (props: any) => {
-  const name = props.row.original.company_name
-    .split(' ')
-    .map((x: string) => x.charAt(0).toUpperCase())
-    .join('');
-  return `${name}-${props.value}`;
-};
-
 export const getOutcomeColour = (outcome?: string) => {
   return outcome?.match(/(win|won)/gi)
     ? 'teal'
@@ -48,9 +40,8 @@ export const enquiryColumns = [
   },
   { Header: 'Company', accessor: 'company_name' },
   {
-    Header: 'Reference',
-    accessor: 'id',
-    Cell: getReference,
+    Header: 'Project',
+    accessor: 'project_name',
   },
   {
     Header: 'Client Type',
@@ -195,16 +186,9 @@ export const moneyColumns = [
     Header: 'PPC 12M Value',
     accessor: 'ppc_12mv',
     Cell: (props: Cell) => (
-      <Tooltip
-        label={props.column.Header?.toString()}
-        aria-label={props.column.Header?.toString() || ''}
-        showDelay={250}
-        hasArrow
-      >
-        <Text as="span" fontWeight={500} color={getColour('PPC', props)}>
-          {formatCurrency(props.value, '-')}
-        </Text>
-      </Tooltip>
+      <Text as="span" fontWeight={500} color={getColour('PPC', props)}>
+        {formatCurrency(props.value, '-')}
+      </Text>
     ),
     Footer: (info: any) => {
       const total = useMemo(() => {
@@ -220,16 +204,9 @@ export const moneyColumns = [
     Header: 'SEO 12M Value',
     accessor: 'seo_12mv',
     Cell: (props: Cell) => (
-      <Tooltip
-        label={props.column.Header?.toString()}
-        aria-label={props.column.Header?.toString() || ''}
-        showDelay={250}
-        hasArrow
-      >
-        <Text as="span" fontWeight={500} color={getColour('SEO', props)}>
-          {formatCurrency(props.value, '-')}
-        </Text>
-      </Tooltip>
+      <Text as="span" fontWeight={500} color={getColour('SEO', props)}>
+        {formatCurrency(props.value, '-')}
+      </Text>
     ),
     Footer: (info: any) => {
       const total = useMemo(() => {
@@ -245,16 +222,9 @@ export const moneyColumns = [
     Header: 'Content 12M Value',
     accessor: 'content_12mv',
     Cell: (props: Cell) => (
-      <Tooltip
-        label={props.column.Header?.toString()}
-        aria-label={props.column.Header?.toString() || ''}
-        showDelay={250}
-        hasArrow
-      >
-        <Text as="span" fontWeight={500} color={getColour('Content', props)}>
-          {formatCurrency(props.value, '-')}
-        </Text>
-      </Tooltip>
+      <Text as="span" fontWeight={500} color={getColour('Content', props)}>
+        {formatCurrency(props.value, '-')}
+      </Text>
     ),
     Footer: (info: any) => {
       const total = useMemo(() => {
@@ -270,16 +240,9 @@ export const moneyColumns = [
     Header: 'Email 12M Value',
     accessor: 'email_12mv',
     Cell: (props: Cell) => (
-      <Tooltip
-        label={props.column.Header?.toString()}
-        aria-label={props.column.Header?.toString() || ''}
-        showDelay={250}
-        hasArrow
-      >
-        <Text as="span" fontWeight={500} color={getColour('Email', props)}>
-          {formatCurrency(props.value, '-')}
-        </Text>
-      </Tooltip>
+      <Text as="span" fontWeight={500} color={getColour('Email', props)}>
+        {formatCurrency(props.value, '-')}
+      </Text>
     ),
     Footer: (info: any) => {
       const total = useMemo(() => {
@@ -295,16 +258,9 @@ export const moneyColumns = [
     Header: 'Social 12M Value',
     accessor: 'social_12mv',
     Cell: (props: Cell) => (
-      <Tooltip
-        label={props.column.Header?.toString()}
-        aria-label={props.column.Header?.toString() || ''}
-        showDelay={250}
-        hasArrow
-      >
-        <Text as="span" fontWeight={500} color={getColour('Social', props)}>
-          {formatCurrency(props.value, '-')}
-        </Text>
-      </Tooltip>
+      <Text as="span" fontWeight={500} color={getColour('Social', props)}>
+        {formatCurrency(props.value, '-')}
+      </Text>
     ),
     Footer: (info: any) => {
       const total = useMemo(() => {
@@ -320,16 +276,9 @@ export const moneyColumns = [
     Header: 'Creative 12M Value',
     accessor: 'creative_12mv',
     Cell: (props: Cell) => (
-      <Tooltip
-        label={props.column.Header?.toString()}
-        aria-label={props.column.Header?.toString() || ''}
-        showDelay={250}
-        hasArrow
-      >
-        <Text as="span" fontWeight={500} color={getColour('Creative', props)}>
-          {formatCurrency(props.value, '-')}
-        </Text>
-      </Tooltip>
+      <Text as="span" fontWeight={500} color={getColour('Creative', props)}>
+        {formatCurrency(props.value, '-')}
+      </Text>
     ),
     Footer: (info: any) => {
       const total = useMemo(() => {
@@ -345,16 +294,9 @@ export const moneyColumns = [
     Header: 'CRO 12M Value',
     accessor: 'cro_12mv',
     Cell: (props: Cell) => (
-      <Tooltip
-        label={props.column.Header?.toString()}
-        aria-label={props.column.Header?.toString() || ''}
-        showDelay={250}
-        hasArrow
-      >
-        <Text as="span" fontWeight={500} color={getColour('CRO', props)}>
-          {formatCurrency(props.value, '-')}
-        </Text>
-      </Tooltip>
+      <Text as="span" fontWeight={500} color={getColour('CRO', props)}>
+        {formatCurrency(props.value, '-')}
+      </Text>
     ),
     Footer: (info: any) => {
       const total = useMemo(() => {
@@ -370,16 +312,9 @@ export const moneyColumns = [
     Header: 'Analytics 12M Value',
     accessor: 'analytics_12mv',
     Cell: (props: Cell) => (
-      <Tooltip
-        label={props.column.Header?.toString()}
-        aria-label={props.column.Header?.toString() || ''}
-        showDelay={250}
-        hasArrow
-      >
-        <Text as="span" fontWeight={500} color={getColour('Analytics', props)}>
-          {formatCurrency(props.value, '-')}
-        </Text>
-      </Tooltip>
+      <Text as="span" fontWeight={500} color={getColour('Analytics', props)}>
+        {formatCurrency(props.value, '-')}
+      </Text>
     ),
     Footer: (info: any) => {
       const total = useMemo(() => {
@@ -394,20 +329,25 @@ export const moneyColumns = [
   {
     Header: 'Total 12M Value',
     accessor: 'total_12mv',
-    Cell: (props: Cell) => (
-      <Tooltip
-        label={props.column.Header?.toString()}
-        aria-label={props.column.Header?.toString() || ''}
-        showDelay={250}
-        hasArrow
-      >
-        {formatCurrency(props.value, '-')}
-      </Tooltip>
-    ),
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
         return info.rows.reduce(
           (sum: number, row: any) => (parseFloat(row.values.total_12mv) || 0) + sum,
+          0
+        );
+      }, [info.rows]);
+      return formatCurrency(total);
+    },
+  },
+  {
+    Header: 'Total Revenue Won',
+    accessor: 'actual_12mv',
+    Cell: (props: Cell) => formatCurrency(props.value, '-'),
+    Footer: (info: any) => {
+      const total = useMemo(() => {
+        return info.rows.reduce(
+          (sum: number, row: any) => (parseFloat(row.values.actual_12mv) || 0) + sum,
           0
         );
       }, [info.rows]);

@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { Box, FormControl, FormLabel, Button, Text } from '@chakra-ui/core';
+import {
+  Box,
+  FormControl,
+  FormLabel,
+  Button,
+  Text,
+} from '@chakra-ui/core';
 import Select from 'react-select';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -20,12 +26,18 @@ const CloseEntryDialogue: React.FC = () => {
   const entry = useSelector(getCurrentEntry);
   const [lossReason, setLossReason] = useState<typeof lossReasonOptions[number]>();
 
+  const closeable = isCloseable(entry);
+  const outcome = getOutcome(entry?.channel_data);
+
+  const isValid = outcome === 'Won'|| (outcome === 'Lost' && !!lossReason); 
+
   const handleCloseEntry = () => {
     if (entry) {
       const values: Record<string, any> = {
         status: 'Closed',
         loss_reason: lossReason?.value,
         date_closed: new Date(),
+        outcome
       };
       dispatch(updateEntry({ id: entry.id, values }));
     }
@@ -37,13 +49,12 @@ const CloseEntryDialogue: React.FC = () => {
         status: 'Open',
         loss_reason: null,
         date_closed: null,
+        actual_12mv: null,
+        outcome: null
       };
       dispatch(updateEntry({ id: entry.id, values }));
     }
   };
-
-  const closeable = isCloseable(entry);
-  const outcome = getOutcome(entry?.channel_data);
 
   return (
     <Box>
@@ -66,7 +77,7 @@ const CloseEntryDialogue: React.FC = () => {
       )}
       {entry?.status === 'Open' && closeable && outcome === 'Lost' && (
         <FormControl mt={2}>
-          <FormLabel color="gray.500" fontSize="sm">
+          <FormLabel color="gray.500" fontSize="xs">
             Loss Reason
           </FormLabel>
           <Select
@@ -84,7 +95,7 @@ const CloseEntryDialogue: React.FC = () => {
           fontWeight={400}
           isFullWidth
           onClick={handleCloseEntry}
-          isDisabled={false}
+          isDisabled={!isValid}
         >
           Close Entry
         </Button>

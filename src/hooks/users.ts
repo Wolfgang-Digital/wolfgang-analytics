@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useMemo, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-import { getCurrentUser, User } from 'features/profile/slice';
-import { useAwsGet } from './aws';
+import { getCurrentUser } from 'features/profile/slice';
+import { fetchUsers, getUsersState } from 'features/users/slice';
 
 export const Roles = {
   ADMIN: 'Admin',
@@ -27,20 +27,27 @@ interface UserOptionParams {
 }
 
 export const useUserOptions = (params?: UserOptionParams) => {
-  const { data, isLoading, error } = useAwsGet<User[]>('/users');
+  const dispatch = useDispatch();
+  const { users, isLoading, error } = useSelector(getUsersState);
+
+  useEffect(() => {
+    if (!isLoading && !error && users.length === 0) {
+      dispatch(fetchUsers());
+    }
+  }, [error, isLoading, users.length, dispatch]);
 
   return useMemo(() => {
     return {
       isLoading,
       error,
-      userOptions: data
-        ? data.map(user => ({
+      userOptions: users
+        ? users.map(user => ({
           label: user.username,
           value: params?.idAsValue ? user.user_id : user
         }))
         : []
     };
-  }, [data, isLoading, error, params]);
+  }, [users, isLoading, error, params]);
 };
 
 export const useUserId = () => {

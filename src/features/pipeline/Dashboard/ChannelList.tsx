@@ -61,7 +61,7 @@ export const getVelocityBreakdown = ({
 };
 
 export const getRate = (a: number, b: number) => {
-  return (a / (b === 0 ? 1 : b)).toLocaleString('en-GB', { style: 'percent' }).replace(/\.0+$/, '');
+  return (a / (b === 0 ? 1 : b)).toLocaleString('en-GB', { style: 'percent',  }).replace(/\.0+$/, '');
 };
 
 export const Metric: React.FC<MetricProps> = ({
@@ -97,7 +97,8 @@ const ChannelList: React.FC<ChannelListProps> = ({ reports }) => {
       ? reports.filter((x) => x.channel.toLowerCase().includes(filter))
       : reports
     : [];
-
+  return null;
+  /*
   return (
     <Box>
       <Flex justify="space-between" alignItems="flex-end" mb={2}>
@@ -179,6 +180,7 @@ const ChannelList: React.FC<ChannelListProps> = ({ reports }) => {
       ))}
     </Box>
   );
+  */
 };
 
 export default ChannelList;

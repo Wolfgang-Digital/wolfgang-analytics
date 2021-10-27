@@ -2,6 +2,7 @@ export interface PipelineEntry {
   total: number
   id: number
   company_name: string
+  project_name?: string
   date_added: string
   is_new: boolean
   country: string
@@ -24,18 +25,21 @@ export interface PipelineEntry {
   analytics_12mv?: number
   total_12mv?: number
   contact_email?: string
+  actual_12mv?: number
   proposal_leads?: {
     user_id: string
     username: string
     email: string
   }[]
   channel_data?: ChannelData
+  proposal_doc_link?: string
 }
 
 export type ChannelData = Record<string, {
   name: string
   duration: string
   outcome?: string
+  won_revenue?: string
 }>
 
 export interface PipelineFilter {
@@ -95,29 +99,22 @@ export interface MoneySnippet {
 }
 
 export interface PipelineOverview {
+  duration: string
   total: number
-  total_open: number
-  total_new: number
-  total_won: number
-  total_recurring: number
-  recurring_won: number
-  new_won: number 
-  closed_won: number
-  new_closed_won: number
-  recurring_closed_won: number
-  existing_closed_won: number
-  total_revenue: number
-  avg_velocity?: number
+  open_enquiries: number
+  wins: number
+  pipeline_turnover: number
+  estimated_won_revenue: number
+  actual_won_revenue: number
+  avg_velocity: number
+  close_rate
+  revenue_close_rate: number
 }
 
-export interface ChannelReport extends PipelineOverview {
+export interface OverviewDownload extends Omit<PipelineOverview, 'client_type'> {
+  date: string
+}
+
+export interface ChannelReport extends Omit<PipelineOverview, 'duration'> {
   channel: string
-  total_won_revenue: number
-  total_new_revenue: number
-  total_recurring_revenue: number
-  recurring_new_revenue: number
-  recurring_won_revenue: number
-  avg_recurring_velocity?: number
-  avg_win_velocity?: number
-  avg_loss_velocity?: number
 }

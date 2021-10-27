@@ -16,21 +16,16 @@ import {
   Button,
   RadioGroup,
   Radio,
-  Input,
-  InputGroup,
-  InputRightAddon,
-  Grid,
 } from '@chakra-ui/core';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import { DateRange } from 'react-date-range';
-import Select from 'react-select';
 
 import { useClickOutside } from 'hooks/useClickOutside';
 import { formatDate } from '../Entries/utils';
 import { PipelineFilter } from '../types';
 
-const enquiryFilters = ['Date', 'Status'];
+const enquiryFilters = ['Date Added', 'Date Closed', 'Status'];
 
 interface FilterProps {
   isOpen: boolean;
@@ -39,12 +34,12 @@ interface FilterProps {
   handleSubmit: (values: PipelineFilter) => void;
 }
 
+/*
 const operatorOptions = [
   { label: 'Greater Than', value: 'greater than' },
   { label: 'Less Than', value: 'less than' },
   { label: 'Between', value: 'between' },
 ];
-
 const TimeFilter: React.FC<FilterProps> = ({ isOpen, close, filter, handleSubmit }) => {
   const [operator, setOperator] = useState(operatorOptions[0]);
   const [_start, setStart] = useState(0);
@@ -130,8 +125,15 @@ const TimeFilter: React.FC<FilterProps> = ({ isOpen, close, filter, handleSubmit
     </Popover>
   );
 };
+*/
 
-const DateFilter: React.FC<FilterProps> = ({ isOpen, close, filter, handleSubmit }) => {
+const DateFilter: React.FC<FilterProps & { name: string }> = ({
+  isOpen,
+  close,
+  filter,
+  handleSubmit,
+  name,
+}) => {
   const dates = filter ? (filter.value as string).split(' and ') : [new Date(), new Date()];
 
   const [_start, setStart] = useState(new Date(dates[0]));
@@ -144,7 +146,7 @@ const DateFilter: React.FC<FilterProps> = ({ isOpen, close, filter, handleSubmit
 
   const onSubmit = () => {
     handleSubmit({
-      column: 'Date',
+      column: name,
       operator: 'between',
       value: `${formatDate(_start)} and ${formatDate(_end)}`,
     });
@@ -164,7 +166,7 @@ const DateFilter: React.FC<FilterProps> = ({ isOpen, close, filter, handleSubmit
         minWidth={350}
       >
         <PopoverHeader textAlign="center" fontWeight={700} color="gray.600">
-          Date
+          {name}
         </PopoverHeader>
         <PopoverBody onClick={(e) => e.stopPropagation()}>
           <DateRange
@@ -315,9 +317,19 @@ const FilterMenuItem: React.FC<MenuItemProps> = ({
         <Text w="100%" fontFamily="inherit" color={current === label ? 'purple.600' : undefined}>
           {label}
         </Text>
-        {label === 'Date' && (
+        {label === 'Date Added' && (
           <DateFilter
-            isOpen={current === 'Date'}
+            name="Date Added"
+            isOpen={current === 'Date Added'}
+            close={onClose}
+            handleSubmit={handleSubmit}
+            filter={filter}
+          />
+        )}
+        {label === 'Date Closed' && (
+          <DateFilter
+            name="Date Closed"
+            isOpen={current === 'Date Closed'}
             close={onClose}
             handleSubmit={handleSubmit}
             filter={filter}
@@ -334,14 +346,6 @@ const FilterMenuItem: React.FC<MenuItemProps> = ({
         {label === 'Duration' && (
           <DurationFilter
             isOpen={current === 'Duration'}
-            close={onClose}
-            handleSubmit={handleSubmit}
-            filter={filter}
-          />
-        )}
-        {label === 'Time in Pipe' && (
-          <TimeFilter
-            isOpen={current === 'Time in Pipe'}
             close={onClose}
             handleSubmit={handleSubmit}
             filter={filter}

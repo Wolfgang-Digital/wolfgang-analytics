@@ -1,17 +1,22 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useToast } from '@chakra-ui/core';
-import { format, setDate } from 'date-fns';
-import { sumBy, meanBy } from 'lodash';
+import { format, setDate, subMonths } from 'date-fns';
 
 import { useAwsGet } from 'hooks/aws';
-import { PipelineFilter, ChannelReport, PipelineOverview } from '../types';
+import { getPreviousDateRange, extractDateFromString } from 'utils/format';
+import { PipelineFilter, PipelineOverview, ChannelReport } from '../types';
 
-export const useChannelReports = () => {
-  const toast = useToast();
+export interface DateRange {
+  range1: {
+    startDate: Date;
+    endDate: Date;
+  };
+}
 
+export const useFilters = () => {
   const [filters, setFilters] = useState<PipelineFilter[]>([
     {
-      column: 'Date',
+      column: 'Date Added',
       operator: 'between',
       value: `${format(setDate(new Date(), 1), 'dd MMMM yy')} and ${format(
         new Date(),
@@ -20,94 +25,176 @@ export const useChannelReports = () => {
     },
   ]);
 
-  const query = useMemo(() => {
-    const date = filters.find((x) => x.column === 'Date');
-    const status = filters.find((x) => x.column === 'Status');
+  const [mode, _setMode] = useState('month');
 
-    let query = '';
-    if (date) {
-      const dates = (date.value as string).split(' and ');
-      query += `?start=${format(new Date(dates[0]), 'yyyy-MM-dd')}&end=${format(
-        new Date(dates[1]),
-        'yyyy-MM-dd'
-      )}`;
-    }
-    if (status) {
-      query += `${query.length === 0 ? '?' : '&'}status=${status.value}`;
-    }
-
-    return query;
-  }, [filters]);
-
-  const res = useAwsGet<ChannelReport[]>(`/pipeline/dashboard/channels${query}`);
+  const [range, setRange] = useState<DateRange | undefined>({
+    range1: {
+      startDate: subMonths(setDate(new Date(), 1), 1),
+      endDate: subMonths(new Date(), 1),
+    },
+  });
 
   useEffect(() => {
-    if (res.error) {
-      toast({
-        variant: 'left-accent',
-        status: 'error',
-        description: res.error,
-        position: 'bottom-left',
-        isClosable: true,
-      });
+    const dateAdded = filters.find((x) => x.column === 'Date Added');
+    const dateClosed = filters.find((x) => x.column === 'Date Closed');
+    const date = dateAdded?.value ?? dateClosed?.value;
+
+    if (dateAdded && dateClosed) {
+      setRange(undefined);
+    } else if (mode !== 'off' && date) {
+      const [start, end] = extractDateFromString(date as string);
+      const newRange = getPreviousDateRange(start, end, mode);
+      setRange(newRange);
+    } else if (!date) {
+      setRange(undefined);
     }
-  }, [toast, res]);
+  }, [mode, filters]);
+
+  const setMode = (newMode: string) => {
+    if (newMode !== mode) {
+      _setMode(newMode);
+
+      const dateAdded = filters.find((x) => x.column === 'Date Added');
+      const dateClosed = filters.find((x) => x.column === 'Date Closed');
+      const date = dateAdded?.value ?? dateClosed?.value;
+
+      // If dynamic comparison is turned on, try get a date from the current filters
+      if (newMode !== 'off' && date) {
+        const [start, end] = extractDateFromString(date as string);
+        const newRange = getPreviousDateRange(start, end, newMode);
+        setRange(newRange);
+      }
+    }
+  };
 
   return {
-    channelReports: res,
     filters,
     setFilters,
+    mode,
+    setMode,
+    range,
+    setRange,
   };
 };
 
-export const useOverview = (filters: PipelineFilter[], reports: ChannelReport[]) => {
+export const useQueryString = ({
+  filters,
+  comparison,
+}: {
+  filters: PipelineFilter[];
+  comparison?: DateRange;
+}) => {
+  const dateAdded = filters.find((x) => x.column === 'Date Added');
+  const dateClosed = filters.find((x) => x.column === 'Date Closed');
+  const status = filters.find((x) => x.column === 'Status');
+
+  let query = '';
+
+  if (dateAdded) {
+    const [start, end] = extractDateFromString(dateAdded.value as string);
+    query += `?date_added=${format(start, 'yyyy-MM-dd')}AND${format(end, 'yyyy-MM-dd')}`;
+  }
+
+  if (dateClosed) {
+    const [start, end] = extractDateFromString(dateClosed.value as string);
+    query += `${query.length === 0 ? '?' : '&'}date_closed=${format(
+      start,
+      'yyyy-MM-dd'
+    )}AND${format(end, 'yyyy-MM-dd')}`;
+  }
+
+  if (status) {
+    query += `${query.length === 0 ? '?' : '&'}status=${status.value}`;
+  }
+
+  if (comparison) {
+    query += `${query.length === 0 ? '?' : '&'}compare_to=${format(
+      comparison.range1.startDate,
+      'yyyy-MM-dd'
+    )}AND${format(comparison.range1.endDate, 'yyyy-MM-dd')}`;
+  }
+
+  return query;
+};
+
+interface OverviewResponse {
+  overview: PipelineOverview;
+  breakdown: PipelineOverview[];
+  overviewComparison: PipelineOverview;
+  breakdownComparison: PipelineOverview[];
+}
+
+export const useOverview = (query: string) => {
   const toast = useToast();
 
-  const query = useMemo(() => {
-    const date = filters.find((x) => x.column === 'Date');
-    const status = filters.find((x) => x.column === 'Status');
-
-    let query = '';
-    if (date) {
-      const dates = (date.value as string).split(' and ');
-      query += `?start=${format(new Date(dates[0]), 'yyyy-MM-dd')}&end=${format(
-        new Date(dates[1]),
-        'yyyy-MM-dd'
-      )}`;
-    }
-    if (status) {
-      query += `${query.length === 0 ? '?' : '&'}status=${status.value}`;
-    }
-
-    return query;
-  }, [filters]);
-
-  const res = useAwsGet<PipelineOverview>(`/pipeline/dashboard/overview${query}`);
+  const { data, isLoading, error } = useAwsGet<OverviewResponse>(
+    `/pipeline/dashboard/overview${query}`
+  );
 
   useEffect(() => {
-    if (res.error) {
+    if (error && error !== 'Cancel') {
       toast({
         variant: 'left-accent',
         status: 'error',
-        description: res.error,
+        description: error,
         position: 'bottom-left',
         isClosable: true,
       });
     }
-  }, [toast, res]);
+  }, [toast, error]);
 
   return {
-    ...res,
-    data: {
-      ...res.data,
-      total_won_revenue: sumBy(reports, 'total_won_revenue'),
-      total_new_revenue: sumBy(reports, 'total_new_revenue'),
-      total_recurring_revenue: sumBy(reports, 'total_recurring_revenue'),
-      recurring_won_revenue: sumBy(reports, 'recurring_won_revenue'),
-      recurring_new_revenue: sumBy(reports, 'recurring_new_revenue'),
-      avg_recurring_velocity: meanBy(reports, 'avg_recurring_velocity').toFixed(1),
-      avg_win_velocity: meanBy(reports, 'avg_win_velocity').toFixed(1),
-      avg_loss_velocity: meanBy(reports, 'avg_loss_velocity').toFixed(1)
-    },
+    isLoading,
+    overall: data && !Array.isArray(data) ? data.overview : undefined,
+    overallComparison: data && !Array.isArray(data) ? data.overviewComparison : undefined,
+    breakdown:
+      data && !Array.isArray(data)
+        ? data.breakdown
+            .sort((a, b) => {
+              //const a1 = a.client_type === 'New' ? -1 : 1;
+              const a2 = a.duration === 'Recurring' ? -1 : 1;
+              //const b1 = b.client_type === 'New' ? -1 : 1;
+              const b2 = b.duration === 'Recurring' ? -1 : 1;
+              //return a1 + a2 - (b1 + b2);
+              return a2 - b2;
+            })
+            .map((report) => ({
+              ...report,
+              comparison: data.breakdownComparison.find((x) => x.duration === report.duration),
+            }))
+        : undefined,
+  };
+};
+
+interface ChannelResponse {
+  result: ChannelReport[];
+  comparison: ChannelReport[];
+}
+
+export const useChannelBreakdown = (query: string) => {
+  const toast = useToast();
+
+  const { data, isLoading, error } = useAwsGet<ChannelResponse>(
+    `/pipeline/dashboard/channels${query}`
+  );
+
+  useEffect(() => {
+    if (error && error !== 'Cancel') {
+      toast({
+        variant: 'left-accent',
+        status: 'error',
+        description: error,
+        position: 'bottom-left',
+        isClosable: true,
+      });
+    }
+  }, [toast, error]);
+
+  return {
+    isLoading,
+    data: data && Array.isArray(data.result) ? data.result.map(row => {
+      const comparison = data.comparison?.find(x => x.channel === row.channel);
+      return { data: row, comparison };
+    }) : undefined,
   };
 };

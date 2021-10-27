@@ -47,6 +47,7 @@ const EditEntry: React.FC = () => {
     if (entry) {
       const input = tab === 'ENQUIRY' ? enquiryForm : tab === 'PROPOSAL' ? proposalForm : moneyForm;
       const formData = getFormData(input);
+
       if (formData.proposal_leads) {
         formData.proposal_leads = formData.proposal_leads.map((option: any) => option.value);
       }
@@ -100,6 +101,7 @@ const EditEntry: React.FC = () => {
           enquiryChanged={enquiryHasChanged}
           proposalChanged={proposalHasChanged}
           moneyChanged={moneyHasChanged}
+          actual_12mv={entry?.actual_12mv}
         />
       </Grid>
     </Box>

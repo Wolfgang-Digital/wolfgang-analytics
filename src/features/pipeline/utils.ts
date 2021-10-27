@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import { PipelineFilter, EnquirySnippet, ProposalSnippet, MoneySnippet, ChannelData, PipelineEntry } from './types';
 
 export const columnMap = new Map();
-columnMap.set('Date', 'date_added');
+columnMap.set('Date Added', 'date_added');
 columnMap.set('Client Type', 'is_new');
 columnMap.set('Date Contacted', 'date_contacted');
 columnMap.set('Updated', 'last_updated');
@@ -50,6 +50,9 @@ export const getFilterQuery = (filter: PipelineFilter) => {
     switch (filter.column) {
       case 'Client Type':
         return `is_new=${filter.value === 'New' ? 'true' : 'false'}`;
+
+      case 'Country':
+        return `country=${filter.operator === 'is not' ? '!' : ''}${filter.value}`;
 
       default:
         if (columnMap.has(filter.column)) {
@@ -117,7 +120,7 @@ export const getOutcome = (data?: ChannelData) => {
     }
   }
   if (wins > 0) {
-    return wins === numKeys ? 'Won' : `Won ${wins}/${numKeys}`;
+    return 'Won'
   }
   return losses === numKeys ? 'Lost' : 'Pending';
 };
@@ -126,7 +129,7 @@ export const isCloseable = (entry?: PipelineEntry) => {
   if (!entry || !entry.channel_data) return false;
   for (const channel of Object.values(entry.channel_data)) {
     const moneyKey = `${channel.name.toLocaleLowerCase()}_12mv`;
-    if (!channel.outcome || channel.outcome === 'Pending' || !(entry as Record<string, any>)[moneyKey]) {
+    if (!channel.outcome || channel.outcome === 'Pending' || !(entry as Record<string, any>)[moneyKey] || !channel.won_revenue) {
       return false;
     }
   }
@@ -142,3 +145,16 @@ export const getDuration = (data?: ChannelData) => {
   }
   return 'Once Off';
 };
+
+export const getEstimatedRevenue = (entry?: PipelineEntry) => {
+  if (!entry?.channel_data) return 0;
+  let total = 0;
+  for (const channel of Object.values(entry.channel_data)) {
+    if (channel.outcome === 'Won') {
+      const moneyKey = `${channel.name.toLocaleLowerCase()}_12mv`;
+      // @ts-ignore
+      total += !isNaN(parseFloat(entry[moneyKey])) ? parseFloat(entry[moneyKey]) : 0;
+    }
+  }
+  return total;
+}

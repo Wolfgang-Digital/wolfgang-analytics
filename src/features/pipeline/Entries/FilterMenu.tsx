@@ -18,19 +18,18 @@ import { getControls } from './FilterControls';
 import { useDispatch } from 'react-redux';
 import { setFilters } from '../slice';
 
-const enquiryFilters = [
-  'Date',
+const filters = [
+  'Date Added',
+  'Date Closed',
   'Client Type',
   'Duration',
   'Channels',
   'Source',
   'Wolfgangers',
+  'Country',
   'Status',
   'Outcome',
-  'Updated',
-  'Date Closed',
 ];
-// const proposalFilters = ['Date Contacted', 'Proposal Date', 'Meeting Date'];
 
 interface MenuItemProps {
   label: string;
@@ -143,7 +142,7 @@ export const PresetFilterMenu: React.FC = () => {
         mr={2}
         mb={2}
       />
-      <MenuList fontSize="0.85em" placement="bottom-start" id="menu">
+      <MenuList fontSize="0.85em" placement="bottom-start" id="menu" onKeyDown={console.log}>
         <MenuGroup title="Filter Presets">
           <MenuItem onClick={() => setPreset('my_clients')}>My Clients</MenuItem>
           <MenuItem onClick={() => setPreset('pending')}>Open</MenuItem>
@@ -187,7 +186,7 @@ const FilterMenu: React.FC = () => {
       <div ref={ref}>
         <MenuList fontSize="0.85em" placement="bottom-start" id="menu">
           <MenuGroup title="Filter Column">
-            {enquiryFilters.map((filter) => (
+            {filters.map((filter) => (
               <FilterMenuItem
                 key={filter}
                 label={filter}

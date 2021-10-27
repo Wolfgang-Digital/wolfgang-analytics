@@ -37,7 +37,7 @@ const Searchbar: React.FC = () => {
         <Input
           value={_query}
           onChange={(e: any) => _setQuery(e.target.value)}
-          placeholder="Search by company name or department"
+          placeholder="Search by company, project, country or department"
           borderRadius="0 4px 4px 0"
         />
       </InputGroup>

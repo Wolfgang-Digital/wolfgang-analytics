@@ -8,6 +8,10 @@ import {
   RadioGroup,
   Radio,
   PopoverHeader,
+  Input,
+  Grid,
+  Switch,
+  FormLabel,
 } from '@chakra-ui/core';
 import { useDispatch } from 'react-redux';
 import { DateRange } from 'react-date-range';
@@ -318,7 +322,7 @@ export const DurationFilter: React.FC<FilterProps> = ({ column, isOpen, close })
         column,
         operator: 'is',
         value: duration,
-        displayValue: duration === 'Ongoing' ? 'Recurring' : duration
+        displayValue: duration === 'Ongoing' ? 'Recurring' : duration,
       })
     );
     close();
@@ -467,6 +471,76 @@ export const StatusFilter: React.FC<FilterProps> = ({ column, isOpen, close }) =
   );
 };
 
+export const CountryFilter: React.FC<FilterProps> = ({ column, isOpen, close }) => {
+  const [country, setCountry] = useState('');
+  const [operator, setOperator] = useState('is');
+  const dispatch = useDispatch();
+
+  const handleOpertatorChange = (e: React.FormEvent<any>) => {
+    const op = operator === 'is' ? 'is not' : 'is';
+    setOperator(op);
+  };
+
+  const handleSubmit = () => {
+    dispatch(
+      addFilter({
+        column,
+        operator,
+        value: country,
+      })
+    );
+    close();
+  };
+
+  return (
+    <Popover placement="auto" isOpen={isOpen}>
+      <PopoverTrigger>
+        <div style={{ visibility: 'hidden', width: '100%', height: '100%' }}></div>
+      </PopoverTrigger>
+      <PopoverContent
+        zIndex={100}
+        _focus={{ outline: 'none' }}
+        position="absolute"
+        border={0}
+        onClick={(e: any) => e.stopPropagation()}
+        onKeyDown={(e: any) => e.stopPropagation()}
+        onKeyPress={(e: any) => e.stopPropagation()}
+        onMouseOver={(e: any) => e.stopPropagation()}
+        onFocus={(e: any) => e.stopPropagation()}
+        width="fit-content"
+      >
+        <PopoverHeader textAlign="center" fontWeight={700} color="gray.600">
+          {column}
+        </PopoverHeader>
+        <PopoverBody>
+          <Grid alignItems="center" templateColumns="auto 42px 200px" gridColumnGap={2}>
+            <Switch
+              id="country-operator"
+              onChange={handleOpertatorChange}
+              isChecked={operator === 'is'}
+            />
+            <FormLabel htmlFor="country-operator" padding={0} textAlign="center">
+              {operator}
+            </FormLabel>
+            <Input value={country} onChange={(e: any) => setCountry(e.target.value)} />
+          </Grid>
+          <Button
+            size="sm"
+            isFullWidth
+            variantColor="blue"
+            variant="ghost"
+            fontWeight={400}
+            onClick={handleSubmit}
+            mt={2}
+          >
+            Apply Filter
+          </Button>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
+  );
+};
+
 export const getControls = (column: string) => {
   if (column.toLowerCase().includes('date')) {
     return DateFilter;
@@ -492,6 +566,9 @@ export const getControls = (column: string) => {
 
       case 'Wolfgangers':
         return LeadsFilter;
+
+      case 'Country':
+        return CountryFilter;
 
       default:
         return null;

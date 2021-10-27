@@ -8,6 +8,7 @@ import reviews, { initialState as reviewState } from './features/monthly-reviews
 import profile, { initialState as profileState } from './features/profile/slice';
 import awarewolf, { initialState as awarewolfState } from './features/awarewolf/slice';
 import pipeline from './features/pipeline/slice';
+import users from './features/users/slice';
 
 const reducer = combineReducers({
   accountSelect,
@@ -15,7 +16,8 @@ const reducer = combineReducers({
   reviews,
   profile,
   awarewolf,
-  pipeline
+  pipeline,
+  users
 });
 
 const store = configureStore({

@@ -39,6 +39,7 @@ interface Props {
   enquiryChanged: boolean;
   proposalChanged: boolean;
   moneyChanged: boolean;
+  actual_12mv?: number;
 }
 
 const shouldComfirm = (tab: string, nextTab: string, e: boolean, p: boolean, m: boolean) => {
@@ -61,7 +62,7 @@ const Controls: React.FC<Props> = ({
   lastUpdated,
   enquiryChanged,
   proposalChanged,
-  moneyChanged,
+  moneyChanged
 }) => {
   const { isOpen, onToggle } = useDisclosure();
   const { isLoading } = useSelector(getStatus);
