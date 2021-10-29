@@ -44,10 +44,27 @@ const Dashboard: React.FC = () => {
         </Heading>
         <DownloadButton type="breakdown" query={query} />
       </Flex>
-      {overview?.breakdown?.map((data) => (
+      {overview?.durationBreakdown?.map((data) => (
         <OverviewDisplay
           key={data.duration}
           duration={data.duration}
+          data={data}
+          comparison={data.comparison}
+          hideComparison={!range}
+        />
+      ))}
+      <Flex align="baseline">
+        <Heading my={4} size="sm" fontWeight={500}>
+          Breakdown by{' '}
+          <Text as="span" color="purple.500">
+            Client Type
+          </Text>
+        </Heading>
+      </Flex>
+      {overview?.clientTypeBreakdown?.map((data) => (
+        <OverviewDisplay
+          key={data.client_type}
+          duration={data.client_type}
           data={data}
           comparison={data.comparison}
           hideComparison={!range}

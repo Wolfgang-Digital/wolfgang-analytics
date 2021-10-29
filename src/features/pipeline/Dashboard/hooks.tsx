@@ -147,16 +147,32 @@ export const useOverview = (query: string) => {
     isLoading,
     overall: data && !Array.isArray(data) ? data.overview : undefined,
     overallComparison: data && !Array.isArray(data) ? data.overviewComparison : undefined,
-    breakdown:
+    durationBreakdown:
       data && !Array.isArray(data)
         ? data.breakdown
+            .filter((report) => !!report.duration)
             .sort((a, b) => {
-              //const a1 = a.client_type === 'New' ? -1 : 1;
+              const a1 = a.client_type === 'New' ? -1 : 1;
               const a2 = a.duration === 'Recurring' ? -1 : 1;
-              //const b1 = b.client_type === 'New' ? -1 : 1;
+              const b1 = b.client_type === 'New' ? -1 : 1;
               const b2 = b.duration === 'Recurring' ? -1 : 1;
-              //return a1 + a2 - (b1 + b2);
-              return a2 - b2;
+              return a1 + a2 - (b1 + b2);
+            })
+            .map((report) => ({
+              ...report,
+              comparison: data.breakdownComparison.find((x) => x.duration === report.duration),
+            }))
+        : undefined,
+    clientTypeBreakdown:
+      data && !Array.isArray(data)
+        ? data.breakdown
+            .filter((report) => !!report.client_type)
+            .sort((a, b) => {
+              const a1 = a.client_type === 'New' ? -1 : 1;
+              const a2 = a.duration === 'Recurring' ? -1 : 1;
+              const b1 = b.client_type === 'New' ? -1 : 1;
+              const b2 = b.duration === 'Recurring' ? -1 : 1;
+              return a1 + a2 - (b1 + b2);
             })
             .map((report) => ({
               ...report,
@@ -192,9 +208,12 @@ export const useChannelBreakdown = (query: string) => {
 
   return {
     isLoading,
-    data: data && Array.isArray(data.result) ? data.result.map(row => {
-      const comparison = data.comparison?.find(x => x.channel === row.channel);
-      return { data: row, comparison };
-    }) : undefined,
+    data:
+      data && Array.isArray(data.result)
+        ? data.result.map((row) => {
+            const comparison = data.comparison?.find((x) => x.channel === row.channel);
+            return { data: row, comparison };
+          })
+        : undefined,
   };
 };

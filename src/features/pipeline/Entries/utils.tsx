@@ -335,23 +335,10 @@ export const moneyColumns = [
         return info.rows.reduce(
           (sum: number, row: any) => (parseFloat(row.values.total_12mv) || 0) + sum,
           0
-        );
+        ).toString().replace(/\.[0-9]+$/, '');
       }, [info.rows]);
       return formatCurrency(total);
     },
   },
-  {
-    Header: 'Total Revenue Won',
-    accessor: 'actual_12mv',
-    Cell: (props: Cell) => formatCurrency(props.value, '-'),
-    Footer: (info: any) => {
-      const total = useMemo(() => {
-        return info.rows.reduce(
-          (sum: number, row: any) => (parseFloat(row.values.actual_12mv) || 0) + sum,
-          0
-        );
-      }, [info.rows]);
-      return formatCurrency(total);
-    },
-  },
+
 ];

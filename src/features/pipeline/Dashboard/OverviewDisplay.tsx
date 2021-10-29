@@ -6,7 +6,7 @@ import { PipelineOverview } from '../types';
 import { Metric } from './Metric';
 
 const colours: Record<string, any> = {
-  New: 'teal',
+  New: 'purple',
   Recurring: 'purple',
 };
 

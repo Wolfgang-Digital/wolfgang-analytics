@@ -99,7 +99,8 @@ export interface MoneySnippet {
 }
 
 export interface PipelineOverview {
-  duration: string
+  duration?: string
+  client_type?: string
   total: number
   open_enquiries: number
   wins: number
