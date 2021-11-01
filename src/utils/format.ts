@@ -86,3 +86,9 @@ export const getPreviousDateRange = (start: Date, end: Date, type: string) => {
 export const getPercentDiff = (a: number, b: number) => {
   return (a - b) / b;
 };
+
+export const getDurationString = (num?: number) => {
+  if (!num?.toFixed && num !== 0) return 'N/A';
+  if (num >= 7) return `${(num / 7).toFixed(0)} week${(num / 7).toFixed(0) === '1' ? '' : 's'}`
+  return `${num.toFixed(0)} day${num.toFixed(0) === '1' ? '' : 's'}`;
+};

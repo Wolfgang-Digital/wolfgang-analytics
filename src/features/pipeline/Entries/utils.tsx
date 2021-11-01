@@ -3,7 +3,7 @@ import { Cell } from 'react-table';
 import { format, differenceInDays } from 'date-fns';
 import { Badge, Link, Icon, Text } from '@chakra-ui/core';
 
-import { formatCurrency, getFirstName } from 'utils/format';
+import { formatCurrency, getFirstName, getDurationString } from 'utils/format';
 import { PipelineEntry } from '../types';
 import { getDuration, getOutcome } from '../utils';
 
@@ -175,7 +175,7 @@ export const propsalColumns = [
       const { date_closed } = props.row.original;
       const lastDay = date_closed ? new Date(date_closed) : new Date();
       const numDays = differenceInDays(lastDay, new Date(props.value));
-      return `${numDays} days`;
+      return getDurationString(numDays);
     },
   },
 ];

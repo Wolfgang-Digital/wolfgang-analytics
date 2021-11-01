@@ -16,7 +16,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { format, differenceInDays } from 'date-fns';
 
 import { useUserRoles, Roles } from 'hooks/users';
-import { toTitleCase } from 'utils/format';
+import { toTitleCase, getDurationString } from 'utils/format';
 import { awsDelete } from 'utils/api';
 import { useLinkHandler } from 'hooks/useLinkHandler';
 import { getOutcomeColour } from '../Entries/utils';
@@ -195,7 +195,7 @@ const Controls: React.FC<Props> = ({
         </Text>
         {dateAdded && (
           <Text mb={0} fontSize="0.9em">
-            {timeInPipe} days
+            {typeof timeInPipe === 'number' ? getDurationString(timeInPipe) : timeInPipe}
           </Text>
         )}
       </Box>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Heading, Grid, Flex, Badge, BoxProps, BadgeProps } from '@chakra-ui/core';
 
-import { formatNumberString } from 'utils/format';
+import { formatNumberString, getDurationString } from 'utils/format';
 import { PipelineOverview } from '../types';
 import { Metric } from './Metric';
 
@@ -26,11 +26,6 @@ const badgeProps: BadgeProps = {
   py: 1,
   w: '82px',
   textAlign: 'center',
-};
-
-export const getVelocityText = (num?: number) => {
-  if (!num?.toFixed && num !== 0) return 'N/A';
-  return `${num.toFixed(0)} days`;
 };
 
 export const getCurrencyText = (num?: number) => formatNumberString(num || 0, '€');
@@ -134,7 +129,7 @@ export const OverviewDisplay: React.FC<{
             value={data?.avg_velocity}
             secondaryValue={comparison?.avg_velocity}
             isLoading={!!!data}
-            format={getVelocityText}
+            format={getDurationString}
             invertColours
             hideComparison={hideComparison}
           />
