@@ -74,6 +74,7 @@ export const initialFormState: FormState = {
   enquiry: {
     date_added: new Date(),
     company_name: '',
+    project_name: '',
     is_new: true,
     country: '',
     is_ongoing: false,

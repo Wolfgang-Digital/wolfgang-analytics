@@ -72,6 +72,18 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, retroactiveMode = 
           />
         </FormControl>
         <Divider />
+        <FormControl pb={1}>
+          <FormLabel color="gray.500" fontSize="sm">
+            Project Name
+          </FormLabel>
+          <Input
+            name="project_name"
+            value={state.project_name}
+            onChange={(e: any) => updateForm({ key: 'project_name', value: e.target.value })}
+            isFullWidth
+          />
+        </FormControl>
+        <Divider />
         <FormControl pb={1} isRequired>
           <FormLabel color="gray.500" fontSize="sm">
             Type

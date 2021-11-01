@@ -51,6 +51,7 @@ export interface PipelineFilter {
 
 export interface EnquirySnippet {
   company_name: string
+  project_name?: string
   date_added: Date
   is_new: boolean
   country: string
