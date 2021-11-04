@@ -103,7 +103,6 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, retroactiveMode = 
             onChange={(value: any) => updateForm({ key: 'pre_qual_score', value: value.value })}
             options={qualityScoreOptions}
           />
-          <FormHelperText>Initial quality score after call</FormHelperText>
         </FormControl>
         <Divider />
         <FormControl pb={1} isRequired>

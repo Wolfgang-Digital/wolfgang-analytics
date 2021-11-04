@@ -6,6 +6,7 @@ import { Badge, Link, Icon, Text } from '@chakra-ui/core';
 import { formatCurrency, getFirstName, getDurationString } from 'utils/format';
 import { PipelineEntry } from '../types';
 import { getDuration, getOutcome } from '../utils';
+import { Rating } from 'components/Rating';
 
 export const formatDate = (str?: any) => {
   return str ? format(new Date(str), 'dd MMM yy') : '';
@@ -55,7 +56,11 @@ export const enquiryColumns = [
     },
     sortType: sortBool,
   },
-  { Header: 'Pre-Qual Score', accessor: 'pre_qual_score' },
+  {
+    Header: 'Pre-Qual Score',
+    accessor: 'pre_qual_score',
+    Cell: (props: any) => <Rating value={props.value} />,
+  },
   { Header: 'Country', accessor: 'country' },
   {
     Header: 'Duration',
@@ -333,13 +338,12 @@ export const moneyColumns = [
     Cell: (props: Cell) => formatCurrency(props.value, '-'),
     Footer: (info: any) => {
       const total = useMemo(() => {
-        return info.rows.reduce(
-          (sum: number, row: any) => (parseFloat(row.values.total_12mv) || 0) + sum,
-          0
-        ).toString().replace(/\.[0-9]+$/, '');
+        return info.rows
+          .reduce((sum: number, row: any) => (parseFloat(row.values.total_12mv) || 0) + sum, 0)
+          .toString()
+          .replace(/\.[0-9]+$/, '');
       }, [info.rows]);
       return formatCurrency(total);
     },
   },
-
 ];
