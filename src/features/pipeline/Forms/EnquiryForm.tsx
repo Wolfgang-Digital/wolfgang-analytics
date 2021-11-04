@@ -20,6 +20,15 @@ const channelOptions = channels.map((channel) => ({ label: channel, value: chann
 
 const sourceOptions = sources.map((source) => ({ label: source, value: source }));
 
+const qualityScoreOptions = [
+  { label: '1', value: '1' },
+  { label: '2', value: '2' },
+  { label: '3', value: '3' },
+  { label: '4', value: '4' },
+  { label: '5', value: '5' },
+  { label: '6', value: '6' },
+];
+
 interface Props {
   state: typeof initialFormState['enquiry'];
   updateForm: (args: { key: keyof typeof initialFormState['enquiry']; value: any }) => void;
@@ -82,6 +91,19 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, retroactiveMode = 
             onChange={(e: any) => updateForm({ key: 'project_name', value: e.target.value })}
             isFullWidth
           />
+          <FormHelperText>Used to differentiate separate projects from the same client</FormHelperText>
+        </FormControl>
+        <Divider />
+        <FormControl pb={1} isRequired>
+          <FormLabel color="gray.500" fontSize="sm">
+            Pre-Qual Score
+          </FormLabel>
+          <Select
+            value={state.pre_qual_score ? { label: state.pre_qual_score, value: state.pre_qual_score } : undefined}
+            onChange={(value: any) => updateForm({ key: 'pre_qual_score', value: value.value })}
+            options={qualityScoreOptions}
+          />
+          <FormHelperText>Initial quality score after call</FormHelperText>
         </FormControl>
         <Divider />
         <FormControl pb={1} isRequired>

@@ -83,7 +83,8 @@ export const initialFormState: FormState = {
     source: undefined,
     source_comment: '',
     leads: '',
-    status: 'Open'
+    status: 'Open',
+    pre_qual_score: undefined
   },
   proposal: {
     details: '',

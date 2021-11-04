@@ -12,6 +12,7 @@ export interface PipelineEntry {
   status: string
   last_updated: string
   details: string
+  pre_qual_score?: string
   success_probability?: number
   loss_reason?: string
   date_closed?: string
@@ -63,6 +64,7 @@ export interface EnquirySnippet {
   leads: string
   status: string
   date_closed?: Date
+  pre_qual_score?: string
 }
 
 export interface ProposalSnippet {

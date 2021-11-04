@@ -55,6 +55,7 @@ export const enquiryColumns = [
     },
     sortType: sortBool,
   },
+  { Header: 'Pre-Qual Score', accessor: 'pre_qual_score' },
   { Header: 'Country', accessor: 'country' },
   {
     Header: 'Duration',
