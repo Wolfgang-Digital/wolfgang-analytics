@@ -59,7 +59,10 @@ export const enquiryColumns = [
   {
     Header: 'Pre-Qual Score',
     accessor: 'pre_qual_score',
-    Cell: (props: any) => <Rating value={props.value} />,
+    Cell: (props: any) => {
+      if (props.row.original.is_new) return <Rating value={props.value} />;
+      return <Text color="gray.500">N/A</Text>;
+    },
   },
   { Header: 'Country', accessor: 'country' },
   {

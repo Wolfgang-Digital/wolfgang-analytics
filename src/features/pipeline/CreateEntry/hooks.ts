@@ -14,7 +14,10 @@ const enquirySchema = yup.object().shape({
     value: yup.string().required()
   }).required(),
   source_comment: yup.string(),
-  pre_qual_score: yup.string().required()
+  pre_qual_score: yup.string().when('is_new', {
+    is: val => !!val,
+    then: yup.string().required()
+  })
 });
 
 const proposalSchema = yup.object().shape({

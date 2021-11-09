@@ -10,6 +10,7 @@ import {
   Radio,
   BoxProps,
   FormHelperText,
+  Collapse,
 } from '@chakra-ui/core';
 import Select from 'react-select';
 
@@ -91,18 +92,9 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, retroactiveMode = 
             onChange={(e: any) => updateForm({ key: 'project_name', value: e.target.value })}
             isFullWidth
           />
-          <FormHelperText>Used to differentiate separate projects from the same client</FormHelperText>
-        </FormControl>
-        <Divider />
-        <FormControl pb={1} isRequired>
-          <FormLabel color="gray.500" fontSize="sm">
-            Pre-Qual Score
-          </FormLabel>
-          <Select
-            value={state.pre_qual_score ? { label: state.pre_qual_score, value: state.pre_qual_score } : undefined}
-            onChange={(value: any) => updateForm({ key: 'pre_qual_score', value: value.value })}
-            options={qualityScoreOptions}
-          />
+          <FormHelperText>
+            Used to differentiate separate projects from the same client
+          </FormHelperText>
         </FormControl>
         <Divider />
         <FormControl pb={1} isRequired>
@@ -120,6 +112,23 @@ const Form: React.FC<Props> = ({ state, updateForm, boxProps, retroactiveMode = 
           </RadioGroup>
         </FormControl>
         <Divider />
+        <Collapse isOpen={state.is_new}>
+          <FormControl pb={1} isRequired>
+            <FormLabel color="gray.500" fontSize="sm">
+              Pre-Qual Score
+            </FormLabel>
+            <Select
+              value={
+                state.pre_qual_score
+                  ? { label: state.pre_qual_score, value: state.pre_qual_score }
+                  : undefined
+              }
+              onChange={(value: any) => updateForm({ key: 'pre_qual_score', value: value.value })}
+              options={qualityScoreOptions}
+            />
+          </FormControl>
+          <Divider />
+        </Collapse>
         <FormControl pb={1} isRequired>
           <FormLabel color="gray.500" fontSize="sm">
             Country
