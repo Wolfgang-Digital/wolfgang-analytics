@@ -8,11 +8,12 @@ export const useEnquiryForm = (entry?: PipelineEntry) => {
   // @ts-ignore
   const input: typeof initialFormState['enquiry'] = useMemo(() => {
     const data = entry || initialFormState.enquiry;
-    const { date_added, company_name, is_new, country, channels, source, source_comment, status, pre_qual_score } = data;
+    const { date_added, company_name, is_new, country, channels, source, source_comment, status, pre_qual_score, project_name } = data;
 
     return {
       date_added: new Date(date_added),
       company_name,
+      project_name : project_name || '',
       is_new,
       country,
       channels: channels.map(x => ({ label: x, value: x })),
