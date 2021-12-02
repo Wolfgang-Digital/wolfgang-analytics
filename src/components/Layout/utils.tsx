@@ -4,6 +4,7 @@ import { FaRegUserCircle, FaRegFolderOpen } from 'react-icons/fa';
 import { MdTrendingUp } from 'react-icons/md';
 import { BsFileCode } from 'react-icons/bs';
 import { IoMdPeople } from 'react-icons/io';
+import { FaTree } from 'react-icons/fa';
 
 export const userMenuItems = [
   {
@@ -33,6 +34,11 @@ export const toolsMenuItems = [
     label: 'Schema Generator',
     link: '/structured-data',
     icon: <Box as={BsFileCode} size="20px" />,
+  },
+  {
+    label: 'Forestry Certs',
+    link: '/forestry',
+    icon: <Box as={FaTree} size="18px" />,
   },
 ];
 
