@@ -20,7 +20,7 @@ interface Props {
 
 export const CertForm: React.FC<Props> = ({ handleSubmit }) => {
   return (
-    <Box border="1px solid rgba(0, 0, 0, 0.15)" borderRadius={4} p={4} background="white">
+    <Box border="1px solid rgba(0, 0, 0, 0.15)" borderRadius={4} p={4} background="white" mb="auto">
       <Form
         schema={{
           heading: {
