@@ -26,6 +26,16 @@ body {
   justify-content: center;
 }
 
+iframe.forestry {
+  min-height: 500px;
+}
+
+@media screen and (min-width: 1440px){
+  iframe.forestry {
+    min-height: 620px;
+  }
+}
+
 .page {
   position: absolute;
   left: 15px;

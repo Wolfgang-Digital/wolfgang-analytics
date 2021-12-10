@@ -16,8 +16,8 @@ export const PreviewWindow: React.FC<Props> = ({ src, isLoading }) => {
   }
 
   return (
-    <Box borderRadius={4} overflow="hidden" minHeight="500px">
-      <iframe title="Preview" src={src} width="100%" height="100%" />
+    <Box borderRadius={4} overflow="hidden" mb="auto" mt="27px">
+      <iframe title="Preview" className="forestry" src={src} width="100%" height="100%" />
     </Box>
   );
 };
