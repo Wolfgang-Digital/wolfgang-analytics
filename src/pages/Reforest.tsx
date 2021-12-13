@@ -30,9 +30,9 @@ const templates = {
     recipient: 'RECIPIENT NAME',
     content: [
       {
-        value: `1 tree will be planted on your behalf at 52°54'15.2"N 6°24'35.0"W, in Co Wicklow.`,
+        value: `1 tree will be planted on their behalf at 52°54'15.2"N 6°24'35.0"W, in Co Wicklow.`,
       },
-      { value: 'This native Irish Tree was gifted to you by <GIFTER NAME>.' },
+      { value: 'This native Irish Tree was gifted by <GIFTER NAME>.' },
     ],
     marginTop: 42
   },
