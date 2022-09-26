@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@aws-amplify/ui-react": "^0.2.5",
+    "@aws-amplify/ui-react": "^0.2.38",
     "@chakra-ui/core": "^0.8.0",
     "@emotion/core": "^10.0.28",
     "@emotion/styled": "^10.0.27",
@@ -17,7 +17,7 @@
     "@types/react-dom": "^16.9.0",
     "@types/react-table": "^7.0.28",
     "aws-amplify": "^3.3.3",
-    "aws-amplify-react": "^4.1.9",
+    "aws-amplify-react": "^4.2.35",
     "axios": "^0.21.1",
     "date-fns": "^2.14.0",
     "emotion-theming": "^10.0.27",
