@@ -109,7 +109,7 @@ export const useQueryString = ({
   }
 
   if (country) {
-    query += `${query.length === 0 ? '?' : '&'}status=${country.value}`;
+    query += `${query.length === 0 ? '?' : '&'}=${country.value}`;
   }
 
   if (comparison) {
