@@ -16,10 +16,6 @@ import {
   Button,
   RadioGroup,
   Radio,
-  Grid,
-  Switch,
-  FormLabel,
-  Input,
 } from '@chakra-ui/core';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
@@ -28,18 +24,16 @@ import { DateRange } from 'react-date-range';
 import { useClickOutside } from 'hooks/useClickOutside';
 import { formatDate } from '../Entries/utils';
 import { PipelineFilter } from '../types';
-
 // import { useDispatch } from 'react-redux';
 // import { addFilter } from '../slice';
 
-const enquiryFilters = ['Date Added', 'Date Closed', 'Status', 'Country'];
+const enquiryFilters = ['Date Added', 'Date Closed', 'Status'];
 
 interface FilterProps {
   isOpen: boolean;
   close: () => void;
   filter?: PipelineFilter;
   handleSubmit: (values: PipelineFilter) => void;
-  column: string;
 }
 
 /*
@@ -140,7 +134,6 @@ const DateFilter: React.FC<FilterProps & { name: string }> = ({
   close,
   filter,
   handleSubmit,
-  column,
   name,
 }) => {
   const dates = filter ? (filter.value as string).split(' and ') : [new Date(), new Date()];
@@ -250,83 +243,6 @@ const StatusFilter: React.FC<FilterProps> = ({ filter, handleSubmit, isOpen, clo
   );
 };
 
-const CountryFilter: React.FC<FilterProps> = ({ column, handleSubmit, isOpen, close }) => {
-  const [country, setCountry] = useState('');
-  const [operator, setOperator] = useState('is');
-  // const dispatch = useDispatch();
-
-  const handleOpertatorChange = (e: React.FormEvent<any>) => {
-    const op = operator === 'is' ? 'is not' : 'is';
-    setOperator(op);
-  };
-
-  // const handleSubmit = () => {
-  //   dispatch(
-  //     addFilter({
-  //       column,
-  //       operator,
-  //       value: country,
-  //     })
-  //   );
-  //   close();
-  // };
-  const onSubmit = () => {
-    handleSubmit({ column: 'Country', operator, value: country, });
-    close();
-  };
-  
-
-  return (
-    <Popover placement="auto" isOpen={isOpen}>
-      <PopoverTrigger>
-        <div style={{ visibility: 'hidden', width: '100%', height: '100%' }}></div>
-      </PopoverTrigger>
-      <PopoverContent
-        zIndex={100}
-        _focus={{ outline: 'none' }}
-        position="absolute"
-        border={0}
-        onClick={(e: any) => e.stopPropagation()}
-        onKeyDown={(e: any) => e.stopPropagation()}
-        onKeyPress={(e: any) => e.stopPropagation()}
-        onMouseOver={(e: any) => e.stopPropagation()}
-        onFocus={(e: any) => e.stopPropagation()}
-        width="fit-content"
-      >
-        <PopoverHeader textAlign="center" fontWeight={700} color="gray.600">
-          {column}
-        </PopoverHeader>
-        <PopoverBody>
-          <Grid alignItems="center" templateColumns="auto 42px 200px" gridColumnGap={2}>
-            <Switch
-              id="country-operator"
-              onChange={handleOpertatorChange}
-              isChecked={operator === 'is'}
-            />
-            <FormLabel htmlFor="country-operator" padding={0} textAlign="center">
-              {operator}
-            </FormLabel>
-            <Input value={country} onChange={(e: any) => setCountry(e.target.value)} />
-          </Grid>
-          <Button
-            size="sm"
-            isFullWidth
-            variantColor="blue"
-            variant="ghost"
-            fontWeight={400}
-            onClick={onSubmit}
-            mt={2}
-          >
-            Apply Filter
-          </Button>
-        </PopoverBody>
-      </PopoverContent>
-    </Popover>
-  );
-};
-
-
-
 const DurationFilter: React.FC<FilterProps> = ({ filter, handleSubmit, isOpen, close }) => {
   const [duration, setDuration] = useState('Open');
 
@@ -382,7 +298,6 @@ interface MenuItemProps {
   close: () => void;
   handleSubmit: (values: any) => void;
   filter?: PipelineFilter;
-  column: string;
 }
 
 const FilterMenuItem: React.FC<MenuItemProps> = ({
@@ -392,7 +307,6 @@ const FilterMenuItem: React.FC<MenuItemProps> = ({
   close,
   handleSubmit,
   filter,
-  column
 }) => {
   const onClose = () => {
     setCurrent(undefined);
@@ -407,7 +321,6 @@ const FilterMenuItem: React.FC<MenuItemProps> = ({
         </Text>
         {label === 'Date Added' && (
           <DateFilter
-            column=""
             name="Date Added"
             isOpen={current === 'Date Added'}
             close={onClose}
@@ -417,7 +330,6 @@ const FilterMenuItem: React.FC<MenuItemProps> = ({
         )}
         {label === 'Date Closed' && (
           <DateFilter
-            column=""
             name="Date Closed"
             isOpen={current === 'Date Closed'}
             close={onClose}
@@ -427,17 +339,7 @@ const FilterMenuItem: React.FC<MenuItemProps> = ({
         )}
         {label === 'Status' && (
           <StatusFilter
-            column=""
             isOpen={current === 'Status'}
-            close={onClose}
-            handleSubmit={handleSubmit}
-            filter={filter}
-          />
-        )}
-        {label === 'Country' && (
-          <CountryFilter
-            column=""
-            isOpen={current === 'Country'}
             close={onClose}
             handleSubmit={handleSubmit}
             filter={filter}
@@ -445,7 +347,6 @@ const FilterMenuItem: React.FC<MenuItemProps> = ({
         )}
         {label === 'Duration' && (
           <DurationFilter
-            column=""
             isOpen={current === 'Duration'}
             close={onClose}
             handleSubmit={handleSubmit}
@@ -507,7 +408,6 @@ const FilterMenu: React.FC<Props> = ({ filters, setFilters }) => {
                 setCurrent={setCurrent}
                 close={onClose}
                 handleSubmit={handleSubmit}
-                column={""}
               />
             ))}
           </MenuGroup>
