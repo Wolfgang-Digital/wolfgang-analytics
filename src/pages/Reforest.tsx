@@ -44,6 +44,7 @@ const Reforest: React.FC = () => {
   const [preview, setPreview] = useState(
     'https://wg-forestry.s3.eu-west-1.amazonaws.com/previews/default.pdf'
   );
+
   const [template, setTemplate] = useState(templateOptions[0]);
 
   const generatePreview = async (data: Record<string, any>) => {
